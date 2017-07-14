@@ -22,4 +22,19 @@ public class UsersServiceImpl implements UsersService{
 		Users users = usersMapper.findUsersById(id);
 		return users;
 	}
+
+	@Override
+	public int checklogin() throws Exception {
+		int userid = usersMapper.checklogin();
+		return userid;
+	}
+
+	@Override
+	public void virtuallogin() throws Exception {
+		usersMapper.virtuallogin();
+	}
+	@Override
+	public void virtuallogout() throws Exception {
+		usersMapper.virtuallogout();
+	}
 }

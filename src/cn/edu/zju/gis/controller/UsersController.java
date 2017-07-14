@@ -31,13 +31,58 @@ public class UsersController {
 		
 		return modelAndView;
 	}
-	@RequestMapping("/login")
-	public ModelAndView login() throws Exception{
+	@RequestMapping("/index")
+	public ModelAndView index() throws Exception{
+		int loginflag = usersService.checklogin();
+		
 		ModelAndView modelAndView =  new ModelAndView();
+		
+		modelAndView.addObject("loginflag", loginflag);
+		
 		modelAndView.setViewName("index");
 		
 		return modelAndView;
 	}
+	
+	@RequestMapping("/main")
+	public ModelAndView openmain() throws Exception{
+		int loginflag = usersService.checklogin();
+		
+		ModelAndView modelAndView =  new ModelAndView();
+		
+		modelAndView.addObject("loginflag", loginflag);
+		
+		modelAndView.setViewName("main");
+		
+		return modelAndView;
+	}
+	@RequestMapping("/about")
+	public ModelAndView about() throws Exception{
+		int loginflag = usersService.checklogin();
+		
+		ModelAndView modelAndView =  new ModelAndView();
+		
+		modelAndView.addObject("loginflag", loginflag);
+		
+		modelAndView.setViewName("about");
+		
+		return modelAndView;
+	}
+	
+	@RequestMapping("/login")
+	public String virtuallogin(String page) throws Exception{
+		usersService.virtuallogin();
+		
+		return "redirect:/"+page+".action";
+	}
+	
+	@RequestMapping("/logout")
+	public String virtuallogout(String page) throws Exception{
+		usersService.virtuallogout();
+		
+		return "redirect:/"+page+".action";
+	}
+	
 	@RequestMapping("/loginResult")
 	@ResponseBody
 	public String loginResult(Users user) throws Exception{

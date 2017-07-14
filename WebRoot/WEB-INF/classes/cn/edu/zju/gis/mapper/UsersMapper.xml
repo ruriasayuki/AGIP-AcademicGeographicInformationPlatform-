@@ -21,4 +21,13 @@
 	<select id="findUser" parameterType="cn.edu.zju.gis.po.Users" resultType="cn.edu.zju.gis.po.Users">
 		SELECT * FROM USERS WHERE username = #{username} and password = #{password}
 	</select>
+	<select id="checklogin" resultType="int">
+		SELECT userid FROM sitemanager limit 1;
+	</select>
+	<update id="virtuallogout">
+		UPDATE sitemanager set userid = 0;
+	</update>
+	<update id="virtuallogin">
+		UPDATE sitemanager set userid = 1;
+	</update>
 </mapper>
