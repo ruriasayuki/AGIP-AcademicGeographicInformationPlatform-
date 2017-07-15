@@ -22,7 +22,8 @@
 		<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=grbYXcBhXlgv0QpFK3HHzVgLTInbTWjg"></script>
 		<script type="text/javascript" src="http://api.map.baidu.com/library/CurveLine/1.5/src/CurveLine.min.js"></script>
 		<script type="text/javascript" src="${pageContext.request.contextPath}/js/mydemo.js"></script>
-		<link href="css/pubglicstyle.css" rel="stylesheet">
+		<link href="css/publicstyle.css" rel="stylesheet">
+		<link href="css/whitestyle.css" rel="stylesheet">
 	</head>
 
 <body>
@@ -92,21 +93,8 @@
 </nav>
 <div id="headInterval"></div>
 <div class="easyui-layout" style="width:100%;height:90%">
-
-
-<div data-options="region:'west',split:true" title="Layers" style="width:200px;">
-<div class="easyui-accordion" data-options="fit:true,border:false">
-	<div title="Title1" style="padding:10px;">
-	<ul class="easyui-tree" data-options="url:'${pageContext.request.contextPath}/data/tree_data.json',method:'get',animate:true,dnd:true"></ul>
-</div>
-<div title="Title2" data-options="selected:true" style="padding:10px;"> content2
-</div>
-<div title="Title3" style="padding:10px"> content3
-</div>
-</div>
-</div>
-<div data-options="region:'center',title:'Maps',iconCls:'icon-map'">
-<div style="padding:5px;background:#fafafa;width:100%;border:1px solid #ccc">
+<div data-options="region:'north',split:false" style="width:100%;height:40px;">
+<div style="padding:5px;background:#fafafa;width:100%">
 	<a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-add"></a>
 	<a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-reload"></a>
 	<a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-select"></a>
@@ -117,6 +105,20 @@
 	<a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-save"></a>
 	<a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-back"></a>
 </div>
+</div>
+<div data-options="region:'west',split:true" title="Layers" style="width:200px;">
+<div class="easyui-accordion" data-options="fit:true,border:false">
+	<div title="Layers" style="padding:10px;">
+	<ul class="easyui-tree" data-options="url:'${pageContext.request.contextPath}/data/tree_data.json',method:'get',animate:true,dnd:true"></ul>
+</div>
+<div title="Title2" data-options="selected:true" style="padding:10px;"> content2
+</div>
+<div title="Title3" style="padding:10px"> content3
+</div>
+</div>
+</div>
+<div data-options="region:'center',title:'Maps',iconCls:'icon-map'">
+
 	<div class="easyui-tabs" data-options="fit:true,border:false,plain:true">
 		<div title="BaiduMap2">
 			<!--加入地图容器-->
@@ -145,8 +147,15 @@
 </div>
 </div>
 </div>
-<div data-options="region:'south',split:true" style="height:50px;"></div>
 </div>
+    <footer>
+        <br>
+         @ZJUGIS 2014级
+        <br>
+        2017.7.11
+        <br>
+        <br>
+    </footer>
 
 </body>
 

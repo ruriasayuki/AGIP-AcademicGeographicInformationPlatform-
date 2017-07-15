@@ -15,6 +15,7 @@
     <script type="text/javascript" src="js/unslider.min.js"></script>
     <script type="text/javascript" src="js/indexdemo.js"></script>
     <link href="css/publicstyle.css" rel="stylesheet">
+    <link href="css/blackstyle.css" rel="stylesheet">
     <link href="css/navbar.css" rel="stylesheet">
 </head>
 <body>
