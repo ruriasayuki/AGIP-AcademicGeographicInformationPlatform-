@@ -78,6 +78,8 @@ $(document).ready(function() {
             }]
         };
         //将绘制的内容和设置的属性放入echart实例中
+		myChart.setOption(option);
+		
         myChart.setOption(option);
 
         // 添加百度地图插件  增加地图基本功能
