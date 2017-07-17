@@ -21,6 +21,8 @@
 		<script type="text/javascript" src="${pageContext.request.contextPath}/js/bmap.js"></script>
 		<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=grbYXcBhXlgv0QpFK3HHzVgLTInbTWjg"></script>
 		<script type="text/javascript" src="http://api.map.baidu.com/library/CurveLine/1.5/src/CurveLine.min.js"></script>
+		<script type="text/javascript" src="${pageContext.request.contextPath}/js/mapv.js"></script>
+		<script type="text/javascript" src="${pageContext.request.contextPath}/js/showframe.js"></script>
 		<script type="text/javascript" src="${pageContext.request.contextPath}/js/mydemo.js"></script>
 		<link href="css/publicstyle.css" rel="stylesheet">
 		<link href="css/whitestyle.css" rel="stylesheet">
@@ -106,28 +108,20 @@
 	<a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-back"></a>
 </div>
 </div>
-<div data-options="region:'west',split:true" title="Layers" style="width:200px;">
+<div data-options="region:'west',split:true" title="Catalog" style="width:200px;">
 <div class="easyui-accordion" data-options="fit:true,border:false">
 	<div title="Layers" style="padding:10px;">
-	<ul class="easyui-tree" data-options="url:'${pageContext.request.contextPath}/data/tree_data.json',method:'get',animate:true,dnd:true"></ul>
-</div>
-<div title="Title2" data-options="selected:true" style="padding:10px;"> content2
-</div>
-<div title="Title3" style="padding:10px"> content3
+	<ul class="easyui-tree" data-options="selected:true,url:'${pageContext.request.contextPath}/data/tree_data.json',method:'get',animate:true,dnd:true"></ul>
 </div>
 </div>
 </div>
 <div data-options="region:'center',title:'Maps',iconCls:'icon-map'">
 
 	<div class="easyui-tabs" data-options="fit:true,border:false,plain:true">
-		<div title="BaiduMap2">
-			<!--加入地图容器-->
-			<div id="mapDiv2" style="width:100%;height:100%"></div>
-</div>
 
 <div title="BaiduMap1">
 	<!--加入地图容器-->
-	<div id="mapDiv1" style="width:100%;height:100%"></div>
+	<div id="map" style="width:100%;height:100%"></div>
 </div>
 
 
@@ -156,7 +150,25 @@
         <br>
         <br>
     </footer>
-
+<div id="mytooltip" style="position:absolute;display:none;background:#FFFFFF;top:50%;left:50%">test tooltip </div>
+<script> 
+function mouseMove(ev) 
+{ 
+Ev= ev || window.event; 
+mousePos = mouseCoords(ev); 
+} 
+function mouseCoords(ev) 
+{ 
+if(ev.pageX || ev.pageY){ 
+return {x:ev.pageX, y:ev.pageY}; 
+} 
+return{ 
+x:ev.clientX + document.body.scrollLeft - document.body.clientLeft, 
+y:ev.clientY + document.body.scrollTop - document.body.clientTop 
+}; 
+} 
+document.onmousemove = mouseMove; 
+</script> 
 </body>
 
 </html>
