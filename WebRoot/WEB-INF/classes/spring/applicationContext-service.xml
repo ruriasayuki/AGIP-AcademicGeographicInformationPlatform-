@@ -14,4 +14,6 @@
 		http://www.springframework.org/schema/tx/spring-tx-3.2.xsd ">
 	<!-- 定义相关的service -->
 	<bean id="usersService" class="cn.edu.zju.gis.service.impl.UsersServiceImpl"></bean>
+	<bean id="layersService" class="cn.edu.zju.gis.service.impl.LayersServiceImpl"></bean>
+	<bean id="mapsService" class="cn.edu.zju.gis.service.impl.MapsServiceImpl"></bean>
 </beans>

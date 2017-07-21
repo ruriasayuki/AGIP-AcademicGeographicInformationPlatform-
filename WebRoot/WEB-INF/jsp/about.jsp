@@ -17,19 +17,13 @@
     <link href="css/publicstyle.css" rel="stylesheet">
     <link href="css/blackstyle.css" rel="stylesheet">
     <link href="css/navbar.css" rel="stylesheet">
+
 </head>
 <body>
 	<c:set var="pagename" value="about"/>
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div id="nav" class="container opacity50">
-        	<div class="navbar-header">
-              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar0" aria-expanded="false">
-                  <span class="sr-only">Toggle navigation</span>
-                  <span class="icon-bar"></span>
-                  <span class="icon-bar"></span>
-                  <span class="icon-bar"></span>
-              </button>
-          </div>
+        	
             <div class="collapse navbar-collapse topnavi" role="navigation" id="navbar0" style="font-size: 16px;">
                 <ul class="nav navbar-nav" id="nav">
                     <li><a href="index.action">Ancient Map</a> </li>
@@ -43,7 +37,7 @@
 			            <b class="caret"></b>
 		            </a>
 		                <ul class="dropdown-menu" id="usermenu">
-			                <li><a href="#">查看地图</a></li>
+			                <li><a href="file:///E:/kaihashitsu/web/AncientMap/WebRoot/searchMaps.html">查看地图</a></li>
 			                <li><a href="#">注册</a></li>
 		                </ul>
 	                </li>
@@ -59,7 +53,7 @@
 			            <b class="caret"></b>
 		            </a>
 		                <ul class="dropdown-menu" id="usermenu">
-			                <li><a href="#">查看地图</a></li>
+			                <li><a href="file:///E:/kaihashitsu/web/AncientMap/WebRoot/searchMaps.html">查看地图</a></li>
 			                <li><a href="#">上传图层</a></li>
 			                <li><a href="#">个人管理</a></li>
 		                </ul>

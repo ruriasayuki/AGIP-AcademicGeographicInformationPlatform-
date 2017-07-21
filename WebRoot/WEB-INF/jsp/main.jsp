@@ -22,24 +22,21 @@
 		<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=grbYXcBhXlgv0QpFK3HHzVgLTInbTWjg"></script>
 		<script type="text/javascript" src="http://api.map.baidu.com/library/CurveLine/1.5/src/CurveLine.min.js"></script>
 		<script type="text/javascript" src="${pageContext.request.contextPath}/js/mapv.js"></script>
-		<script type="text/javascript" src="${pageContext.request.contextPath}/js/showframe.js"></script>
+		<script type="text/javascript" src="${pageContext.request.contextPath}/js/yukimap.js"></script>	
+		<script type="text/javascript" src="${pageContext.request.contextPath}/js/layerpanel.js"></script>
 		<script type="text/javascript" src="${pageContext.request.contextPath}/js/mydemo.js"></script>
 		<link href="css/publicstyle.css" rel="stylesheet">
 		<link href="css/whitestyle.css" rel="stylesheet">
+		<link href="css/searchLayer.css" rel="stylesheet">
+		<script>
+			var mapdata = ${map};
+		</script>
 	</head>
 
 <body>
 	<c:set var="pagename" value="main"/>
 <nav class="navbar navbar-default navbar-fixed-top">
 	<div id="nav" class="container">
-		<div class="navbar-header">
-              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar0" aria-expanded="false">
-                  <span class="sr-only">Toggle navigation</span>
-                  <span class="icon-bar"></span>
-                  <span class="icon-bar"></span>
-                  <span class="icon-bar"></span>
-              </button>
-          </div>
 		<div class="collapse navbar-collapse topnavi" role="navigation" id="navbar0" style="font-size: 16px;">
 <ul class="nav navbar-nav" id="nav">
 	<li><a href="index.action">Ancient Map</a> </li>
@@ -64,7 +61,7 @@
 			            <b class="caret"></b>
 		            </a>
 		                <ul class="dropdown-menu" id="usermenu">
-			                <li><a href="#">查看地图</a></li>
+			                <li><a href="file:///E:/kaihashitsu/web/AncientMap/WebRoot/searchMaps.html">查看地图</a></li>
 			                <li><a href="#">注册</a></li>
 		                </ul>
 	                </li>
@@ -80,8 +77,8 @@
 			            <b class="caret"></b>
 		            </a>
 		                <ul class="dropdown-menu" id="usermenu">
-			                <li><a href="#">查看地图</a></li>
-			                <li><a href="#">上传图层</a></li>
+			                <li><a href="file:///E:/kaihashitsu/web/AncientMap/WebRoot/searchMaps.html">查看地图</a></li>
+			                <li><a href="${pageContext.request.contextPath}/addLayerDemo.html">上传图层</a></li>
 			                <li><a href="#">个人管理</a></li>
 		                </ul>
 	                </li>
@@ -97,7 +94,7 @@
 <div class="easyui-layout" style="width:100%;height:90%">
 <div data-options="region:'north',split:false" style="width:100%;height:40px;">
 <div style="padding:5px;background:#fafafa;width:100%">
-	<a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-add"></a>
+	<a href="#" onclick="showLayerPanel()" class="easyui-linkbutton" plain="true" iconCls="icon-add"></a>
 	<a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-reload"></a>
 	<a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-select"></a>
 	<a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-screenshot"></a>
@@ -106,7 +103,7 @@
 	<a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-help"></a>
 	<a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-save"></a>
 	<a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-back"></a>
-</div>
+</div>  
 </div>
 <div data-options="region:'west',split:true" title="Catalog" style="width:200px;">
 <div class="easyui-accordion" data-options="fit:true,border:false">
@@ -115,31 +112,8 @@
 </div>
 </div>
 </div>
-<div data-options="region:'center',title:'Maps',iconCls:'icon-map'">
-
-	<div class="easyui-tabs" data-options="fit:true,border:false,plain:true">
-
-<div title="BaiduMap1">
-	<!--加入地图容器-->
-	<div id="map" style="width:100%;height:100%"></div>
-</div>
-
-
-<div title="DataGrid" style="padding:5px">
-<table class="easyui-datagrid" data-options="url:'${pageContext.request.contextPath}/data/datagrid_data.json',method:'get',singleSelect:true,fit:true,fitColumns:true">
-	<thead>
-		<tr>
-			<th data-options="field:'itemid'" width="80">Item ID</th>
-			<th data-options="field:'productid'" width="100">Product ID</th>
-			<th data-options="field:'listprice',align:'right'" width="80">List Price</th>
-			<th data-options="field:'unitcost',align:'right'" width="80">Unit Cost</th>
-			<th data-options="field:'attr1'" width="150">Attribute</th>
-			<th data-options="field:'status',align:'center'" width="50">Status</th>
-		</tr>
-	</thead>
-</table>
-</div>
-</div>
+<div data-options="region:'center'">
+			<div id="map" style="width:100%;height:100%"></div>
 </div>
 </div>
     <footer>
@@ -150,6 +124,7 @@
         <br>
         <br>
     </footer>
+<!-- 自定义tooltip -->
 <div id="mytooltip" style="position:absolute;display:none;background:#FFFFFF;top:50%;left:50%">test tooltip </div>
 <script> 
 function mouseMove(ev) 
@@ -169,6 +144,59 @@ y:ev.clientY + document.body.scrollTop - document.body.clientTop
 } 
 document.onmousemove = mouseMove; 
 </script> 
+<!-- addLayerPanel -->
+<div id="layerPanel" class="easyui-window" title="添加图层" style="width:800px;height:500px"
+         data-options="modal:true,resizable:false,closed:true">
+        <div class="easyui-layout" style="width: 100%;height: 100%;">
+            <!--左半栏-->
+            <div data-options="region:'west',border:false" style="width: 60%;">
+                <!--搜索栏-->
+                <div id="searchPanel" style="width: 98%;height: 30%;margin: 1%">
+                    <form id="searchFrom" action="#" onsubmit="return false">
+                        <input id="keyword" class="sinput" type="text" name="keyword" placeholder="关键字" onfocus="diappearText(this)" onblur="showText(this,'关键字')">
+                        <input class="sinput" type="text" name="source" placeholder="来源" onfocus="diappearText(this)" onblur="showText(this,'来源')">&nbsp;&nbsp;&nbsp;
+                        <select id="type" name="type" class="easyui-combobox" style="width:100px;margin-left: 50px;" from="searchFrom">
+                            <option value="4">所有图层</option>
+                            <option value="0">分层设色图</option>
+                            <option value="1">等级符号图</option>
+                            <option value="2">点图</option>
+                            <option value="3">轨迹图</option>
+                        </select>
+                        <input id="searchBtn" class=btn type="submit" value="搜索" onclick="getData()">
+                    </form>
+                </div>
+                <!--地图展示栏 先展示数据-->
+                <div id="databorder" style="width: 98%;height: 60%;margin: 1%;overflow-y: scroll;border:1px solid gray">
+                
+                </div>
+            </div>
+            <!--右半栏-->
+            <div data-options="region:'east',border:false" style="width: 40%;">
+                <table id="tt" >
+	<thead>
+		<tr>
+			<th field="layername" width="100">图层名</th>
+			<th field="userid" width="50">上传者</th>
+			<th field="type" width="50">图层类型</th>
+		</tr>                          
+	</thead>                           
+	<tbody id="table">                            
+		 <tr>                           
+			<td>Data 1</td>            
+			<td>Data 2</td>            
+			<td>Data 3</td>    
+		<tr>                    
+	</tbody>                           
+</table>
+                <div style="width: 98%;margin: 2%">
+                    	为您搜索到<span id="count">X</span>条记录！
+                </div>
+                <button id="addBtn" class="btn" onclick="addLayerToMap()">确定</button>
+            </div>
+        </div>
+    </div>
+
+
 </body>
 
 </html>

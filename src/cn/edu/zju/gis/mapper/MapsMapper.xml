@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.edu.zju.gis.mapper.MapsMapper">
+<insert id="createNewMap" parameterType="cn.edu.zju.gis.po.Maps" useGeneratedKeys="true" keyProperty="id">
+
+insert into maps (mapname,userid,accessibility, centerx, centery,zoomlevel,basemapid)
+values (#{mapname},#{userid},#{accessibility},#{centerx},#{centery},#{zoomlevel},#{basemapid})
+</insert>
+<select id="findMapById" parameterType="int" resultType="cn.edu.zju.gis.po.Maps">
+	select * from maps where id=#{value}
+</select>
+<insert id="addLayerToMap" parameterType="cn.edu.zju.gis.po.MapLayer" useGeneratedKeys="true" keyProperty="id">
+	insert into mapslayers(mapid,layerid,state,style,zIndex)
+	values (#{mapid},#{layerid},#{state},'null',#{zIndex})
+</insert>
+</mapper>

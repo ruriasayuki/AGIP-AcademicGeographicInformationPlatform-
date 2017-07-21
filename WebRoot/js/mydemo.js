@@ -8,5 +8,6 @@ function changetheme(rec) {
 	}
 }
 $(document).ready(function() {
+	getData();
 	myinit();
 });

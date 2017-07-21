@@ -152,7 +152,7 @@
 		"properties": {
 			"gid": 1,
 			"name_py": "Anhui",
-			"name_ch": "安徽"
+			"name": "安徽"
 		}
 	},
 	{
@@ -1161,7 +1161,7 @@
 		"properties": {
 			"gid": 2,
 			"name_py": "Fengtian",
-			"name_ch": "奉天"
+			"name": "奉天"
 		}
 	},
 	{
@@ -1532,7 +1532,7 @@
 		"properties": {
 			"gid": 3,
 			"name_py": "Fujian",
-			"name_ch": "福建"
+			"name": "福建"
 		}
 	},
 	{
@@ -2059,7 +2059,7 @@
 		"properties": {
 			"gid": 4,
 			"name_py": "Gansu",
-			"name_ch": "甘肃"
+			"name": "甘肃"
 		}
 	},
 	{
@@ -2288,7 +2288,7 @@
 		"properties": {
 			"gid": 5,
 			"name_py": "Guangxi",
-			"name_ch": "广西"
+			"name": "广西"
 		}
 	},
 	{
@@ -2475,7 +2475,7 @@
 		"properties": {
 			"gid": 6,
 			"name_py": "Guizhou",
-			"name_ch": "贵州"
+			"name": "贵州"
 		}
 	},
 	{
@@ -3074,7 +3074,7 @@
 		"properties": {
 			"gid": 7,
 			"name_py": "Heilongjiang",
-			"name_ch": "黑龙江"
+			"name": "黑龙江"
 		}
 	},
 	{
@@ -3209,7 +3209,7 @@
 		"properties": {
 			"gid": 8,
 			"name_py": "Henan",
-			"name_ch": "河南"
+			"name": "河南"
 		}
 	},
 	{
@@ -3372,7 +3372,7 @@
 		"properties": {
 			"gid": 9,
 			"name_py": "Hubei",
-			"name_ch": "湖北"
+			"name": "湖北"
 		}
 	},
 	{
@@ -3513,7 +3513,7 @@
 		"properties": {
 			"gid": 10,
 			"name_py": "Hunan",
-			"name_ch": "湖南"
+			"name": "湖南"
 		}
 	},
 	{
@@ -3766,7 +3766,7 @@
 		"properties": {
 			"gid": 11,
 			"name_py": "Jiangsu",
-			"name_ch": "江苏"
+			"name": "江苏"
 		}
 	},
 	{
@@ -3917,7 +3917,7 @@
 		"properties": {
 			"gid": 12,
 			"name_py": "Jiangxi",
-			"name_ch": "江西"
+			"name": "江西"
 		}
 	},
 	{
@@ -4170,7 +4170,7 @@
 		"properties": {
 			"gid": 13,
 			"name_py": "Jilin",
-			"name_ch": "吉林"
+			"name": "吉林"
 		}
 	},
 	{
@@ -4219,7 +4219,7 @@
 		"properties": {
 			"gid": 14,
 			"name_py": "Meimenggu",
-			"name_ch": "内蒙古"
+			"name": "内蒙古"
 		}
 	},
 	{
@@ -4838,7 +4838,7 @@
 		"properties": {
 			"gid": 15,
 			"name_py": "Neimenggu",
-			"name_ch": "内蒙古"
+			"name": "内蒙古"
 		}
 	},
 	{
@@ -5465,7 +5465,7 @@
 		"properties": {
 			"gid": 16,
 			"name_py": "Qinghai",
-			"name_ch": "青海"
+			"name": "青海"
 		}
 	},
 	{
@@ -6284,7 +6284,7 @@
 		"properties": {
 			"gid": 17,
 			"name_py": "Shangdong",
-			"name_ch": "山东"
+			"name": "山东"
 		}
 	},
 	{
@@ -6533,7 +6533,7 @@
 		"properties": {
 			"gid": 18,
 			"name_py": "Shanxi",
-			"name_ch": "山西"
+			"name": "山西"
 		}
 	},
 	{
@@ -7006,7 +7006,7 @@
 		"properties": {
 			"gid": 19,
 			"name_py": "Shanxi",
-			"name_ch": "陕西"
+			"name": "陕西"
 		}
 	},
 	{
@@ -8123,7 +8123,7 @@
 		"properties": {
 			"gid": 20,
 			"name_py": "Sichuan",
-			"name_ch": "四川"
+			"name": "四川"
 		}
 	},
 	{
@@ -8710,7 +8710,7 @@
 		"properties": {
 			"gid": 21,
 			"name_py": "Wuliyasutai",
-			"name_ch": "乌里雅苏台"
+			"name": "乌里雅苏台"
 		}
 	},
 	{
@@ -8959,7 +8959,7 @@
 		"properties": {
 			"gid": 22,
 			"name_py": "Xinjiang",
-			"name_ch": "新疆"
+			"name": "新疆"
 		}
 	},
 	{
@@ -9220,7 +9220,7 @@
 		"properties": {
 			"gid": 23,
 			"name_py": "Xizang",
-			"name_ch": "西藏"
+			"name": "西藏"
 		}
 	},
 	{
@@ -10079,7 +10079,7 @@
 		"properties": {
 			"gid": 24,
 			"name_py": "Yunnan",
-			"name_ch": "云南"
+			"name": "云南"
 		}
 	},
 	{
@@ -10564,7 +10564,7 @@
 		"properties": {
 			"gid": 25,
 			"name_py": "Zhejiang",
-			"name_ch": "浙江"
+			"name": "浙江"
 		}
 	},
 	{
@@ -10797,7 +10797,7 @@
 		"properties": {
 			"gid": 26,
 			"name_py": "Zhili",
-			"name_ch": "直隶"
+			"name": "直隶"
 		}
 	},
 	{
@@ -11364,7 +11364,7 @@
 		"properties": {
 			"gid": 27,
 			"name_py": "Guangdong",
-			"name_ch": "广东"
+			"name": "广东"
 		}
 	}]
 }
