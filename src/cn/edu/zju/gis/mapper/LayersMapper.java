@@ -13,7 +13,9 @@ public interface LayersMapper {
     int deleteByPrimaryKey(Integer id);
 
     int insert(Layers record);
-
+    
+    int myinsert(Layers record);
+    
     int insertSelective(Layers record);
 
     List<Layers> selectByExample(LayersExample example);

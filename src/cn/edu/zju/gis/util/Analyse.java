@@ -117,7 +117,7 @@ public class Analyse {
 	            		content += ",";
 	            	}
 	            	if(i == 1) {//����the_geom
-	            		content += "\"coordinates\":"+"[[";
+	            		content += "\"coords\":"+"[[";
 	            		String the_geom = item.substring(item.indexOf('(')+2);
 	            		the_geom = the_geom.trim();
 	            		the_geom = the_geom.replace(" ", ",");

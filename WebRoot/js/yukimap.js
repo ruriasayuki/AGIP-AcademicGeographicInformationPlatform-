@@ -9,14 +9,16 @@ function Yklayer(layerjson)
 	this.layeruserid = layerjson.userid;
 	this.storelocation = layerjson.storelocation;
 	this.accessibility = layerjson.accessibility;
-	this.type = layerjson.type;
-	this.data = layerjson.datacontent;
+	this.type = parseInt(layerjson.type);
+	this.data = $.parseJSON(layerjson.datacontent);
 	this.state = stateanaly(layerjson.state);
 	this.style = layerjson.style;//各个小组自定义的layerjson格式
 	this.zIndex = function zanaly(layerjson){
 		if(layerjson.zIndex==null) return 0;
 		else return layerjson.zIndex;
 	};
+	this.mapv=null;
+	this.echarts=null;
 }
 function layeranaly(data)
 {
@@ -35,7 +37,7 @@ function nothave(yklayer)
 	var templist=mymapmana.maplayerlist;
 	for(var i=0;i<templist.length;i++)
 		{
-			if(templist[i].id==yklayer.layerid) return false;
+			if(templist[i].layerid==yklayer.layerid) return false;
 		}
 	return true;
 }
@@ -56,8 +58,8 @@ function echartsSetting(stylejson)
 var mybmap;//百度地图调用变量
 var mymapmana;//地图管理变量
 var myecharts;//echarts调用变量
-var echartoption;//echart的option json
-var myseries;//echartseries管理变量
+var echartsoption;//echarts的option json
+var myseries = new Array();//echartseries管理变量
 var bmapoverlay;//bmap的覆盖物管理变量
 var myinit;
 function myinit()
@@ -69,28 +71,48 @@ function myinit()
 
 function redraw()
 {
+	myseries=[];
 	for(var i=0;i<mymapmana.maplayerlist.length;i++)
 		{
 			var layerjson=mymapmana.maplayerlist[i]
+			if(layerjson.mapv)
+			{
+				layerjson.mapv.destroy();
+			}
 			switch(layerjson.type)
 			{
 				case 0:
-					drawL1(layerjson);
+					drawL1(layerjson,i);
 					break;
 				case 1:
-					drawL2(layerjson);
+					drawL2(layerjson,i);
 					break;
 				case 2:
-					drawL3(layerjson);
+					drawL3(layerjson,i);
 					break;
 				case 3:
-					drawL4(layerjson);
+					drawL4(layerjson,i);
 					break;
 			}
 		}
+	redrawover();
 }
-function drawL1(layer){//分层设色图 使用mapv绘制
-	var gdata = $.parseJSON(layer.data);
+function redrawover()
+{
+	echartsoption.series=myseries;
+	myecharts.setOption(echartsoption);
+	for(var i=0;i<mymapmana.maplayerlist.length;i++)
+	{
+		if(mymapmana.maplayerlist[i].mapv)
+		{
+			var tmp=mymapmana.maplayerlist[i].mapv;
+			mymapmana.maplayerlist[i].mapv.destroy();
+			mymapmana.maplayerlist[i].mapv = new mapv.baiduMapLayer(mybmap, tmp.dataSet, tmp.options);
+		}
+	}
+}
+function drawL1(layer,layerindex){//分层设色图 使用mapv绘制
+	var gdata = layer.data;
     $.getJSON('./data/new_qing_prov.json', function(geojson) {//demo的geojson还是写死的
 
         var dataSet = mapv.geojson.getDataSet(geojson);
@@ -100,8 +122,10 @@ function drawL1(layer){//分层设色图 使用mapv绘制
                 for(var i=0;i<gdata.length;i++)
                 	{
                 		if(gdata[i]["地名"]==item.name)
-                			item.count = Number(gdata[i]["数值"]);
-                		return true;
+                			{
+                				item.count = Number(gdata[i]["数值"]);
+                				return true;
+                			}
                 	}
                 
                 return false;
@@ -141,6 +165,8 @@ function drawL1(layer){//分层设色图 使用mapv绘制
                     value: '#960b3d'
                 }
             ],
+            shadowColor: 'rgba(0, 0, 0, 1)', // 投影颜色
+            shadowBlur: 10,  // 投影模糊级数
             methods: {
                 click: function (item) {
                     alert(item.name);
@@ -169,25 +195,92 @@ function drawL1(layer){//分层设色图 使用mapv绘制
             globalAlpha: 0.9,
             draw: 'choropleth'
         }
-
-        var mapvLayer = new mapv.baiduMapLayer(mybmap, dataSet, options);
-
+        if(mymapmana.maplayerlist[layerindex].mapv) mymapmana.maplayerlist[layerindex].mapv.destroy();//似乎是被js解释器优化了之后switch的代码执行顺序有问题（方张 
+        mymapmana.maplayerlist[layerindex].style = options;
+        mymapmana.maplayerlist[layerindex].mapv = new mapv.baiduMapLayer(mybmap, dataSet, options);
+        
+        return true;
     });
 
 }
-function drwaL2(data){//等级符号图
+function drawL2(layer,layerindex){//等级符号图
+	var srcdata = layer.data;
+	var localname = new Array();
+	var value = new Array();
+	var coords = new Array();
+	var maxvalue = 0;
+	var minsize = 5;
+	var rate = 10;
+	for(var i=0;i<srcdata.length;i++)
+	{
+		localname.push(srcdata[i]["地名"]);
+		value.push(Number(srcdata[i]["数值"]));
+		if(value[i]>maxvalue) maxvalue=value[i];
+		coords.push([srcdata[i].X,srcdata[i].Y]);
+	}
+	var item={
+        name: 'test',
+        type: 'scatter',
+        coordinateSystem: 'bmap',
+        data: coords,
+        symbol:'circle',
+        symbolSize: 10,
+        label: {
+            normal: {
+                
+                position: 'right',
+                show: false
+            },
+            emphasis: {
+            	formatter: localname,
+            	show: true
+            }
+        },
+        itemStyle: {
+            normal: {
+                color: '#ddb926'
+            }
+        }
+    }
+	mymapmana.maplayerlist[layerindex].echarts=item;
+	myseries.push(item);
+}
+function drawL3(layer,layerindex){//点图
 	
 }
-function drawL3(data){//点图
-	
-}
-function drawL4(data){//轨迹图
-	
+function drawL4(layer,layerindex){//轨迹图
+	var item=
+	{
+	    name: 2,
+	    type: 'lines',
+	    coordinateSystem: 'bmap',
+	    z: layer.zIndex, //TODO:层次控制
+	    large: true,
+	    effect: {
+	            show: false,
+	            constantSpeed: 10,
+	            symbol: 'pin',//ECharts 提供的标记类型包括 'circle', 'rect', 'roundRect', 'triangle', 'diamond', 'pin', 'arrow'
+	            symbolSize: 6,
+	            trailLength: 0,
+	            color:'#eee955'
+	     },
+	     lineStyle: {
+	            normal: {
+	                color: new echarts.graphic.LinearGradient(0, 0, 0, 1,[{offset: 0, color: '#eee955'},{offset: 1, color: '#f6082d'}], false),   //轨迹线颜色
+	                width:1.5,
+	                opacity: 1,
+	                curveness: 0  //轨迹线弯曲度
+	            }
+	      },
+	      data: layer.data
+	    }
+	mymapmana.maplayerlist[layerindex].echarts=item;
+	myseries.push(item);
 }
 function display()
 {
-	myChart = echarts.init(document.getElementById('map'));
-	echartoption = {
+	myecharts = echarts.init(document.getElementById('map'));
+	echartsoption = {
 		    backgroundColor: '#404a59',
 		    title: {
 		        text: mymapmana.mapname,
@@ -206,22 +299,10 @@ function display()
 		        zoom: mymapmana.zoomlevel,
 		        roam: true
 		    },
-		    series: [{//echarts无法空白初始化
-            	type: 'lines',
-            	coordinateSystem: 'bmap',
-            	data: [],
-            	polyline: true,
-            	lineStyle: {
-                	normal: {
-                    	color: 'purple',
-                    	opacity: 0.6,
-                    	width: 1
-                	}
-            	}
-        		}]
+		    series: []
 		};
-		    myChart.setOption(echartoption);
-		    mybmap = myChart.getModel().getComponent('bmap').getBMap();
+			myecharts.setOption(echartsoption);
+		    mybmap = myecharts.getModel().getComponent('bmap').getBMap();
 		    mybmap.enableScrollWheelZoom(true);
 		redraw();
 }

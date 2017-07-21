@@ -17,7 +17,7 @@ public class LayersServiceImpl implements LayersService {
 	@Override
 	public boolean addLayers(Layers layer) throws Exception {
 		
-		int i = layersMapper.insert(layer);
+		int i = layersMapper.myinsert(layer);
 		if(i>0)
 			return true;
 		else

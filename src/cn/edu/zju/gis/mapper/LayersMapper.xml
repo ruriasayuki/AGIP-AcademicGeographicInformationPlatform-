@@ -109,6 +109,14 @@
       #{storelocation,jdbcType=VARCHAR}, #{accessibility,jdbcType=BIT}, #{type,jdbcType=INTEGER}, 
       #{datacontent,jdbcType=VARCHAR})
   </insert>
+  <insert id="myinsert" parameterType="cn.edu.zju.gis.po.Layers" useGeneratedKeys="true" keyProperty="id" >
+  insert into layers (layername, userid, 
+      storelocation, accessibility, type, 
+      datacontent)
+    values (#{layername,jdbcType=VARCHAR}, #{userid,jdbcType=INTEGER}, 
+      #{storelocation,jdbcType=VARCHAR}, #{accessibility,jdbcType=BIT}, #{type,jdbcType=INTEGER}, 
+      #{datacontent,jdbcType=VARCHAR})
+  </insert>
   <insert id="insertSelective" parameterType="cn.edu.zju.gis.po.Layers" >
     insert into layers
     <trim prefix="(" suffix=")" suffixOverrides="," >
