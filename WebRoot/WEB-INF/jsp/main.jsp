@@ -22,14 +22,15 @@
 		<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=grbYXcBhXlgv0QpFK3HHzVgLTInbTWjg"></script>
 		<script type="text/javascript" src="http://api.map.baidu.com/library/CurveLine/1.5/src/CurveLine.min.js"></script>
 		<script type="text/javascript" src="${pageContext.request.contextPath}/js/mapv.js"></script>
-		<script type="text/javascript" src="${pageContext.request.contextPath}/js/yukimap.js"></script>	
-		<script type="text/javascript" src="${pageContext.request.contextPath}/js/layerpanel.js"></script>
+		<script type="text/javascript" src="${pageContext.request.contextPath}/js/yukimap.js"></script>	<!--胡泽豪整合重构的地图展示模块-->
+		<script type="text/javascript" src="${pageContext.request.contextPath}/js/layerpanel.js"></script><!--主要由胡毅荣提供代码 属于图层添加模块-->
+		<script type="text/javascript" src="${pageContext.request.contextPath}/js/layertree.js"></script><!--主要由孟林昊提供代码 属于图层树模块 为地图展示子模块-->
 		<script type="text/javascript" src="${pageContext.request.contextPath}/js/mydemo.js"></script>
 		<link href="css/publicstyle.css" rel="stylesheet">
 		<link href="css/whitestyle.css" rel="stylesheet">
 		<link href="css/searchLayer.css" rel="stylesheet">
 		<script>
-			var mapdata = ${map};
+			var mapdata = ${map};//获取后台返回的map数据
 		</script>
 	</head>
 
@@ -108,7 +109,13 @@
 <div data-options="region:'west',split:true" title="Catalog" style="width:200px;">
 <div class="easyui-accordion" data-options="fit:true,border:false">
 	<div title="Layers" style="padding:10px;">
-	<ul class="easyui-tree" data-options="selected:true,url:'${pageContext.request.contextPath}/data/tree_data.json',method:'get',animate:true,dnd:true"></ul>
+	<ul id="layerTree" class="easyui-tree" onlyLeafCheck="true" dnd="true">
+	                <li id="layerFather">
+	                    <span>图层</span>
+	                            <ul>
+	                            </ul>
+	                </li>
+	       </ul>
 </div>
 </div>
 </div>
@@ -125,7 +132,7 @@
         <br>
     </footer>
 <!-- 自定义tooltip -->
-<div id="mytooltip" style="position:absolute;display:none;background:#FFFFFF;top:50%;left:50%">test tooltip </div>
+<div id="mytooltip" style="position:absolute;display:none;padding:5px;background:#EE99DD;top:50%;left:50%;opacity:0.5;border-radius:5px">test tooltip </div>
 <script> 
 function mouseMove(ev) 
 { 
@@ -195,7 +202,10 @@ document.onmousemove = mouseMove;
             </div>
         </div>
     </div>
-
+<div id="mm" class="easyui-menu" style="width:120px;">
+			<div onclick="changstyle()" data-options="iconCls:'icon-edit'">更改样式</div>
+			<div onclick="removeLayer()" data-options="iconCls:'icon-no'">移除</div>
+		</div>
 
 </body>
 

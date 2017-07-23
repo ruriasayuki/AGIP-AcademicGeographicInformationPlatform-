@@ -4,6 +4,18 @@ function Yklayer(layerjson)
 		if(statedata==null) return true;
 		else return statedata;
 	}
+	function zanaly(zdata){//等着重构的图层层叠管理,保证了一张地图创建的时候图层是从0开始的序列,新加载图层会排在后面
+		if(zdata==null) 
+			{
+				var zIndex = myMapMana.maxz;
+				myMapMana.maxz=myMapMana.maxz+1;
+				return zIndex;
+			}
+			else {
+			myMapMana.maxz=zdata;
+			return zdata;
+		}
+	}
 	this.layerid = layerjson.id;
 	this.layername = layerjson.layername;
 	this.layeruserid = layerjson.userid;
@@ -12,13 +24,10 @@ function Yklayer(layerjson)
 	this.type = parseInt(layerjson.type);
 	this.data = $.parseJSON(layerjson.datacontent);
 	this.state = stateanaly(layerjson.state);
-	this.style = layerjson.style;//各个小组自定义的layerjson格式
-	this.zIndex = function zanaly(layerjson){
-		if(layerjson.zIndex==null) return 0;
-		else return layerjson.zIndex;
-	};
-	this.mapv=null;
-	this.echarts=null;
+	this.style = layerjson.style;//直接存放echart的series或者mapv的item 
+	this.zIndex = zanaly(layerjson.zIndex);
+	this.mapv=null;//管理mapv图层
+	//this.echarts=null;
 }
 function layeranaly(data)
 {
@@ -34,7 +43,7 @@ function layeranaly(data)
 }
 function nothave(yklayer)
 {
-	var templist=mymapmana.maplayerlist;
+	var templist=myMapMana.maplayerlist;
 	for(var i=0;i<templist.length;i++)
 		{
 			if(templist[i].layerid==yklayer.layerid) return false;
@@ -49,70 +58,85 @@ function Ykmap(mapjson)
 	this.centery = mapjson.centery;
 	this.zoomlevel = mapjson.zoomlevel;
 	this.maplayerlist = layeranaly(mapjson.maplayer);
+	this.maxz = 0;
 }
 
 function echartsSetting(stylejson)
 {
-//基于某种手法来构造这些变量，并且勇于redraw	
+//基于某种手法来构造这些变量，并且用于redraw	
+}
+function has(item)
+{
+	if(item) return true;
+	else return false;
 }
 var mybmap;//百度地图调用变量
-var mymapmana;//地图管理变量
+var myMapMana;//地图管理变量
 var myecharts;//echarts调用变量
 var echartsoption;//echarts的option json
 var myseries = new Array();//echartseries管理变量
 var bmapoverlay;//bmap的覆盖物管理变量
-var myinit;
+var myinit;//初始化函数
+//***//////////---程序入口---//////////***//
 function myinit()
 {
-	mymapmana=new Ykmap(mapdata);
-	//各组的对数据（也就是layer的datacontent属性的解析也放这里
+	myMapMana=new Ykmap(mapdata);
+	initLayertree();
 	display();
 }
 
 function redraw()
 {
 	myseries=[];
-	for(var i=0;i<mymapmana.maplayerlist.length;i++)
+	for(var i=0;i<myMapMana.maplayerlist.length;i++)
 		{
-			var layerjson=mymapmana.maplayerlist[i]
-			if(layerjson.mapv)
+			var layerjson=myMapMana.maplayerlist[i]
+			if(has(layerjson.mapv))//这里也需要重新整合
 			{
-				layerjson.mapv.destroy();
+				myMapMana.maplayerlist[i].mapv.destroy();
 			}
+			if(layerjson.state)
+			{
 			switch(layerjson.type)
 			{
 				case 0:
-					drawL1(layerjson,i);
+					var bool = drawL1(layerjson,i);
 					break;
 				case 1:
-					drawL2(layerjson,i);
+					var levelscatter = drawL2(layerjson,i);
+					myseries.push(levelscatter);
 					break;
 				case 2:
-					drawL3(layerjson,i);
+					var points = drawL3(layerjson,i);
+					myseries.push(points);
 					break;
 				case 3:
-					drawL4(layerjson,i);
+					var trail = drawL4(layerjson,i);
+					myseries.push(trail);
 					break;
 			}
+			}
 		}
-	redrawover();
+	refresh();
 }
-function redrawover()
+function refresh()
 {
 	echartsoption.series=myseries;
 	myecharts.setOption(echartsoption);
-	for(var i=0;i<mymapmana.maplayerlist.length;i++)
+	for(var i=0;i<myMapMana.maplayerlist.length;i++)
 	{
-		if(mymapmana.maplayerlist[i].mapv)
+		if((myMapMana.maplayerlist[i].state)&&(has(myMapMana.maplayerlist[i].mapv)))
 		{
-			var tmp=mymapmana.maplayerlist[i].mapv;
-			mymapmana.maplayerlist[i].mapv.destroy();
-			mymapmana.maplayerlist[i].mapv = new mapv.baiduMapLayer(mybmap, tmp.dataSet, tmp.options);
+			myMapMana.maplayerlist[i].mapv.bindEvent();
+			myMapMana.maplayerlist[i].mapv.show();
 		}
 	}
 }
+
 function drawL1(layer,layerindex){//分层设色图 使用mapv绘制
+	if(has(myMapMana.maplayerlist[layerindex].style)) return true;//暂时用这个提高效率
 	var gdata = layer.data;
+	$.ajaxSettings.async = false;
     $.getJSON('./data/new_qing_prov.json', function(geojson) {//demo的geojson还是写死的
 
         var dataSet = mapv.geojson.getDataSet(geojson);
@@ -180,8 +204,8 @@ function drawL1(layer,layerindex){//分层设色图 使用mapv绘制
                             data[i].fillStyle = 'yellow';
                             flag=1;
                             $("#mytooltip").html(item.name);
-                            $("#mytooltip").css("top",(mousePos.y-5)+"px");
-                            $("#mytooltip").css("left",(mousePos.x+2)+"px");
+                            $("#mytooltip").css("top",(mousePos.y-40)+"px");
+                            $("#mytooltip").css("left",(mousePos.x+10)+"px");
                             $("#mytooltip").css("display","inline");
                             
                         } else {
@@ -195,66 +219,103 @@ function drawL1(layer,layerindex){//分层设色图 使用mapv绘制
             globalAlpha: 0.9,
             draw: 'choropleth'
         }
-        if(mymapmana.maplayerlist[layerindex].mapv) mymapmana.maplayerlist[layerindex].mapv.destroy();//似乎是被js解释器优化了之后switch的代码执行顺序有问题（方张 
-        mymapmana.maplayerlist[layerindex].style = options;
-        mymapmana.maplayerlist[layerindex].mapv = new mapv.baiduMapLayer(mybmap, dataSet, options);
-        
-        return true;
+        	//这里逻辑有点乱，随时准备在写调整样式的代码的阶段重构,应当分离图层的初始化和样式调整,现阶段代码效率太低。
+        myMapMana.maplayerlist[layerindex].style = {"options":options,"dataSet":dataSet};
+        myMapMana.maplayerlist[layerindex].mapv = new mapv.baiduMapLayer(mybmap, dataSet, options);
+        myMapMana.maplayerlist[layerindex].mapv.destroy();
     });
-
+    $.ajaxSettings.async = true;
+    return true;
 }
-function drawL2(layer,layerindex){//等级符号图
-	var srcdata = layer.data;
-	var localname = new Array();
-	var value = new Array();
-	var coords = new Array();
-	var maxvalue = 0;
-	var minsize = 5;
-	var rate = 10;
-	for(var i=0;i<srcdata.length;i++)
-	{
-		localname.push(srcdata[i]["地名"]);
-		value.push(Number(srcdata[i]["数值"]));
-		if(value[i]>maxvalue) maxvalue=value[i];
-		coords.push([srcdata[i].X,srcdata[i].Y]);
-	}
+function drawL2(layer,layerindex){//等级符号图 （打算后面全用mapv重构
+	var data = layer.data;
+	var maxvalue = Number(data[0]["数值"]);
+	var minvalue = Number(data[0]["数值"]);
+	var maxsize = 20;
+	var minsize = 100;
+	var res = [];
+	    for (var i = 0; i < data.length; i++) {
+	            res.push({
+	                name: data[i]["地名"],
+	                value: [Number(data[i].X),Number(data[i].Y),Number(data[i]["数值"])]
+	            });
+	         if(res[i].value[2]>maxvalue) maxvalue = res[i].value[2];
+	         if(res[i].value[2]<minvalue) minvalue = res[i].value[2];
+	    }
+	var param = [maxvalue,minvalue,maxsize,minsize];
 	var item={
         name: 'test',
         type: 'scatter',
         coordinateSystem: 'bmap',
-        data: coords,
+        data: res,
+        z:layer.zIndex,
         symbol:'circle',
-        symbolSize: 10,
+        symbolSize: function (val) {
+            return val[2]/10+10;
+        },
         label: {
-            normal: {
-                
+        	normal: {
+                formatter: '{b}',
                 position: 'right',
                 show: false
             },
             emphasis: {
-            	formatter: localname,
+                show: true
+            }
+        },
+        itemStyle: {
+            normal: {
+                color: '#662255'
+            }
+        }
+    }
+	myMapMana.maplayerlist[layerindex].echarts=item;
+	return item;
+}
+function drawL3(layer,layerindex){//点图 （打算后面全用mapv重构
+	var data = layer.data;
+	var res = [];
+	    for (var i = 0; i < data.length; i++) {
+	            res.push({
+	                name: data[i]["地名"],
+	                value: [Number(data[i].X),Number(data[i].Y),Number(data[i]["数值"])]
+	            });
+	    }
+	var item={
+        name: 'test',
+        type: 'scatter',
+        coordinateSystem: 'bmap',
+        data: res,
+        z:layer.zIndex,
+        symbol:'circle',
+        symbolSize: 10,
+        label: {
+            normal: {
+                formatter: '{b}',
+            	position: 'right',
+                show: true
+            },
+            emphasis: {
+            	formatter: '{b}',
             	show: true
             }
         },
         itemStyle: {
             normal: {
-                color: '#ddb926'
+                color: '#662255'
             }
         }
     }
-	mymapmana.maplayerlist[layerindex].echarts=item;
-	myseries.push(item);
+	myMapMana.maplayerlist[layerindex].echarts=item;
+	return item;
 }
-function drawL3(layer,layerindex){//点图
-	
-}
-function drawL4(layer,layerindex){//轨迹图
+function drawL4(layer,layerindex){//轨迹图 （打算后面全用mapv重构
 	var item=
 	{
 	    name: 2,
 	    type: 'lines',
 	    coordinateSystem: 'bmap',
-	    z: layer.zIndex, //TODO:层次控制
+	    z: layer.zIndex, 
 	    large: true,
 	    effect: {
 	            show: false,
@@ -274,8 +335,8 @@ function drawL4(layer,layerindex){//轨迹图
 	      },
 	      data: layer.data
 	    }
-	mymapmana.maplayerlist[layerindex].echarts=item;
-	myseries.push(item);
+	myMapMana.maplayerlist[layerindex].echarts=item;
+	return item;
 }
 function display()
 {
@@ -283,7 +344,7 @@ function display()
 	echartsoption = {
 		    backgroundColor: '#404a59',
 		    title: {
-		        text: mymapmana.mapname,
+		        text: myMapMana.mapname,
 		        subtext: '',
 		        sublink: '',
 		        left: 'center',
@@ -292,12 +353,16 @@ function display()
 		        }
 		    },
 		    tooltip : {
-		        trigger: 'item'
+		        trigger: 'none'
 		    },
 		    bmap: { //百度地图样式，可以再调整过
-		        center: [mymapmana.centerx, mymapmana.centery],
-		        zoom: mymapmana.zoomlevel,
-		        roam: true
+		        center: [myMapMana.centerx, myMapMana.centery],
+		        zoom: myMapMana.zoomlevel,
+		        roam: true,
+		        mapStyle: {
+		            styleJson:[{"featureType": "all","elementType": "geometry","stylers": {"hue": "#007fff","saturation": 89}},
+		                {"featureType": "water","elementType": "all","stylers": {"color": "#ffffff"}}]
+		        }
 		    },
 		    series: []
 		};
@@ -305,4 +370,9 @@ function display()
 		    mybmap = myecharts.getModel().getComponent('bmap').getBMap();
 		    mybmap.enableScrollWheelZoom(true);
 		redraw();
+}
+
+function savemap()
+{
+	//TO DO 构建一个ajax请求 将map对象发送给后台... 后台需要可以重构数据库 存放所有信息
 }

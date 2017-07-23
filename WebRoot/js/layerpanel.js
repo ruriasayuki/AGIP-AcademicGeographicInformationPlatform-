@@ -161,7 +161,11 @@ function addLayerToMap()
 	}
 	for(var i=0; i<temp.length;i++)
 		{
-			if(nothave(temp[i]))mymapmana.maplayerlist.push(temp[i]);
+			if(nothave(temp[i]))
+			{
+				myMapMana.maplayerlist.push(temp[i]);
+				addTreeNode(temp[i]);
+			}
 		}
     $("#layerPanel").window('close');
     redraw();

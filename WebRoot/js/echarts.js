@@ -2324,9 +2324,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	                !(OPTION_INNER_KEY in option),
 	                'please use chart.getOption()'
 	            );
-
+	            //**yuki lebal** here to the first step;
 	            this._optionManager.setOption(option, optionPreprocessorFuncs);
-
+	            
 	            this.resetOption(null);
 	        },
 
@@ -2349,6 +2349,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                }
 	                else {
 	                    this.restoreData();
+	                    //**yuki**lebal
 	                    this.mergeOption(baseOption);
 	                }
 	                optionChanged = true;
@@ -2379,7 +2380,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	         * @protected
 	         */
 	        mergeOption: function (newOption) {
+	        	//**yuki**changed begin
+	        	//the second step set this.option.series to null;
+	        	delete this.option.series;
+	        	//**yuki**changed over
 	            var option = this.option;
+	            this._componentsMap._ec_series=[];
 	            var componentsMap = this._componentsMap;
 	            var newCptTypes = [];
 
@@ -2390,9 +2396,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	                }
 
 	                if (!ComponentModel.hasClass(mainType)) {
+	                //如果不存在对应的 component model 则直接 merge
+	                		{
 	                    option[mainType] = option[mainType] == null
 	                        ? zrUtil.clone(componentOption)
 	                        : zrUtil.merge(option[mainType], componentOption, true);
+	                		}
 	                }
 	                else {
 	                    newCptTypes.push(mainType);
@@ -2403,9 +2412,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	            ComponentModel.topologicalTravel(
 	                newCptTypes, ComponentModel.getAllClassMainTypes(), visitComponent, this
 	            );
-
-	            this._seriesIndices = this._seriesIndices || [];
-
+	            //**yuki**changed begin
+	            this._seriesIndices = createSeriesIndices(componentsMap.get('series'));
+	            //this._seriesIndices = this._seriesIndices || [];
+	            //to fake a seriesIndeices
 	            function visitComponent(mainType, dependencies) {
 	                var newCptOptionList = modelUtil.normalizeToArray(newOption[mainType]);
 
@@ -17098,6 +17108,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	            // For setOption at second time (using merge mode);
 	            if (oldOptionBackup) {
 	                // Only baseOption can be merged.
+	            	//**yuki**changed Only series shouldn't be merged.
+	            	//Here is the first step, ensure that oldOptionBackup doesn't hava series.
+	            	oldOptionBackup.baseOption.series=[];
+	            	//**yuki**changed Over.
 	                mergeOption(oldOptionBackup.baseOption, newParsedOption.baseOption);
 
 	                // For simplicity, timeline options and media options do not support merge,
@@ -17348,6 +17362,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     *     (Too complex in logic and error-prone)
 	     * 2. Use a shadow ecModel. (Performace expensive)
 	     */
+	    
 	    function mergeOption(oldOption, newOption) {
 	        newOption = newOption || {};
 
