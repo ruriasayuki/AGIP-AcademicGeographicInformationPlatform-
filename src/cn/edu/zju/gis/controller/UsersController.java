@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -18,12 +19,15 @@ import cn.edu.zju.gis.po.MapLayer;
 import cn.edu.zju.gis.po.Maps;
 import cn.edu.zju.gis.po.MapsCustom;
 import cn.edu.zju.gis.po.Users;
+import cn.edu.zju.gis.service.MapsService;
 import cn.edu.zju.gis.service.UsersService;
 
 @Controller
 public class UsersController {
 	@Autowired
 	private UsersService usersService;
+	@Autowired
+	private MapsService mapsService;
 	
 	@RequestMapping("/findUser")
 	public ModelAndView find() throws Exception {
@@ -52,27 +56,26 @@ public class UsersController {
 		return modelAndView;
 	}
 	
-	@RequestMapping("/main") //主界面
+	@RequestMapping(value = "/main")
 	public ModelAndView openmain(Integer mapid) throws Exception{
+	//mapid=7;
 		int loginflag = usersService.checklogin();//虚假的登陆情况判断，会重写的
 		MapsCustom map=null;//地图初始化为空
-		if(mapid==null) map=new MapsCustom("new map",1,1,110,40,5,0);
-		//以下只是测试编码
-		/*List<MapLayer> maplayers = new ArrayList<MapLayer>();
-		maplayers.add(new MapLayer(1,1));
-		maplayers.add(new MapLayer(2,4));
-		map.setMaplayer(maplayers);
-		*/
-		//
-		//根据传入的地图ID决定新建还是加载地图
+		if(mapid==null)
+			map= new MapsCustom("new map",1,1,110,40,5,0);
+		else
+		{
+			Maps mapa = mapsService.findMapById(mapid);
+			map = new MapsCustom(mapa);
+			List<MapLayer> maplayerlist = mapsService.findMapLayerByMapId(mapid);
+			map.setMaplayer(maplayerlist);
+		}
 		Gson gson = new Gson();
 		String mapjson = gson.toJson(map);
 		ModelAndView modelAndView =  new ModelAndView();//构造model
 		modelAndView.addObject("loginflag", loginflag);
 		modelAndView.addObject("map", mapjson);		
 		modelAndView.setViewName("main");
-		
-		
 		return modelAndView;
 	}
 	@RequestMapping("/about")

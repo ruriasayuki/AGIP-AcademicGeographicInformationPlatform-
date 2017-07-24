@@ -9,6 +9,21 @@ public class Maps {
 	float centery;
 	int zoomlevel;
 	int basemapid;
+	public Maps()
+	{
+		mapname="";
+	}
+	public Maps(Maps map)
+	{
+		this.id=map.id;
+		this.mapname=map.mapname;
+		this.userid=map.userid;
+		this.accessibility=map.accessibility;
+		this.centerx=map.centerx;
+		this.centery=map.centery;
+		this.zoomlevel=map.zoomlevel;
+		this.basemapid=map.basemapid;
+	}
 	public Maps(String mapname,int userid,int accessibility,float centerx,float centery,int zoomlevel,int basemapid)
 	{
 		this.id=0;
@@ -31,6 +46,19 @@ public class Maps {
 		this.zoomlevel=zoomlevel;
 		this.basemapid=basemapid;
 	}
+	
+	public Maps(int id,String mapname,float centerx,float centery,int zoomlevel)
+	{
+		this.id = id;
+		this.mapname = mapname;
+		this.userid=1;
+		this.accessibility=1;
+		this.centerx = centerx;
+		this.centery = centery;
+		this.zoomlevel = zoomlevel;
+		this.basemapid=0;
+	}
+	
 	public int getId() {
 		return id;
 	}

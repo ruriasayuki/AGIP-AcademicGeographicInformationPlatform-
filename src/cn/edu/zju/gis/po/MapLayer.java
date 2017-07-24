@@ -1,5 +1,7 @@
 package cn.edu.zju.gis.po;
 
+import com.google.gson.JsonElement;
+
 public class MapLayer extends Layers{
 	int mlid;
 	int mapid;
@@ -7,6 +9,10 @@ public class MapLayer extends Layers{
 	boolean state;
 	String style;
 	int zIndex;
+	public MapLayer()
+	{
+		style="";
+	}
 	public MapLayer(int mapid, int layerid)
 	{
 		this.mapid=mapid;
@@ -15,6 +21,15 @@ public class MapLayer extends Layers{
 		style=null;
 		zIndex=0;
 	}
+	
+	public int getMlid() {
+		return mlid;
+	}
+	
+	public void setMlid(int mlid) {
+		this.mlid = mlid;
+	}
+	
 	public int getMapLayerId() {
 		return this.mlid;
 	}

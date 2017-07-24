@@ -3978,6 +3978,7 @@ var BaseLayer = function () {
             }
             self.init(options);
             if (isDraw !== false) {
+            	//**yuki**change
                 self.draw();
             }
         }
@@ -4309,7 +4310,7 @@ var Layer = function (_BaseLayer) {
     }, {
         key: "draw",
         value: function draw() {
-            self.canvasLayer.draw();
+            this.canvasLayer.draw();
         }
     }]);
     return Layer;
@@ -5065,7 +5066,7 @@ var Layer$2 = function (_BaseLayer) {
     }, {
         key: "draw",
         value: function draw() {
-            self.canvasLayer.draw();
+            this.canvasLayer.draw();
         }
     }]);
     return Layer;

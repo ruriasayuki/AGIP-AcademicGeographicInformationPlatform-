@@ -1,3 +1,5 @@
+var maxz=0;
+
 function Yklayer(layerjson)
 {
 	function stateanaly(statedata){
@@ -7,24 +9,35 @@ function Yklayer(layerjson)
 	function zanaly(zdata){//等着重构的图层层叠管理,保证了一张地图创建的时候图层是从0开始的序列,新加载图层会排在后面
 		if(zdata==null) 
 			{
-				var zIndex = myMapMana.maxz;
-				myMapMana.maxz=myMapMana.maxz+1;
+				var zIndex = maxz;
+				maxz = maxz+1;
 				return zIndex;
 			}
 			else {
-			myMapMana.maxz=zdata;
-			return zdata;
+				maxz=zdata;
+				return zdata;
+			}
+	}
+	function dataanaly(datajson){//等着重构的图层层叠管理,保证了一张地图创建的时候图层是从0开始的序列,新加载图层会排在后面
+		if(datajson==null) 
+			{
+				return null;
+			}
+			else {
+			return $.parseJSON(datajson);
 		}
 	}
+	this.mlid = layerjson.mlid;
 	this.layerid = layerjson.id;
 	this.layername = layerjson.layername;
 	this.layeruserid = layerjson.userid;
 	this.storelocation = layerjson.storelocation;
 	this.accessibility = layerjson.accessibility;
+	this.appendsrc = layerjson.appendDataSrc;
 	this.type = parseInt(layerjson.type);
-	this.data = $.parseJSON(layerjson.datacontent);
+	this.data = dataanaly(layerjson.datacontent);
 	this.state = stateanaly(layerjson.state);
-	this.style = layerjson.style;//直接存放echart的series或者mapv的item 
+	this.style = dataanaly(layerjson.style);//直接存放echart的series或者mapv的item 
 	this.zIndex = zanaly(layerjson.zIndex);
 	this.mapv=null;//管理mapv图层
 	//this.echarts=null;
@@ -58,7 +71,6 @@ function Ykmap(mapjson)
 	this.centery = mapjson.centery;
 	this.zoomlevel = mapjson.zoomlevel;
 	this.maplayerlist = layeranaly(mapjson.maplayer);
-	this.maxz = 0;
 }
 
 function echartsSetting(stylejson)
@@ -80,6 +92,7 @@ var myinit;//初始化函数
 //***//////////---程序入口---//////////***//
 function myinit()
 {
+	maxz=0;
 	myMapMana=new Ykmap(mapdata);
 	initLayertree();
 	display();
@@ -93,12 +106,12 @@ function redraw()
 			var layerjson=myMapMana.maplayerlist[i]
 			if(has(layerjson.mapv))//这里也需要重新整合
 			{
-				myMapMana.maplayerlist[i].mapv.destroy();
+				layerjson.mapv.unbindEvent();
 			}
 			if(layerjson.state)
 			{
-			switch(layerjson.type)
-			{
+				switch(layerjson.type)
+				{
 				case 0:
 					var bool = drawL1(layerjson,i);
 					break;
@@ -114,13 +127,20 @@ function redraw()
 					var trail = drawL4(layerjson,i);
 					myseries.push(trail);
 					break;
+				}
 			}
-			}
+			else 
+				if(has(layerjson.mapv))
+				{
+					layerjson.mapv.destroy();
+				}
 		}
 	refresh();
 }
 function refresh()
 {
+	//测试参数修改
+	//echartsoption.title.text="changed";
 	echartsoption.series=myseries;
 	myecharts.setOption(echartsoption);
 	for(var i=0;i<myMapMana.maplayerlist.length;i++)
@@ -134,13 +154,29 @@ function refresh()
 }
 
 function drawL1(layer,layerindex){//分层设色图 使用mapv绘制
-	if(has(myMapMana.maplayerlist[layerindex].style)) return true;//暂时用这个提高效率
+	var dataSet;
+	var gradient = {
+			'0': '#ffffff',
+	        '1.0': '#ff0000'
+    };
+	var maxC,minC;
+	if(has(myMapMana.maplayerlist[layerindex].mapv)) return true;//暂时用这个提高效率
+	if(has(myMapMana.maplayerlist[layerindex].style))
+	{
+		dataSet = new mapv.DataSet(myMapMana.maplayerlist[layerindex].style.dataSet._data);
+		gradient = myMapMana.maplayerlist[layerindex].style.options.gradient || gradient;
+		maxC = myMapMana.maplayerlist[layerindex].style.options.max;
+		minC = myMapMana.maplayerlist[layerindex].style.options.min;
+	}
+	else
+	{
 	var gdata = layer.data;
 	$.ajaxSettings.async = false;
-    $.getJSON('./data/new_qing_prov.json', function(geojson) {//demo的geojson还是写死的
+    $.getJSON(layer.appendsrc, function(geojson) {//demo的geojson还是写死的
 
-        var dataSet = mapv.geojson.getDataSet(geojson);
-
+        dataSet = mapv.geojson.getDataSet(geojson);
+        maxC = Number(gdata[0]["数值"]);
+        minC = Number(gdata[0]["数值"]);
         var data = dataSet.get({
             filter: function (item) {//数据字段和geojson的name匹配 这里特殊化了一下 因为清代省份图用了两个字段 分别表示拼音和中文的省份名
                 for(var i=0;i<gdata.length;i++)
@@ -148,6 +184,12 @@ function drawL1(layer,layerindex){//分层设色图 使用mapv绘制
                 		if(gdata[i]["地名"]==item.name)
                 			{
                 				item.count = Number(gdata[i]["数值"]);
+                				if (item.count > maxC) {
+                					maxC = item.count;
+                                }
+                                if(item.count<minC){
+                                	minC = item.count;
+                                }
                 				return true;
                 			}
                 	}
@@ -155,45 +197,28 @@ function drawL1(layer,layerindex){//分层设色图 使用mapv绘制
                 return false;
             }
         });
-
+        maxC=maxC+1;
+        minC=minC-1;
         dataSet = new mapv.DataSet(data);
-
+    });
+    $.ajaxSettings.async = true;
+	}
+	{
         var options = {
-            splitList: [
-                {
-                    start: 0,
-                    end: 10,
-                    value: '#f1eef6'
-                },{
-                    start: 10,
-                    end: 20,
-                    value: '#d5bad9'
-                },{
-                    start: 20,
-                    end: 30,
-                    value: '#cc97c7'
-                },{
-                    start: 30,
-                    end: 40,
-                    value: '#e469af'
-                },{
-                    start: 40,
-                    end: 50,
-                    value: '#ee3387'
-                },{
-                    start: 50,
-                    end: 60,
-                    value: '#d61e53'
-                },{
-                    start: 60,
-                    value: '#960b3d'
-                }
-            ],
+        	draw: 'intensity',
+        	max: maxC, // 最大阈值
+        	min: minC, 
+        	gradient:gradient,
             shadowColor: 'rgba(0, 0, 0, 1)', // 投影颜色
             shadowBlur: 10,  // 投影模糊级数
             methods: {
                 click: function (item) {
-                    alert(item.name);
+                	$('#QueryBoard').window('open');
+                    $('#QueryBoard').window('expand');
+                    $('#gidL0').text(item.gid);
+                    $('#nameL0').text(item.name);
+                    $('#name_pyL0').text(item.name_py);
+                    $('#countL0').text(item.count);
                 },
 				mousemove: function (item) {
                     item = item || {};
@@ -223,11 +248,14 @@ function drawL1(layer,layerindex){//分层设色图 使用mapv绘制
         myMapMana.maplayerlist[layerindex].style = {"options":options,"dataSet":dataSet};
         myMapMana.maplayerlist[layerindex].mapv = new mapv.baiduMapLayer(mybmap, dataSet, options);
         myMapMana.maplayerlist[layerindex].mapv.destroy();
-    });
-    $.ajaxSettings.async = true;
+    }
     return true;
 }
 function drawL2(layer,layerindex){//等级符号图 （打算后面全用mapv重构
+	if(has(myMapMana.maplayerlist[layerindex].style))
+	{
+		//TODO 设计和解析style 在整合style修改模块后
+	}
 	var data = layer.data;
 	var maxvalue = Number(data[0]["数值"]);
 	var minvalue = Number(data[0]["数值"]);
@@ -269,10 +297,14 @@ function drawL2(layer,layerindex){//等级符号图 （打算后面全用mapv重
             }
         }
     }
-	myMapMana.maplayerlist[layerindex].echarts=item;
+	myMapMana.maplayerlist[layerindex].style=item;
 	return item;
 }
 function drawL3(layer,layerindex){//点图 （打算后面全用mapv重构
+	if(has(myMapMana.maplayerlist[layerindex].style))
+	{
+
+	}
 	var data = layer.data;
 	var res = [];
 	    for (var i = 0; i < data.length; i++) {
@@ -306,10 +338,14 @@ function drawL3(layer,layerindex){//点图 （打算后面全用mapv重构
             }
         }
     }
-	myMapMana.maplayerlist[layerindex].echarts=item;
+	myMapMana.maplayerlist[layerindex].style=item;
 	return item;
 }
 function drawL4(layer,layerindex){//轨迹图 （打算后面全用mapv重构
+	if(has(myMapMana.maplayerlist[layerindex].style))
+	{
+		return myMapMana.maplayerlist[layerindex].style;
+	}
 	var item=
 	{
 	    name: 2,
@@ -335,7 +371,7 @@ function drawL4(layer,layerindex){//轨迹图 （打算后面全用mapv重构
 	      },
 	      data: layer.data
 	    }
-	myMapMana.maplayerlist[layerindex].echarts=item;
+	myMapMana.maplayerlist[layerindex].style=item;
 	return item;
 }
 function display()
@@ -349,7 +385,7 @@ function display()
 		        sublink: '',
 		        left: 'center',
 		        textStyle: {
-		            color: '#fff'
+		            color: '#000'
 		        }
 		    },
 		    tooltip : {
@@ -371,8 +407,46 @@ function display()
 		    mybmap.enableScrollWheelZoom(true);
 		redraw();
 }
+function Icelayer(YKlayer)
+{
+	this.mlid = YKlayer.mlid;
+	this.layerid = YKlayer.layerid;
+	this.state = YKlayer.state;
+	//TODO 拆分style为具体设定
+	this.style = JSON.stringify(YKlayer.style);
+	this.zIndex = YKlayer.zIndex;
+}
+function Icemap(YKmap)
+{
+	this.id = YKmap.mapid;
+	this.mapname = YKmap.mapname;
+	this.centerx = YKmap.centerx;
+	this.centery = YKmap.centery;
+	this.zoomlevel = YKmap.zoomlevel;
+}
 
 function savemap()
 {
-	//TO DO 构建一个ajax请求 将map对象发送给后台... 后台需要可以重构数据库 存放所有信息
+	var mapForSave = new Icemap(myMapMana);
+	var layerForSave = new Array();
+	layerForSave = [];
+	for(var i=0;i<myMapMana.maplayerlist.length;i++)
+	{
+		var temp = new Icelayer(myMapMana.maplayerlist[i]);
+		layerForSave.push(temp);
+	}
+	$.ajax({
+		url:"./savemap.action",
+		async:false,
+		type:"POST",
+		dataType:"text",
+		data:{
+			map: JSON.stringify(mapForSave),
+			maplayer: JSON.stringify(layerForSave)
+		},
+		success:function(result){
+				console.log(result)
+		}				
+	})
+
 }

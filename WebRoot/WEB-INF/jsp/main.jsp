@@ -21,7 +21,7 @@
 		<script type="text/javascript" src="${pageContext.request.contextPath}/js/bmap.js"></script>
 		<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=grbYXcBhXlgv0QpFK3HHzVgLTInbTWjg"></script>
 		<script type="text/javascript" src="http://api.map.baidu.com/library/CurveLine/1.5/src/CurveLine.min.js"></script>
-		<script type="text/javascript" src="${pageContext.request.contextPath}/js/mapv.js"></script>
+		<script type="text/javascript" src="${pageContext.request.contextPath}/js/mapv.min.js"></script>
 		<script type="text/javascript" src="${pageContext.request.contextPath}/js/yukimap.js"></script>	<!--胡泽豪整合重构的地图展示模块-->
 		<script type="text/javascript" src="${pageContext.request.contextPath}/js/layerpanel.js"></script><!--主要由胡毅荣提供代码 属于图层添加模块-->
 		<script type="text/javascript" src="${pageContext.request.contextPath}/js/layertree.js"></script><!--主要由孟林昊提供代码 属于图层树模块 为地图展示子模块-->
@@ -79,7 +79,7 @@
 		            </a>
 		                <ul class="dropdown-menu" id="usermenu">
 			                <li><a href="file:///E:/kaihashitsu/web/AncientMap/WebRoot/searchMaps.html">查看地图</a></li>
-			                <li><a href="${pageContext.request.contextPath}/addLayerDemo.html">上传图层</a></li>
+			                <li><a href="${pageContext.request.contextPath}/addLayerDemo.jsp">上传图层</a></li>
 			                <li><a href="#">个人管理</a></li>
 		                </ul>
 	                </li>
@@ -102,7 +102,7 @@
 	<a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-share"></a>
 	<a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-ruler"></a>
 	<a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-help"></a>
-	<a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-save"></a>
+	<a href="#" onclick="showSavePanel()" class="easyui-linkbutton" plain="true" iconCls="icon-save"></a>
 	<a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-back"></a>
 </div>  
 </div>
@@ -206,7 +206,65 @@ document.onmousemove = mouseMove;
 			<div onclick="changstyle()" data-options="iconCls:'icon-edit'">更改样式</div>
 			<div onclick="removeLayer()" data-options="iconCls:'icon-no'">移除</div>
 		</div>
+<div id="savePanel" class="easyui-window" title="提示框" style="width:200px;height:150px"
+	data-options="modal:true,resizable:false,closed:true">
+	<div id="saveStep1">保存中...</div>
+	<!-- TODO a two step window of saving 
+	 <div id="saveStep2" style="display:none">
+		保存完毕
+		<br>
+		</div>
+	-->
+	</div>
 
+    <!-- 样式选择弹窗 -->
+	<div id="win" class="easyui-window" title="编辑样式" style="width:300px;height:280px;text-align:center" closed="true"
+	    data-options="iconCls:'icon-edit',modal:true" minimizable="false" maximizable="false">
+	    <div style="width:275px;height:200px;border:2px solid #ccc;margin:0 auto;margin-top:3px;">
+	    	<div id="stylediv" style="text-align:left;margin-left:30px;"></div>
+	    </div>
+	    <div style="position:absolute;top:240px;left:150px">
+	    <a id="ok" class="easyui-linkbutton" data-options="iconCls:'icon-save'" style="width:60px" onclick="savestyle()">保存</a>
+		<a id="cancel" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" style="width:60px" onclick="closewin()">关闭</a>
+		</div>
+	</div>
+<table id="QueryBoardline" class="easyui-window" title="查询结果" style="width:500px;height:100px"
+            data-options="closed:true">
+            <thead>
+                <tr style="height:32px">
+                    <th>FID</th>
+                    <th>起始坐标</th>
+                    <th>结束坐标</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td id = "gid">NA</td>
+                    <td id = "coords_strat">NA</td>
+                    <td id = "coords_end">NA</td>
+                </tr>
+            </tbody>
+        </table>
+     <!-- ============== 点选查询弹窗（分层） ============== -->
+            <table id="QueryBoard" class="easyui-window" title="查询结果" style="width:500px;height:100px"
+            data-options="closed:true">
+            <thead>
+                <tr style="height:32px">
+                    <th>GID</th>
+                    <th>地区名</th>
+                    <th>拼音</th>
+                    <th>被映射的值</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td id = "gidL0">NA</td>
+                    <td id = "nameL0">NA</td>
+                    <td id = "name_pyL0">NA</td>
+                    <td id = "countL0">NA</td>
+                </tr>
+            </tbody>
+        </table>
 </body>
 
 </html>

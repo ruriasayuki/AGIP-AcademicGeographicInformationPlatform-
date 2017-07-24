@@ -7,6 +7,12 @@ function changetheme(rec) {
 		$('#easyuiTheme').attr('href', './jquery-easyui-1.5.2/themes/default/easyui.css');
 	}
 }
+function showSavePanel()
+{
+	$('#savePanel').window('open');
+	savemap();
+	$('#savePanel').window('close');
+}
 $(document).ready(function() {
 	getData();
 	myinit();

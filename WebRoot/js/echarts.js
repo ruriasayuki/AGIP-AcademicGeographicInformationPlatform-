@@ -2382,7 +2382,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        mergeOption: function (newOption) {
 	        	//**yuki**changed begin
 	        	//the second step set this.option.series to null;
-	        	delete this.option.series;
+	        	this.option.series = [];
 	        	//**yuki**changed over
 	            var option = this.option;
 	            this._componentsMap._ec_series=[];

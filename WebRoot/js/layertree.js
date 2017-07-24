@@ -1,6 +1,6 @@
 var layerTreeJson = [{
     "id": "layerFather",
-    "text": "Layers"
+    "text": "上层图层"
 }];
 function initLayertree()
 {
@@ -72,6 +72,10 @@ function initLayertree()
     		});
 	        }
 	    });
+	 for(var i=0;i<myMapMana.maplayerlist.length;i++)
+	{
+		 addTreeNode(myMapMana.maplayerlist[i]);
+	}
 }
 //======================== 图层树节点操作 ========================//
 //DONE 在图层树中添加新节点
@@ -98,7 +102,7 @@ function addTreeNode(layer) {
         if (layerTreeJson.length < 2) {
             var newFather = {
                 "id": "layerFather",
-                "text": "IntensityLayers"
+                "text": "下层图层"
             };
             layerTreeJson.push(newFather);
         };
@@ -170,6 +174,10 @@ function removeLayer() {
     var node = t.tree('getSelected');
     for (var i = 0; i <= myMapMana.maplayerlist.length; i++) {
         if (myMapMana.maplayerlist[i].layerid == node.id) {
+        	if(myMapMana.maplayerlist[i].type == 0)
+        		{
+        		myMapMana.maplayerlist[i].mapv.destroy();
+        		}
         	myMapMana.maplayerlist.splice(i, 1);
             break;
         }
@@ -230,3 +238,100 @@ var setLayerOverlay = function() {
     //重绘所有被勾选的分层图
     //
 };
+
+
+//修改样式弹出框
+function changstyle(){
+	 var t = $('#layerTree');
+	 var node = t.tree('getSelected');
+	 $('#win').window('open'); // open a window
+	 for (var i = 0; i < myMapMana.maplayerlist.length; i++) {
+         if (myMapMana.maplayerlist[i].layerid==node.id) {
+             if(myMapMana.maplayerlist[i].type==3){//如果是轨迹图
+            	 var div='<div style="margin:10px;"><label><input type="radio" name="curvevalue" checked="checked" value="str"/>直线</label> <label><input type="radio" name="curvevalue" value="cur"/>曲线</label><br/><br/>轨迹起点颜色： &ensp; &ensp;<input type="color" id="color1" /><br/><br/>轨迹终点颜色： &ensp; &ensp;<input type="color" id="color2" /><br/><br/>轨迹方向点颜色  ： <input type="color" id="color3" /><br/>'+
+            	 '<br/><span>轨迹方向样式 ：</span> &ensp; &ensp;<select id="cBoxDirection" class="easyui-combobox"><option value="1">无</option><option value="2">点</option><option value="3">箭头</option></select>';
+            	 $('#stylediv').html(div);
+            	 $("#color1")[0].value=myMapMana.maplayerlist[i].style.lineStyle.normal.color.colorStops[0].color;
+            	 $("#color2")[0].value=myMapMana.maplayerlist[i].style.lineStyle.normal.color.colorStops[1].color;
+            	 $("#color3")[0].value=myMapMana.maplayerlist[i].style.effect.color;
+            	 if(myMapMana.maplayerlist[i].style.effect.show=='false')
+            		 $("#cBoxDirection").val("1");
+            	 else{
+            		 if(myMapMana.maplayerlist[i].style.effect.symbol=='pin')
+            			 $("#cBoxDirection").val("2");
+            		 else
+            			 $("#cBoxDirection").val("3");
+            	 }
+            	 if(myMapMana.maplayerlist[i].style.lineStyle.normal.curveness==0){
+            		 $('input:radio[name="curvevalue"][value="str"]').attr("checked",true);
+            	 }
+            	 else{
+            		 $('input:radio[name="curvevalue"][value="cur"]').attr("checked",true);
+            	 }
+             }
+             if(myMapMana.maplayerlist[i].type=='0')
+             {
+            	 var div='<div style="margin:10px;">最大值颜色：<input type="color" id="maxcolor" /><br/><br/>最小值颜色：<input type="color" id="mincolor" />';
+            	 $('#stylediv').html(div);
+            	 $("#mincolor")[0].value=myMapMana.maplayerlist[i].mapv.options.gradient['0'];
+            	 $("#maxcolor")[0].value=myMapMana.maplayerlist[i].mapv.options.gradient['1.0'];
+             }
+             break;
+         }
+     }
+}
+//更改样式并保存
+function savestyle(){
+	 var t = $('#layerTree');
+	 var node = t.tree('getSelected');
+	 for (var i = 0; i < myMapMana.maplayerlist.length; i++) {
+         if (myMapMana.maplayerlist[i].layerid==node.id) {
+             if(myMapMana.maplayerlist[i].type=='3'){//判断是哪种图层类型
+            	 var checkValue= $('input:radio[name="curvevalue"]:checked').val();
+        		 if (checkValue == "str")
+        			 myMapMana.maplayerlist[i].style.lineStyle.normal.curveness='0';  
+                 else if (checkValue == "cur")
+                	 myMapMana.maplayerlist[i].style.lineStyle.normal.curveness='0.15';
+        		 	myMapMana.maplayerlist[i].style.lineStyle.normal.color.colorStops[0].color = $("#color1")[0].value;
+        		 	myMapMana.maplayerlist[i].style.lineStyle.normal.color.colorStops[1].color = $("#color2")[0].value;
+        		 	myMapMana.maplayerlist[i].style.effect.color = $("#color3")[0].value;
+        		 var show=$("#cBoxDirection").val();
+        		 switch(show){
+        		 case "1":
+        			 myMapMana.maplayerlist[i].style.effect.show='false';
+        			 myMapMana.maplayerlist[i].style.effect.symbol='none';
+                	  break;
+        		 case "2":
+        			 myMapMana.maplayerlist[i].style.effect.show='true';
+        			 myMapMana.maplayerlist[i].style.effect.symbol='pin';
+               	  	 break;
+        		 case "3":
+        			 myMapMana.maplayerlist[i].style.effect.show='true';
+        			 myMapMana.maplayerlist[i].style.effect.symbol='arrow';
+               	  	 break;
+        		 }
+        		 
+             }
+             if(myMapMana.maplayerlist[i].type=='0')
+             {
+            	 myMapMana.maplayerlist[i].mapv.options.gradient['0']=$("#mincolor")[0].value;
+            	 myMapMana.maplayerlist[i].mapv.options.gradient['1.0']=$("#maxcolor")[0].value;
+    			 //TODO drawLegend();
+    			 myMapMana.maplayerlist[i].mapv.update({
+    				 options:{
+    					 gradient: {
+    			                '0': $("#mincolor")[0].value,
+    			                '1.0': $("#maxcolor")[0].value
+    			            }
+    				 }
+    			 });
+             } 
+             redraw();
+             break;
+         }
+     }
+}
+
+function closewin(){
+	$('#win').window('close'); 
+}

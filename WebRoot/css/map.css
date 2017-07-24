@@ -1,0 +1,326 @@
+ body,html{
+        }
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        #index{
+            background-image: url("../img/11.jpg");
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            /*background-attachment: fixed;*/
+            height: 650px;
+            overflow: hidden;
+            animation-fill-mode: both;
+            animation-duration: 0.5s;
+        }
+        #content{
+            background-image: url("../img/22.jpg");
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            /*background-attachment: fixed;*/
+            height: 650px;
+            overflow: hidden;
+            padding-top: 50px;
+        }
+        h1{
+            font:12px/1.5 Tahoma,Helvetica,Arial,'宋体',sans-serif;
+            color:white;
+            text-align: center;
+        }
+        h1#h01{
+            margin-top: 150px;
+            font-size: 4em;
+        }
+        h1#h02{
+            font-size: 3em;
+        }
+        h1#h03{
+            font-size: 5em;
+        }
+        #skip{
+            position: absolute;
+            top: 80%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            margin-left: -12px;
+            border-left: 1px solid #fff;
+            border-bottom: 1px solid #fff;
+            -webkit-transform: rotate(-45deg);
+            transform: rotate(-45deg);
+            box-sizing: border-box;
+            animation:fadeIn,shake1;
+            animation-duration: 1s,1s;
+            animation-timing-function: linear,linear;
+            animation-delay: 2s,3s;
+            animation-iteration-count:1,infinite ;
+            animation-fill-mode: both,both;
+
+        }
+        #head{
+            position: fixed;
+            width: 100%;
+            opacity: 0.7;
+            background-color: #3c3c3c;
+            height: 50px;
+            width: 100%;
+            z-index:1;
+        }
+        #dataDiv0{
+            position: fixed;
+            width: 500px;
+            height: 320px;
+            background-color: #9bbb32;
+            z-index:1;
+            top:25%;
+            left:35%;
+            border-radius: 10px;
+        }
+        #dataDiv{
+            position: fixed;
+            width: 500px;
+            height: 320px;
+            background-color: #9bbb32;
+            z-index:1;
+            top:25%;
+            left:35%;
+            border-radius: 10px;
+        }
+        #dataTitle{
+            font-size: 18px;
+            text-align: center;
+            margin-top: 10px;
+        }
+        .dataEach{
+            border: 1px solid white;
+            width: 86%;
+            margin-left: 7%;
+            background-color: #bad06b;
+            height: 40px;
+            border-radius: 5px;
+        }
+        .dataEach_name{
+            display: inline-block;
+            width: 90px;
+            text-align: right;
+            margin-right:10px;
+        }
+        #submitBtn{
+            width: 100px;
+            height: 35px;
+            background-color: #8fd64f;
+            border: 1px solid #71b90f;
+            border-radius: 5px;
+        }
+        #submitBtn:hover{
+            cursor: pointer;
+            background-color: #69d120;
+        }
+        #closeBtn{
+            width: 100px;
+            height: 35px;
+            background-color: #d2d93c;
+            border: 1px solid #b99b05;
+            border-radius: 5px;
+        }
+        #closeBtn:hover{
+            cursor: pointer;
+            background-color: #d1be05;
+        }
+
+        #last1{
+            position: relative;
+            height: 170px;
+            text-align: center;
+            background-color: #e6e6e6;
+            overflow: hidden;
+            font-size: 5em;
+            font-family: Lucida Calligraphy;
+        }
+        h3{
+            margin-top: 20px;
+        }
+        #last2{
+            height: 180px;
+            text-align: center;
+            background-color: #373737;
+            overflow: hidden;
+        }
+        .slider-btn {
+            background-color:#fc7700;
+            color: #FFF;
+            -webkit-box-shadow: inset 0 0 0 2px #fc7700;
+            box-shadow: inset 0 0 0 2px #fc7700;
+            text-transform: uppercase;
+            width: 190px;
+            text-align: center;
+            height: 55px;
+            line-height:55px;
+            padding: 0;
+            font-size: 18px;
+            font-weight:800;
+            border: 0;
+            -webkit-transition: all 0.3s ease 0s;
+            -moz-transition: all 0.3s ease 0s;
+            -o-transition: all 0.3s ease 0s;
+            -ms-transition: all 0.3s ease 0s;
+            transition: all 0.3s ease 0s;
+        }
+        .slider-btn:hover {
+            background-color:#43484E;
+            -webkit-box-shadow: inset 0 0 0 2px #43484E;
+            box-shadow: inset 0 0 0 2px #43484E;
+            color:#fff
+        }
+        .copyright{
+            text-align: center;
+            color: #a8a8a8;
+            font-family: "微软雅黑 Light";
+            line-height: 50px;
+            font-size: small;
+        }
+        .declare{
+            float: left;
+            line-height: 50px;
+            color: #ccc;
+            margin-left: 30px;
+        }
+        .tail1{
+            height: 100px;
+            padding-top: 30px;
+            padding-bottom: 20px;
+        }
+        .tail2{
+            height: 50px;
+        }
+        .item{
+            float: left;
+            width: 33.3%;
+        }
+        .text{
+            font-family: 新宋体;
+            font-weight: 500;
+            font-size: 20px;
+            color: #ffffff;
+            float: right;
+            line-height: 60px;
+        }
+        hr{
+            height: 2px;
+            background-color: #4f4f4f;
+            width: 100%;
+            display: block;
+            border: 0;
+        }
+        .inner{
+            height: 100%;
+            width: 60%;
+            display: inline-block;
+        }
+        .bubble_map{
+            border: 1px solid #cdcdcd;
+            height:200px;
+            width:210px;
+            cursor: pointer;
+            float: left;
+            left: 10px !important;
+            position: relative;
+            margin-left: 50px;
+            margin-top: 50px;
+        }
+        .map{
+            border: 1px solid #cdcdcd;
+            height:220px;
+            width:260px;
+            float: left;
+            margin-left: 50px;
+            margin-top: 50px;
+        }
+        .shadow{
+            -moz-box-shadow: 0px 0px 8px 1px #ccc;/* 老的 Firefox */
+            box-shadow: 0px 0px 8px 1px #ccc;
+        }
+
+        .introduce{
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            padding-left: 10px;
+            padding-top: 10px;
+            display: none;
+            background-color: white;
+            opacity: 0.9
+        }
+
+        .mapImg{
+            width: 210px;
+            height: 157px
+        }
+
+        .mapName{
+            font-size: 18px;
+            margin:0px;
+        }
+        .introduce1{
+            height:220px;
+            width:260px;
+            float: left;
+            margin-left: 30px;
+            text-align: left;
+            margin-top: 30px;
+        }
+        h3{
+            font-weight: bold;
+        }
+        .dth{
+            color: #6d6d6d;;
+        }
+        .example{
+            text-decoration: none;
+            color: #ff8200;
+        }
+        .example:hover{
+            color: #0f0f0f;
+            text-decoration: none;
+        }
+        .upload{
+            border-radius: 5px;
+            border:1px #c4c4c4 solid;
+            height: 100px;
+            width: 350px;
+            background-color: #e5e5e5;
+            margin-top: 40px;
+            margin-left: 60%;
+            text-align: left;
+            padding-top: 30px;
+            padding-left: 20px;
+        }
+        .uploadbtn{
+            width: 250px;
+            height: 50px;
+            margin-left: 30px;
+            background-color:rgb(255, 130, 0);
+            border-radius: 5px;
+            border: none;
+            color: #ffffff;
+        }
+        
+        .ok{
+        	color:green;
+        	text-align:center;
+        	margin-top:15px;
+        	font-size:18px;
+        }
+        .fail{
+        	color:red;
+        	text-align:center;
+        	margin-top:15px;
+        	font-size:18px;
+        }
+        .border{
+        	border:1px blue solid;
+        }
+        .span{
+            color: red;
+        }

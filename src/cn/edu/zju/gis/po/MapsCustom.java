@@ -4,6 +4,11 @@ import java.util.List;
 
 public class MapsCustom extends Maps {
 	List<MapLayer> maplayer;
+	public MapsCustom(Maps map)
+	{
+		super(map);
+		maplayer=null;
+	}
 	public MapsCustom(String mapname, int userid, int accessibility, float centerx, float centery, int zoomlevel,
 			int basemapid) {
 		super(mapname, userid, accessibility, centerx, centery, zoomlevel, basemapid);

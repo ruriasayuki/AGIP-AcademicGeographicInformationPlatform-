@@ -14,6 +14,8 @@ public class Layers {
     private Integer type;
 
     private String datacontent;
+    
+    private String appendDataSrc;
 
     public Integer getId() {
         return id;
@@ -43,7 +45,15 @@ public class Layers {
         return storelocation;
     }
 
-    public void setStorelocation(String storelocation) {
+    public String getAppendDataSrc() {
+		return appendDataSrc;
+	}
+
+	public void setAppendDataSrc(String appendDataSrc) {
+		this.appendDataSrc = appendDataSrc;
+	}
+
+	public void setStorelocation(String storelocation) {
         this.storelocation = storelocation == null ? null : storelocation.trim();
     }
 

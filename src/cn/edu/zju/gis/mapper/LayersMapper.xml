@@ -9,6 +9,7 @@
     <result column="accessibility" property="accessibility" jdbcType="BIT" />
     <result column="type" property="type" jdbcType="INTEGER" />
     <result column="datacontent" property="datacontent" jdbcType="VARCHAR" />
+    <result column="appendDataSrc" property="appendDataSrc" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -69,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, layername, userid, storelocation, accessibility, type, datacontent
+    id, layername, userid, storelocation, accessibility, type, datacontent ,appenddatasrc
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.edu.zju.gis.po.LayersExample" >
     select
@@ -104,18 +105,18 @@
   <insert id="insert" parameterType="cn.edu.zju.gis.po.Layers" >
     insert into layers (id, layername, userid, 
       storelocation, accessibility, type, 
-      datacontent)
+      datacontent, appendDataSrc)
     values (#{id,jdbcType=INTEGER}, #{layername,jdbcType=VARCHAR}, #{userid,jdbcType=INTEGER}, 
       #{storelocation,jdbcType=VARCHAR}, #{accessibility,jdbcType=BIT}, #{type,jdbcType=INTEGER}, 
-      #{datacontent,jdbcType=VARCHAR})
+      #{datacontent,jdbcType=VARCHAR},#{appendDataSrc,jdbcType=VARCHAR})
   </insert>
   <insert id="myinsert" parameterType="cn.edu.zju.gis.po.Layers" useGeneratedKeys="true" keyProperty="id" >
   insert into layers (layername, userid, 
       storelocation, accessibility, type, 
-      datacontent)
+      datacontent,appendDataSrc)
     values (#{layername,jdbcType=VARCHAR}, #{userid,jdbcType=INTEGER}, 
       #{storelocation,jdbcType=VARCHAR}, #{accessibility,jdbcType=BIT}, #{type,jdbcType=INTEGER}, 
-      #{datacontent,jdbcType=VARCHAR})
+      #{datacontent,jdbcType=VARCHAR},#{appendDataSrc,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="cn.edu.zju.gis.po.Layers" >
     insert into layers

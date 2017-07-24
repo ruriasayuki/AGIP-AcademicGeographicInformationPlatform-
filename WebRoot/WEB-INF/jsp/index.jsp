@@ -56,7 +56,7 @@
 			            <b class="caret"></b>
 		            </a>
 		                <ul class="dropdown-menu" id="usermenu">
-			                <li><a href="file:///E:/kaihashitsu/web/AncientMap/WebRoot/searchMaps.html">查看地图</a></li>
+			                <li><a href="#" onclick="testload()">查看地图</a></li>
 			                <li><a href="#">上传图层</a></li>
 			                <li><a href="#">个人管理</a></li>
 		                </ul>
