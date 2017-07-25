@@ -476,13 +476,23 @@ function changstyle() {
     $('#win').window('open'); // open a window
     for (var i = 0; i < myMapMana.maplayerlist.length; i++) {
         if (myMapMana.maplayerlist[i].layerid == node.id) {
+            if (myMapMana.maplayerlist[i].type == 1) {//如果是等级符号图
+                var div = '<div style="margin:10px;"><br/>点基本颜色： &ensp; &ensp;<input type="color" id="color1" /><br/>点高亮颜色： &ensp; &ensp;<input type="color" id="color2" /><br/><br/>点样式 ：</span> &ensp; &ensp;<select id="pointStyle" class="easyui-combobox"><option value="1">无</option><option value="2">点</option><option value="3">箭头</option></select>' +
+                    '</br>点最大尺寸：<input type="text" id="pointMaxSize" value="' + 
+                    myMapMana.maplayerlist[i].style.append.maxSize + '">'+
+                    '</br>点最小尺寸：<input type="text" id="pointMinSize" value="' + 
+                    myMapMana.maplayerlist[i].style.append.minSize + '">';
+                $('#stylediv').html(div);
+                $("#color1")[0].value = myMapMana.maplayerlist[i].style.series.itemStyle.normal.color;
+                $("#color2")[0].value = myMapMana.maplayerlist[i].style.series.itemStyle.emphasis.color;
+            } else 
             if (myMapMana.maplayerlist[i].type == 2) {//如果是点图
                 var div = '<div style="margin:10px;"><br/><br/>点基本颜色： &ensp; &ensp;<input type="color" id="color1" /><br/><br/>点高亮颜色： &ensp; &ensp;<input type="color" id="color2" /><br/><br/>点样式 ：</span> &ensp; &ensp;<select id="pointStyle" class="easyui-combobox"><option value="1">无</option><option value="2">点</option><option value="3">箭头</option></select>' +
                     '</br></br>点大小：<input type="text" id="pointSize" value="' + myMapMana.maplayerlist[i].style.symbolSize + '">';
                 $('#stylediv').html(div);
                 $("#color1")[0].value = myMapMana.maplayerlist[i].style.itemStyle.normal.color;
                 $("#color2")[0].value = myMapMana.maplayerlist[i].style.itemStyle.emphasis.color;
-            }
+            } else
             if (myMapMana.maplayerlist[i].type == 3) {//如果是轨迹图
                 var div = '<div style="margin:10px;"><label><input type="radio" name="curvevalue" checked="checked" value="str"/>直线</label> <label><input type="radio" name="curvevalue" value="cur"/>曲线</label><br/><br/>轨迹起点颜色： &ensp; &ensp;<input type="color" id="color1" /><br/><br/>轨迹终点颜色： &ensp; &ensp;<input type="color" id="color2" /><br/><br/>轨迹方向点颜色  ： <input type="color" id="color3" /><br/>' +
                     '<br/><span>轨迹方向样式 ：</span> &ensp; &ensp;<select id="cBoxDirection" class="easyui-combobox"><option value="1">无</option><option value="2">点</option><option value="3">箭头</option></select>';
@@ -504,7 +514,7 @@ function changstyle() {
                 else {
                     $('input:radio[name="curvevalue"][value="cur"]').attr("checked", true);
                 }
-            }
+            } else
             if (myMapMana.maplayerlist[i].type == '0') {
                 var div = '<div style="margin:10px;">最大值颜色：<input type="color" id="maxcolor" /><br/><br/>最小值颜色：<input type="color" id="mincolor" />' +
                     '</br></br>分段数：<input type="text" id="splitNum" value="' + myMapMana.maplayerlist[i].style.options.splitNum + '"></br>' +
@@ -525,6 +535,12 @@ function savestyle() {
     var node = t.tree('getSelected');
     for (var i = 0; i < myMapMana.maplayerlist.length; i++) {
         if (myMapMana.maplayerlist[i].layerid == node.id) {
+            if (myMapMana.maplayerlist[i].type == '1') {
+                myMapMana.maplayerlist[i].style.series.itemStyle.normal.color = $("#color1")[0].value;
+                myMapMana.maplayerlist[i].style.series.itemStyle.emphasis.color = $("#color2")[0].value;
+                myMapMana.maplayerlist[i].style.append.maxSize = parseInt($('#pointMaxSize').val());
+                myMapMana.maplayerlist[i].style.append.minSize = parseInt($('#pointMinSize').val());
+            }
             if (myMapMana.maplayerlist[i].type == '2') {
                 myMapMana.maplayerlist[i].style.itemStyle.normal.color = $("#color1")[0].value;
                 myMapMana.maplayerlist[i].style.itemStyle.emphasis.color = $("#color2")[0].value;

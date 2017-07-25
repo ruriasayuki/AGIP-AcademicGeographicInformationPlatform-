@@ -273,18 +273,19 @@ function drawL2(layer,layerindex){//等级符号图 （打算后面全用mapv重
 		//同步zIndex值之后重绘
 		//对已有style做修改后没反应就在此重设
 		//回调函数必须在此重设...这里就有个问题 如何在字符串和回调函数之间转换
-		myMapMana.maplayerlist[layerindex].style.symbolSize
-		= function (val) {
-            return val[2];
+		myMapMana.maplayerlist[layerindex].style.series.symbolSize
+		= function (val,param) {
+			var temp = myMapMana.maplayerlist[layerindex].style.append;
+            return (val[2]-temp.min)/(temp.max-temp.min)*(temp.maxSize-temp.minSize)+temp.minSize;
         }
-		myMapMana.maplayerlist[layerindex].style.z=myMapMana.maplayerlist[layerindex].zIndex;
-		return item;
+		myMapMana.maplayerlist[layerindex].style.series.z=myMapMana.maplayerlist[layerindex].zIndex;
+		return myMapMana.maplayerlist[layerindex].style.series;
 	}
 	var data = layer.data;
 	var maxvalue = Number(data[0]["数值"]);
 	var minvalue = Number(data[0]["数值"]);
 	var maxsize = 20;
-	var minsize = 100;
+	var minsize = 5;
 	var res = [];
 	    for (var i = 0; i < data.length; i++) {
 	            res.push({
@@ -294,16 +295,15 @@ function drawL2(layer,layerindex){//等级符号图 （打算后面全用mapv重
 	         if(res[i].value[2]>maxvalue) maxvalue = res[i].value[2];
 	         if(res[i].value[2]<minvalue) minvalue = res[i].value[2];
 	    }
-	var param = [maxvalue,minvalue,maxsize,minsize];
 	var item={
-        name: 'test',
+		name: layer.layername,
         type: 'scatter',
         coordinateSystem: 'bmap',
         data: res,
         z:layer.zIndex,
-        //symbol:'circle',
-        symbolSize: function (val) {
-            return val[2];
+        symbol:'circle',
+        symbolSize: function (val,param) {
+            return (val[2]-minvalue)/(maxvalue-minvalue)*(maxsize-minsize)+minsize;
         },
         label: {
         	normal: {
@@ -314,9 +314,23 @@ function drawL2(layer,layerindex){//等级符号图 （打算后面全用mapv重
             emphasis: {
                 show: true
             }
+        },
+        itemStyle: {
+            normal: {
+                color: '#5376EE'
+            },
+        	emphasis: {
+        		color: '#333399'
+        	}
         }
     }
-	myMapMana.maplayerlist[layerindex].style=item;
+	myMapMana.maplayerlist[layerindex].style={series:item,append:{
+		max:maxvalue,
+		min:minvalue,
+		maxSize:maxsize,
+		minSize:minsize
+	}
+	};
 	return item;
 }
 function drawL3(layer,layerindex){//点图 （打算后面全用mapv重构
@@ -337,7 +351,7 @@ function drawL3(layer,layerindex){//点图 （打算后面全用mapv重构
 	            });
 	    }
 	var item={
-        name: 'test',
+        name: layer.layername,
         type: 'scatter',
         coordinateSystem: 'bmap',
         data: res,
@@ -385,7 +399,7 @@ function drawL4(layer,layerindex){//轨迹图 （打算后面全用mapv重构
 	}
 	var item=
 	{
-	    name: 2,
+		name: layer.layername,
 	    type: 'lines',
 	    coordinateSystem: 'bmap',
 	    z: layer.zIndex, 
@@ -426,7 +440,7 @@ function display()
 		        }
 		    },
 		    tooltip : {
-		        trigger: 'none'
+		        trigger: 'item'
 		    },
 		    bmap: { //百度地图样式，可以再调整过
 		        center: [myMapMana.centerx, myMapMana.centery],
