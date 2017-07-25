@@ -304,7 +304,15 @@ function drawL1(layer,layerindex){//分层设色图 使用mapv绘制
 function drawL2(layer,layerindex){//等级符号图 （打算后面全用mapv重构
 	if(has(myMapMana.maplayerlist[layerindex].style))
 	{
-		//TODO 设计和解析style 在整合style修改模块后
+		//同步zIndex值之后重绘
+		//对已有style做修改后没反应就在此重设
+		//回调函数必须在此重设...这里就有个问题 如何在字符串和回调函数之间转换
+		myMapMana.maplayerlist[layerindex].style.symbolSize
+		= function (val) {
+            return val[2];
+        }
+		myMapMana.maplayerlist[layerindex].style.z=myMapMana.maplayerlist[layerindex].zIndex;
+		return item;
 	}
 	var data = layer.data;
 	var maxvalue = Number(data[0]["数值"]);
@@ -348,6 +356,10 @@ function drawL2(layer,layerindex){//等级符号图 （打算后面全用mapv重
 function drawL3(layer,layerindex){//点图 （打算后面全用mapv重构
 	if(has(myMapMana.maplayerlist[layerindex].style))
 	{
+		//同步zIndex值之后重绘
+		//对已有style做修改后没反应就在此重设
+		//回调函数必须在此重设
+		myMapMana.maplayerlist[layerindex].style.z=myMapMana.maplayerlist[layerindex].zIndex;
 		return myMapMana.maplayerlist[layerindex].style;
 	}
 	var data = layer.data;
@@ -399,6 +411,10 @@ function drawL3(layer,layerindex){//点图 （打算后面全用mapv重构
 function drawL4(layer,layerindex){//轨迹图 （打算后面全用mapv重构
 	if(has(myMapMana.maplayerlist[layerindex].style))
 	{
+		//同步zIndex值之后重绘
+		//对已有style做修改后没反应就在此重设
+		//回调函数必须在此重设
+		myMapMana.maplayerlist[layerindex].style.z=myMapMana.maplayerlist[layerindex].zIndex;
 		return myMapMana.maplayerlist[layerindex].style;
 	}
 	var item=

@@ -249,7 +249,7 @@ function getOrders(roots) {
 
 //DONE 更新图层叠放次序
 var setLayerOverlay = function () {
-    for (var i = myMapMana.maplayerlist[i].length - 1; i >= 0; i--) {
+    for (var i = myMapMana.maplayerlist.length - 1; i >= 0; i--) {
         for (var j = nodeOrders.length - 1; j >= 0; j--) {
             if (myMapMana.maplayerlist[i].layerid == nodeOrders[j].id) {
                 myMapMana.maplayerlist[i].zIndex = j;
