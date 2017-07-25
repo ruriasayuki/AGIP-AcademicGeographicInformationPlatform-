@@ -437,8 +437,9 @@ function changstyle() {
             if (myMapMana.maplayerlist[i].type == '0') {
                 var div = '<div style="margin:10px;">最大值颜色：<input type="color" id="maxcolor" /><br/><br/>最小值颜色：<input type="color" id="mincolor" />';
                 $('#stylediv').html(div);
-                $("#mincolor")[0].value = myMapMana.maplayerlist[i].mapv.options.gradient['0'];
-                $("#maxcolor")[0].value = myMapMana.maplayerlist[i].mapv.options.gradient['1.0'];
+                var nowSplitList = myMapMana.maplayerlist[i].mapv.options.splitList;
+                $("#mincolor")[0].value = nowSplitList[0].value;
+                $("#maxcolor")[0].value = nowSplitList[nowSplitList.length-1].value;
             }
             break;
         }
