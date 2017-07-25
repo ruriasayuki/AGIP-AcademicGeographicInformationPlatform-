@@ -54,6 +54,18 @@ public class MapsController
 		ModelAndView modelAndView = new ModelAndView();
 		return modelAndView;
 	}
+	
+	@RequestMapping(value = "/getMapList", method = RequestMethod.POST,   
+	        produces = "text/html;charset=UTF-8")
+	@ResponseBody
+	public String getMapList(int userid) throws Exception
+	{
+		List<Maps> mapName = mapsService.getMapList();
+		Gson gson = new Gson();
+		return gson.toJson(mapName);
+	}
+	
+	
 	@RequestMapping(value = "/savemap", method = RequestMethod.POST,   
 	        produces = "text/html;charset=UTF-8")
 	@ResponseBody
@@ -64,7 +76,7 @@ public class MapsController
 		
         ArrayList<JsonElement> jsonObjects = gson.fromJson(maplayer, new TypeToken<ArrayList<JsonElement>>()
         {}.getType());
-
+ 
         ArrayList<MapLayer> maplayerArr = new ArrayList<>();
         for (JsonElement jsonObject : jsonObjects)
         {
@@ -77,6 +89,7 @@ public class MapsController
         		mapObj.getCentery(),
         		mapObj.getZoomlevel()
         		);
+        List<MapLayer> oldLayerlist = new ArrayList<MapLayer>();
         if(mapForSave.getId()==0)
         {
         	int insertMap = mapsService.insertMap(mapForSave);
@@ -84,6 +97,22 @@ public class MapsController
         else
         {
         	int updateMap = mapsService.updateMap(mapForSave);
+        	oldLayerlist = mapsService.findMapLayerByMapId(mapForSave.getId());
+        	boolean flag=true;
+        	for (MapLayer layer : maplayerArr)
+            {
+        	for(MapLayer i : oldLayerlist)
+        	{
+        		if( layer.getMlid() == i.getMlid())
+        		{
+        		flag=false;
+        		break;
+        		}
+        	}    
+        	if(flag){
+        		int deletemaplayer = mapsService.deleteMapLayer(layer);
+        	}
+            }
         }
         int mapid= mapForSave.getId();
         for (MapLayer layer : maplayerArr)
@@ -95,8 +124,10 @@ public class MapsController
             }
             else
             {
+            	boolean flag=true;
             	int updatemaplayer = mapsService.updateMapLayer(layer);
-            }    
+            	
+            }
         }
 		return "success";
 	}

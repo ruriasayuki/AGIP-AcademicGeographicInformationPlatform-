@@ -56,4 +56,16 @@ public class MapsServiceImpl implements MapsService{
 		List<MapLayer> result = mapsMapper.findMapLayerByMapId(mapid);
 		return result;
 	}
+
+	@Override
+	public List<Maps> getMapList() throws Exception {
+		List<Maps> result = mapsMapper.findMaps();
+		return result;
+	}
+
+	@Override
+	public int deleteMapLayer(MapLayer layer) throws Exception {
+		int i = mapsMapper.deleteMaps(layer);
+		return i;
+	}
 }

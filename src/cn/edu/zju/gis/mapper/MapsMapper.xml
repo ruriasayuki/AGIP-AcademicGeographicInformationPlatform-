@@ -33,6 +33,9 @@ values (#{mapname},#{userid},#{accessibility},#{centerx},#{centery},#{zoomlevel}
 	insert into maplayer(mapid,layerid,state,style,zIndex)
 	values (#{mapid},#{layerid},#{state},#{style},#{zIndex})
 </insert>
+<select id="findMaps" resultType="cn.edu.zju.gis.po.Maps">
+	select * from maps;
+</select>
 <update id="updateMapLayer" parameterType="cn.edu.zju.gis.po.MapLayer" useGeneratedKeys="true" keyProperty="mlid">
 	update maplayer
 	set
@@ -40,8 +43,7 @@ values (#{mapname},#{userid},#{accessibility},#{centerx},#{centery},#{zoomlevel}
 		layerid = #{layerid},
 		state = #{state},
 		style = #{style},
-		zIndex = #{zIndex},
-		type = #{type}
+		zIndex = #{zIndex}
 	where mlid = #{mlid}	
 </update>
 <select id="findMapLayerByMapId" parameterType="int" resultType="cn.edu.zju.gis.po.MapLayer">
@@ -56,4 +58,7 @@ values (#{mapname},#{userid},#{accessibility},#{centerx},#{centery},#{zoomlevel}
 	style,zindex,layername,userid,storelocation,type,datacontent 
 	from maplayer,layers where maplayer.mapid=#{value} and maplayer.layerid = layers.id;
 </select>
+<delete id="deleteMaps" parameterType="cn.edu.zju.gis.po.MapLayer" >
+	delete from maplayer where mlid=#{mlid}
+</delete>
 </mapper>

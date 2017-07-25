@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title></title>
+    <title>首页</title>
     <meta charset="UTF-8">
     <script type="text/javascript" src="js/load.js"></script>  
     <link rel="stylesheet" href="bootstrap-3.3.7/css/bootstrap.min.css">
@@ -15,8 +15,7 @@
     <script type="text/javascript" src="js/unslider.min.js"></script>
     <script type="text/javascript" src="js/indexdemo.js"></script>
     <link href="css/publicstyle.css" rel="stylesheet">
-    <link href="css/blackstyle.css" rel="stylesheet">
-    <link href="css/navbar.css" rel="stylesheet">
+	<link href="css/blackstyle.css" rel="stylesheet">
         <style>
     	body::-webkit-scrollbar {
 			    display: none;
@@ -29,7 +28,7 @@
         <div id="nav" class="container opacity50">
             <div class="collapse navbar-collapse topnavi" role="navigation" id="navbar0" style="font-size: 16px;">
                 <ul class="nav navbar-nav" id="nav">
-                    <li><a href="index.action">Ancient Map</a> </li>
+                    <li><a href="index.action">学术地图发布平台Beta</a> </li>
                 </ul>
                 <c:choose>
    <c:when test="${loginflag eq 0}">  
@@ -52,12 +51,14 @@
      <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
 		            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-			                Asayuki
+			                Admin@GIS.ZJU
 			            <b class="caret"></b>
 		            </a>
 		                <ul class="dropdown-menu" id="usermenu">
+			                <li><a href="${pageContext.request.contextPath}/main.action">新建地图</a></li>
 			                <li><a href="#" onclick="testload()">查看地图</a></li>
-			                <li><a href="#">上传图层</a></li>
+			                <li><a href="${pageContext.request.contextPath}/map.html">上传图层</a></li>
+			                
 			                <li><a href="#">个人管理</a></li>
 		                </ul>
 	                </li>

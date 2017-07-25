@@ -225,7 +225,7 @@ public class LayersController {
 		layer.setAppendDataSrc(appendDataSrc);
 		boolean bool = layersService.addLayers(layer);
 		if(bool)
-			return "<h1 style='color:red'>上传成功</h1>";
+			return "success";
 		else
 			return "fail";
 	}
@@ -419,9 +419,9 @@ public class LayersController {
 		layer.setDatacontent(content);
 		boolean bool = layersService.addLayers(layer);
 		if(bool)
-			return "<h1 style='color:red'>上传成功</h1>";
+			return "上传成功";
 		else
-			return "fail";
+			return "失败";
 	}
 	
 	@RequestMapping(value = "/searchLayers",method = RequestMethod.POST,   

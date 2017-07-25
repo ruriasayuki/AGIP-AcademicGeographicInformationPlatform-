@@ -26,7 +26,7 @@
         	
             <div class="collapse navbar-collapse topnavi" role="navigation" id="navbar0" style="font-size: 16px;">
                 <ul class="nav navbar-nav" id="nav">
-                    <li><a href="index.action">Ancient Map</a> </li>
+                    <li><a href="index.action">学术地图发布平台Beta</a> </li>
                 </ul>
                 <c:choose>
    <c:when test="${loginflag eq 0}">  
@@ -49,7 +49,7 @@
      <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
 		            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-			                Asayuki
+			                Admin@GIS.ZJU
 			            <b class="caret"></b>
 		            </a>
 		                <ul class="dropdown-menu" id="usermenu">
@@ -74,6 +74,8 @@
     	 	这个项目为浙江大学地理信息科学专业暑期短学期实习作品，且应当会继续提供维护。
     	 	<br>
     	 	主要功能是上传图层数据，结合底图对图层数据进行可视化展示，以便于进行地理相关的分析。
+    	 	<br>
+    	 	感谢本系GIS相关老师的技术支持以及主要数据提供方人文学院的相助
     	 	<br>
     		暂时这个about也只不过是个测试页面，届时会重新写过的。以上
     	 </div>

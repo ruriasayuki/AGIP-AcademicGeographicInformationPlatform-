@@ -4,3 +4,9 @@ footer{
     text-align: center;
     color: #000000;
 }
+.navbar{
+    background-color: rgba(1.0, 1.0, 1.0, 0.7);
+}
+#usermenu{
+    background-color: rgba(1.0, 1.0, 1.0, 0.7);
+}

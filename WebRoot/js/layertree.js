@@ -2,9 +2,36 @@ var layerTreeJson = [{
     "id": "layerFather",
     "text": "上层图层"
 }];
+function openChangeName(name)
+{
+	$('#changeName').find('#nameForChange').val(name);
+	$('#changeName').window('open');
+}
+function changeName()
+{
+	$('#changeName').window('close');
+	myMapMana.mapname=$('#changeName').find('#nameForChange').val();
+	echartsoption.title.text=$('#changeName').find('#nameForChange').val();
+	$('.accordion').find('.panel-header').find('.panel-title').html(myMapMana.mapname);
+	redraw();
+}
+
 function initLayertree()
 {
-	 $("#layerTree").tree({
+	//
+	$('.accordion').find('.panel-header').find('.panel-title').html(myMapMana.mapname);//not save TODO find a save way to change title name.
+	// 
+	$('.accordion').find('.panel-header').bind("contextmenu", function(){
+	    return false;
+	});
+	$('.accordion').find('.panel-header').mousedown(function(e) {
+	    console.log(e.which);
+	    //右键为3
+	    if (1 == e.which) {
+	    	openChangeName(myMapMana.mapname);
+	    ;}
+	});
+	$("#layerTree").tree({
 	        dataType: "json",
 	        data: layerTreeJson,
 	        //是否显示复选框

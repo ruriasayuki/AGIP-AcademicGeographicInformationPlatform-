@@ -21,4 +21,8 @@ public interface MapsMapper {
 	public int updateMapLayer(MapLayer layer);
 	
 	public List<MapLayer> findMapLayerByMapId(int mapid);
+	
+	public List<Maps> findMaps();
+	
+	public int deleteMaps(MapLayer layer);
 }

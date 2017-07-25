@@ -14,4 +14,6 @@ public interface MapsService {
 	public int updateMap(Maps map) throws Exception;
 	public int updateMapLayer(MapLayer layer) throws Exception;
 	public List<MapLayer> findMapLayerByMapId(int mapid) throws Exception;
+	public List<Maps> getMapList() throws Exception;
+	public int deleteMapLayer(MapLayer layer) throws Exception;
 }

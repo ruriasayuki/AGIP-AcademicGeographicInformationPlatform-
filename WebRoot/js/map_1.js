@@ -62,14 +62,14 @@
                 dataType:"text",
                 data:formData,
                 success:function(result){
-                	var uploadInfo = $(".uploadInfo");
+                	var uploadInfo = $(".uploadInfo1");
                     if(result == "success"){	
                     	if(uploadInfo.hasClass("fail")){
                     		uploadInfo.removeClass("fail");                    		
                     	}
                     	uploadInfo.addClass("ok");                   	
                 		uploadInfo.parent("div").css("height","140px"); 
-                		uploadInfo.text("上传成功");
+                		uploadInfo.html("上传成功");
                     }
                     else{
                     	if(uploadInfo.hasClass("ok")){
@@ -108,7 +108,7 @@
                     	}
                     	uploadInfo.addClass("ok");                   	
                 		uploadInfo.parent("div").css("height","140px"); 
-                		uploadInfo.text("上传成功");
+                		uploadInfo.html("上传成功");
                     }
                     else{
                     	if(uploadInfo.hasClass("ok")){

@@ -155,18 +155,63 @@ function refresh()
 
 function drawL1(layer,layerindex){//分层设色图 使用mapv绘制
 	var dataSet;
-	var gradient = {
+	/*var gradient = {
 			'0': '#ffffff',
 	        '1.0': '#ff0000'
     };
+    */
+	
+	splitList=[
+        {
+            start: 0,
+            end: 10,
+            value: '#fedfe1'
+        },{
+            start: 10,
+            end: 30,
+            value: '#f8c3cd'
+        },{
+            start: 30,
+            end: 100,
+            value: '#f4a7b9'
+        },{
+            start: 100,
+            end: 200,
+            value: '#f596aa'
+        },{
+            start: 200,
+            end: 350,
+            value: '#e87a90'
+        },{
+            start: 350,
+            end: 500,
+            value: '#e16bbc'
+        },{
+            start: 500,
+            end: 650,
+            value: '#d05a6e'
+        },{
+            start: 650,
+            end: 800,
+            value: '#db4d6d'
+        },{
+            start: 800,
+            end: 900,
+            value: '#d0104c'
+        },{
+            start: 900,
+            value: '#b5495b'
+        }
+    ];
 	var maxC,minC;
 	if(has(myMapMana.maplayerlist[layerindex].mapv)) return true;//暂时用这个提高效率
 	if(has(myMapMana.maplayerlist[layerindex].style))
 	{
 		dataSet = new mapv.DataSet(myMapMana.maplayerlist[layerindex].style.dataSet._data);
-		gradient = myMapMana.maplayerlist[layerindex].style.options.gradient || gradient;
+		//gradient = myMapMana.maplayerlist[layerindex].style.options.gradient || gradient;
 		maxC = myMapMana.maplayerlist[layerindex].style.options.max;
 		minC = myMapMana.maplayerlist[layerindex].style.options.min;
+		splitList = myMapMana.maplayerlist[layerindex].style.options.splitList;
 	}
 	else
 	{
@@ -206,9 +251,10 @@ function drawL1(layer,layerindex){//分层设色图 使用mapv绘制
 	{
         var options = {
         	draw: 'intensity',
-        	max: maxC, // 最大阈值
-        	min: minC, 
-        	gradient:gradient,
+        	//max: maxC, // 最大阈值
+        	//min: minC, 
+        	//gradient:gradient,
+        	splitList:splitList,
             shadowColor: 'rgba(0, 0, 0, 1)', // 投影颜色
             shadowBlur: 10,  // 投影模糊级数
             methods: {
@@ -219,6 +265,10 @@ function drawL1(layer,layerindex){//分层设色图 使用mapv绘制
                     $('#nameL0').text(item.name);
                     $('#name_pyL0').text(item.name_py);
                     $('#countL0').text(item.count);
+                    if(item.name=='浙江'||item.name=='浙江省')
+                    	$('#link0').html("<a onclick='openTestPanel()'>更多信息</a>");
+                    	else 
+                    	$('#link0').text("none");
                 },
 				mousemove: function (item) {
                     item = item || {};
@@ -277,9 +327,9 @@ function drawL2(layer,layerindex){//等级符号图 （打算后面全用mapv重
         coordinateSystem: 'bmap',
         data: res,
         z:layer.zIndex,
-        symbol:'circle',
+        //symbol:'circle',
         symbolSize: function (val) {
-            return val[2]/10+10;
+            return val[2];
         },
         label: {
         	normal: {
@@ -290,11 +340,6 @@ function drawL2(layer,layerindex){//等级符号图 （打算后面全用mapv重
             emphasis: {
                 show: true
             }
-        },
-        itemStyle: {
-            normal: {
-                color: '#662255'
-            }
         }
     }
 	myMapMana.maplayerlist[layerindex].style=item;
@@ -303,7 +348,7 @@ function drawL2(layer,layerindex){//等级符号图 （打算后面全用mapv重
 function drawL3(layer,layerindex){//点图 （打算后面全用mapv重构
 	if(has(myMapMana.maplayerlist[layerindex].style))
 	{
-
+		return myMapMana.maplayerlist[layerindex].style;
 	}
 	var data = layer.data;
 	var res = [];
@@ -320,22 +365,32 @@ function drawL3(layer,layerindex){//点图 （打算后面全用mapv重构
         data: res,
         z:layer.zIndex,
         symbol:'circle',
-        symbolSize: 10,
+        symbolSize: 5,
         label: {
             normal: {
                 formatter: '{b}',
             	position: 'right',
-                show: true
+                show: false
             },
             emphasis: {
             	formatter: '{b}',
+            	textStyle: {
+            		color: '#000',
+            		fontStyle: 'normal',
+            		fontWeight: 'bold	',
+            		fontFamily: 'sans-serif',
+            		fontSize: 15,
+            		},
             	show: true
             }
         },
         itemStyle: {
             normal: {
-                color: '#662255'
-            }
+                color: '#5376EE'
+            },
+        	emphasis: {
+        		color: '#333399'
+        	}
         }
     }
 	myMapMana.maplayerlist[layerindex].style=item;
@@ -396,15 +451,77 @@ function display()
 		        zoom: myMapMana.zoomlevel,
 		        roam: true,
 		        mapStyle: {
-		            styleJson:[{"featureType": "all","elementType": "geometry","stylers": {"hue": "#007fff","saturation": 89}},
-		                {"featureType": "water","elementType": "all","stylers": {"color": "#ffffff"}}]
-		        }
+		            styleJson:[
+		                {
+		                    "featureType": "all",
+		                    "elementType": "geometry",
+		                    "stylers": {
+		                              "hue": "#007fff",
+		                              "saturation": 89
+		                    }
+		          },
+		          {
+		                    "featureType": "water",
+		                    "elementType": "all",
+		                    "stylers": {
+		                              "color": "#ffffff"
+		                    }
+		          },
+		          {
+		                    "featureType": "boundary",
+		                    "elementType": "all",
+		                    "stylers": {
+		                              "color": "#ffffff"
+		                    }
+		          },
+		          {
+		                    "featureType": "highway",
+		                    "elementType": "all",
+		                    "stylers": {
+		                              "color": "#00ffff",
+		                              "lightness": 84
+		                    }
+		          },
+		          {
+		                    "featureType": "railway",
+		                    "elementType": "geometry",
+		                    "stylers": {
+		                              "color": "#00ffff",
+		                              "lightness": 84
+		                    }
+		          },
+		          {
+		                    "featureType": "road",
+		                    "elementType": "labels.icon",
+		                    "stylers": {
+		                              "visibility": "off"
+		                    }
+		          }
+		]}
 		    },
-		    series: []
+//		    visualMap:{type: 'continuous',
+//	            min: 0,
+//	            max: 40,
+//	            bottom: 50,
+//	            calculable: true,
+//	            inRange: {
+//	                color: ['#50a3ba', '#eac736', '#d94e5d'],
+//	                symbolSize: [1, 30]
+//	            },
+//	            textStyle: {
+//	                color: '#44e'
+//	            }},
+	    series: []
 		};
 			myecharts.setOption(echartsoption);
 		    mybmap = myecharts.getModel().getComponent('bmap').getBMap();
 		    mybmap.enableScrollWheelZoom(true);
+			var bmapScale = new BMap.ScaleControl({anchor: BMAP_ANCHOR_BOTTOM_RIGHT});// 左上角，添加比例尺
+			var navigation = new BMap.NavigationControl({anchor: BMAP_ANCHOR_TOP_LEFT});
+			var mapType = new BMap.MapTypeControl({anchor: BMAP_ANCHOR_TOP_RIGHT,mapTypes: [BMAP_NORMAL_MAP,BMAP_SATELLITE_MAP]});
+			mybmap.addControl(bmapScale);
+			mybmap.addControl(navigation);
+			mybmap.addControl(mapType);
 		redraw();
 }
 function Icelayer(YKlayer)
@@ -427,6 +544,7 @@ function Icemap(YKmap)
 
 function savemap()
 {
+	
 	var mapForSave = new Icemap(myMapMana);
 	var layerForSave = new Array();
 	layerForSave = [];
@@ -445,8 +563,9 @@ function savemap()
 			maplayer: JSON.stringify(layerForSave)
 		},
 		success:function(result){
+			
 				console.log(result)
 		}				
 	})
-
+	
 }
