@@ -278,6 +278,22 @@ function drawL2(layer,layerindex){//等级符号图 （打算后面全用mapv重
 			var temp = myMapMana.maplayerlist[layerindex].style.append;
             return (val[2]-temp.min)/(temp.max-temp.min)*(temp.maxSize-temp.minSize)+temp.minSize;
         }
+		myMapMana.maplayerlist[layerindex].style.series.itemStyle.normal.color 
+		= function(param){
+			var temp = myMapMana.maplayerlist[layerindex].style.append;
+        	var maxrgb =HexToColorArray(temp.maxColor);
+        	var minrgb =HexToColorArray(temp.minColor);
+        	var dvalue = (param.value[2]-temp.min)/(temp.max-temp.min);
+        	var dr = parseInt(dvalue*(maxrgb.r-minrgb.r));
+        	var dg = parseInt(dvalue*(maxrgb.g-minrgb.g));
+        	var db = parseInt(dvalue*(maxrgb.b-minrgb.b));
+        	var dycolor={
+                	r:minrgb.r+dr,
+                	g:minrgb.g+dg,
+                	b:minrgb.b+db
+                	};
+        	return ColorArrayToHex(dycolor);
+        }
 		myMapMana.maplayerlist[layerindex].style.series.z=myMapMana.maplayerlist[layerindex].zIndex;
 		return myMapMana.maplayerlist[layerindex].style.series;
 	}
@@ -286,6 +302,8 @@ function drawL2(layer,layerindex){//等级符号图 （打算后面全用mapv重
 	var minvalue = Number(data[0]["数值"]);
 	var maxsize = 20;
 	var minsize = 5;
+	var maxcolor = "#5784ef";
+	var mincolor = "#aad3ff";
 	var res = [];
 	    for (var i = 0; i < data.length; i++) {
 	            res.push({
@@ -317,7 +335,20 @@ function drawL2(layer,layerindex){//等级符号图 （打算后面全用mapv重
         },
         itemStyle: {
             normal: {
-                color: '#5376EE'
+                color: function(param){	
+                	var maxrgb =HexToColorArray(maxcolor);
+                	var minrgb =HexToColorArray(mincolor);
+                	var dvalue = (param.value[2]-minvalue)/(maxvalue-minvalue);
+                	var dr = parseInt(dvalue*(maxrgb.r-minrgb.r));
+                	var dg = parseInt(dvalue*(maxrgb.g-minrgb.g));
+                	var db = parseInt(dvalue*(maxrgb.b-minrgb.b));
+                	var dycolor={
+                        	r:minrgb.r+dr,
+                        	g:minrgb.g+dg,
+                        	b:minrgb.b+db
+                        	};
+                	return ColorArrayToHex(dycolor);
+                }
             },
         	emphasis: {
         		color: '#333399'
@@ -328,7 +359,9 @@ function drawL2(layer,layerindex){//等级符号图 （打算后面全用mapv重
 		max:maxvalue,
 		min:minvalue,
 		maxSize:maxsize,
-		minSize:minsize
+		minSize:minsize,
+		maxColor:maxcolor,
+		minColor:mincolor
 	}
 	};
 	return item;

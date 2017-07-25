@@ -63,7 +63,7 @@ var colorRgb = function (colorH) {
 //yuki又造轮子啦
 //
 //16进制转RGB数组
-function hexToColorArray(hColor) {
+function HexToColorArray(hColor) {
     var colorArray = [];
     for (var i = 1; i < 7; i += 2) {
         colorArray.push(parseInt("0x" + hColor.slice(i, i + 2)));
@@ -99,8 +99,8 @@ function yukiColorMapper(min, max, minColor, maxColor, num, style) {
     //确保格式
     var yminColor = colorHex(minColor);
     var ymaxColor = colorHex(maxColor);
-    var valueColor = hexToColorArray(yminColor);
-    var endColor = hexToColorArray(ymaxColor);
+    var valueColor = HexToColorArray(yminColor);
+    var endColor = HexToColorArray(ymaxColor);
     //线性映射
     if (style == "linear") {
         var step = (max - min) / num;

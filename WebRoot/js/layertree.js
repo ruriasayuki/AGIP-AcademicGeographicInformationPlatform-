@@ -327,7 +327,7 @@ var colorRgb = function (colorH) {
 //yuki又造轮子啦
 //
 //16进制转RGB数组
-function hexToColorArray(hColor) {
+function HexToColorArray(hColor) {
     var colorArray = [];
     for (var i = 1; i < 7; i += 2) {
         colorArray.push(parseInt("0x" + hColor.slice(i, i + 2)));
@@ -363,8 +363,8 @@ function yukiColorMapper(min, max, minColor, maxColor, num, style) {
     //确保格式
     var yminColor = colorHex(minColor);
     var ymaxColor = colorHex(maxColor);
-    var valueColor = hexToColorArray(yminColor);
-    var endColor = hexToColorArray(ymaxColor);
+    var valueColor = HexToColorArray(yminColor);
+    var endColor = HexToColorArray(ymaxColor);
     //线性映射
     if (style == "linear") {
         var step = (max - min) / num;
@@ -477,13 +477,18 @@ function changstyle() {
     for (var i = 0; i < myMapMana.maplayerlist.length; i++) {
         if (myMapMana.maplayerlist[i].layerid == node.id) {
             if (myMapMana.maplayerlist[i].type == 1) {//如果是等级符号图
-                var div = '<div style="margin:10px;"><br/>点基本颜色： &ensp; &ensp;<input type="color" id="color1" /><br/>点高亮颜色： &ensp; &ensp;<input type="color" id="color2" /><br/><br/>点样式 ：</span> &ensp; &ensp;<select id="pointStyle" class="easyui-combobox"><option value="1">无</option><option value="2">点</option><option value="3">箭头</option></select>' +
-                    '</br>点最大尺寸：<input type="text" id="pointMaxSize" value="' + 
+                var div = '<div style="margin:10px;"><br/>点基本颜色映射： </br>'+
+                '最大值：&ensp;&ensp;&ensp;&ensp; &ensp;<input type="color" id="color1max" /></br>'+
+                '最小值：&ensp;&ensp;&ensp;&ensp; &ensp;<input type="color" id="color1min" /><br/>'+
+                '高亮颜色： &ensp; &ensp;<input type="color" id="color2" /><br/>点样式 ：</span> &ensp; &ensp;<select id="pointStyle" class="easyui-combobox"><option value="1">无</option><option value="2">点</option><option value="3">箭头</option></select>' +
+                    '</br>点尺寸映射：</br>'+
+                    '最大值：<input type="text" id="pointMaxSize" value="' + 
                     myMapMana.maplayerlist[i].style.append.maxSize + '">'+
-                    '</br>点最小尺寸：<input type="text" id="pointMinSize" value="' + 
+                    '</br>最小值：<input type="text" id="pointMinSize" value="' + 
                     myMapMana.maplayerlist[i].style.append.minSize + '">';
                 $('#stylediv').html(div);
-                $("#color1")[0].value = myMapMana.maplayerlist[i].style.series.itemStyle.normal.color;
+                $("#color1max")[0].value = myMapMana.maplayerlist[i].style.append.maxColor;
+                $("#color1min")[0].value = myMapMana.maplayerlist[i].style.append.minColor;
                 $("#color2")[0].value = myMapMana.maplayerlist[i].style.series.itemStyle.emphasis.color;
             } else 
             if (myMapMana.maplayerlist[i].type == 2) {//如果是点图
@@ -536,7 +541,8 @@ function savestyle() {
     for (var i = 0; i < myMapMana.maplayerlist.length; i++) {
         if (myMapMana.maplayerlist[i].layerid == node.id) {
             if (myMapMana.maplayerlist[i].type == '1') {
-                myMapMana.maplayerlist[i].style.series.itemStyle.normal.color = $("#color1")[0].value;
+                myMapMana.maplayerlist[i].style.append.maxColor = $("#color1max")[0].value;
+                myMapMana.maplayerlist[i].style.append.minColor = $("#color1min")[0].value;
                 myMapMana.maplayerlist[i].style.series.itemStyle.emphasis.color = $("#color2")[0].value;
                 myMapMana.maplayerlist[i].style.append.maxSize = parseInt($('#pointMaxSize').val());
                 myMapMana.maplayerlist[i].style.append.minSize = parseInt($('#pointMinSize').val());
