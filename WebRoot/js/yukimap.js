@@ -155,55 +155,16 @@ function refresh()
 
 function drawL1(layer,layerindex){//分层设色图 使用mapv绘制
 	var dataSet;
-	/*var gradient = {
+	/*var gradient = {//应该是和echarts的命名空间污染。。。
 			'0': '#ffffff',
 	        '1.0': '#ff0000'
     };
     */
-	
-	splitList=[
-        {
-            start: 0,
-            end: 10,
-            value: '#fedfe1'
-        },{
-            start: 10,
-            end: 30,
-            value: '#f8c3cd'
-        },{
-            start: 30,
-            end: 100,
-            value: '#f4a7b9'
-        },{
-            start: 100,
-            end: 200,
-            value: '#f596aa'
-        },{
-            start: 200,
-            end: 350,
-            value: '#e87a90'
-        },{
-            start: 350,
-            end: 500,
-            value: '#e16bbc'
-        },{
-            start: 500,
-            end: 650,
-            value: '#d05a6e'
-        },{
-            start: 650,
-            end: 800,
-            value: '#db4d6d'
-        },{
-            start: 800,
-            end: 900,
-            value: '#d0104c'
-        },{
-            start: 900,
-            value: '#b5495b'
-        }
-    ];
+	//缺省
+	var splitList;
 	var maxC,minC;
+	var splitNum=10;
+	var splitType="linear";
 	if(has(myMapMana.maplayerlist[layerindex].mapv)) return true;//暂时用这个提高效率
 	if(has(myMapMana.maplayerlist[layerindex].style))
 	{
@@ -211,6 +172,7 @@ function drawL1(layer,layerindex){//分层设色图 使用mapv绘制
 		//gradient = myMapMana.maplayerlist[layerindex].style.options.gradient || gradient;
 		maxC = myMapMana.maplayerlist[layerindex].style.options.max;
 		minC = myMapMana.maplayerlist[layerindex].style.options.min;
+		splitNum = myMapMana.maplayerlist[layerindex].style.options.splitNum;
 		splitList = myMapMana.maplayerlist[layerindex].style.options.splitList;
 	}
 	else
@@ -242,20 +204,24 @@ function drawL1(layer,layerindex){//分层设色图 使用mapv绘制
                 return false;
             }
         });
-        maxC=maxC+1;
-        minC=minC-1;
+        maxC=maxC;
+        minC=minC;
+        splitList = yukiColorMapper(minC,maxC,'#ffddee','#aa4466',splitNum,splitType);
         dataSet = new mapv.DataSet(data);
     });
     $.ajaxSettings.async = true;
 	}
+	//下面开始设置
 	{
         var options = {
         	draw: 'intensity',
-        	//max: maxC, // 最大阈值
-        	//min: minC, 
+        	max: maxC, 
+        	min: minC, 
+        	splitNum: splitNum,
+        	splitType: splitType,
         	//gradient:gradient,
         	splitList:splitList,
-            shadowColor: 'rgba(0, 0, 0, 1)', // 投影颜色
+            shadowColor: 'rgba(0, 0, 0, 0.5)', // 投影颜色
             shadowBlur: 10,  // 投影模糊级数
             methods: {
                 click: function (item) {
@@ -294,7 +260,7 @@ function drawL1(layer,layerindex){//分层设色图 使用mapv绘制
             globalAlpha: 0.9,
             draw: 'choropleth'
         }
-        	//这里逻辑有点乱，随时准备在写调整样式的代码的阶段重构,应当分离图层的初始化和样式调整,现阶段代码效率太低。
+        //完成设定 进行绘图
         myMapMana.maplayerlist[layerindex].style = {"options":options,"dataSet":dataSet};
         myMapMana.maplayerlist[layerindex].mapv = new mapv.baiduMapLayer(mybmap, dataSet, options);
         myMapMana.maplayerlist[layerindex].mapv.destroy();
