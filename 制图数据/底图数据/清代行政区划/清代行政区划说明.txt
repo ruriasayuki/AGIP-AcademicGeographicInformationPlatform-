@@ -1,2 +1,0 @@
-v5_1911_pref_pgn_gbk.shp 为清代州府的数据
-v5_1911_cnty_pgn_gbk.shp 为清代县的数据

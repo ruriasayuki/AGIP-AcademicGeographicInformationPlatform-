@@ -557,6 +557,7 @@ function display() {
 	mybmap.addControl(mapType);
 	myecharts.on('mouseover', function (params) {
 		tooltipPub.flag=1;
+		console.log(params);
 		$("#mytooltip").html(params.name);
 		$("#mytooltip").css("top", (mousePos.y - 40) + "px");
 		$("#mytooltip").css("left", (mousePos.x + 10) + "px");
