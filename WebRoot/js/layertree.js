@@ -477,19 +477,21 @@ function changstyle() {
     for (var i = 0; i < myMapMana.maplayerlist.length; i++) {
         if (myMapMana.maplayerlist[i].layerid == node.id) {
             if (myMapMana.maplayerlist[i].type == 1) {//如果是等级符号图
-                var div = '<div style="margin:10px;"><br/>点基本颜色映射： </br>'+
-                '最大值：&ensp;&ensp;&ensp;&ensp; &ensp;<input type="color" id="color1max" /></br>'+
-                '最小值：&ensp;&ensp;&ensp;&ensp; &ensp;<input type="color" id="color1min" /><br/>'+
-                '高亮颜色： &ensp; &ensp;<input type="color" id="color2" /><br/>点样式 ：</span> &ensp; &ensp;<select id="pointStyle" class="easyui-combobox"><option value="1">无</option><option value="2">点</option><option value="3">箭头</option></select>' +
+                var div = '<div style="margin:5px;">点基本颜色映射： </br>'+
+                '最大值：&emsp;&emsp;&emsp;<input type="color" id="color1max" /></br>'+
+                '最小值：&emsp;&emsp;&emsp;<input type="color" id="color1min" /><br/>'+
+                '高亮颜色：&emsp;&emsp;<input type="color" id="color2" /><br/>点样式：&emsp;&emsp;&emsp;<select id="pointStyle" class="easyui-combobox"><option value="1">无</option><option value="2">点</option><option value="3">箭头</option></select>' +
                     '</br>点尺寸映射：</br>'+
                     '最大值：<input type="text" id="pointMaxSize" value="' + 
                     myMapMana.maplayerlist[i].style.append.maxSize + '">'+
                     '</br>最小值：<input type="text" id="pointMinSize" value="' + 
-                    myMapMana.maplayerlist[i].style.append.minSize + '">';
+                    myMapMana.maplayerlist[i].style.append.minSize + '">'+
+                    '</br><span>映射方式 ：</span>&emsp;&emsp;<select id="mapperType" class="easyui-combobox"><option value="linear">线性</option><option value="square">平方</option><option value="log">对数</option></select>';
                 $('#stylediv').html(div);
                 $("#color1max")[0].value = myMapMana.maplayerlist[i].style.append.maxColor;
                 $("#color1min")[0].value = myMapMana.maplayerlist[i].style.append.minColor;
                 $("#color2")[0].value = myMapMana.maplayerlist[i].style.series.itemStyle.emphasis.color;
+                $("#mapperType").val(myMapMana.maplayerlist[i].style.append.mapperType);
             } else 
             if (myMapMana.maplayerlist[i].type == 2) {//如果是点图
                 var div = '<div style="margin:10px;"><br/><br/>点基本颜色： &ensp; &ensp;<input type="color" id="color1" /><br/><br/>点高亮颜色： &ensp; &ensp;<input type="color" id="color2" /><br/><br/>点样式 ：</span> &ensp; &ensp;<select id="pointStyle" class="easyui-combobox"><option value="1">无</option><option value="2">点</option><option value="3">箭头</option></select>' +
@@ -546,6 +548,7 @@ function savestyle() {
                 myMapMana.maplayerlist[i].style.series.itemStyle.emphasis.color = $("#color2")[0].value;
                 myMapMana.maplayerlist[i].style.append.maxSize = parseInt($('#pointMaxSize').val());
                 myMapMana.maplayerlist[i].style.append.minSize = parseInt($('#pointMinSize').val());
+                myMapMana.maplayerlist[i].style.append.mapperType = $('#mapperType').val();
             }
             if (myMapMana.maplayerlist[i].type == '2') {
                 myMapMana.maplayerlist[i].style.itemStyle.normal.color = $("#color1")[0].value;
