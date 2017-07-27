@@ -1,5 +1,3 @@
-var maxz = 0;
-
 function Yklayer(layerjson) {
 	function stateanaly(statedata) {
 		if (statedata == null) return true;
@@ -72,6 +70,9 @@ function has(item) {
 	if (item) return true;
 	else return false;
 }
+//我觉得有必要把非主要控件的全局变量整合到一个全局变量里面
+var maxz = 0;//预置的zindex控制
+var mydis;//百度地图测距插件
 var mybmap;//百度地图调用变量
 var myMapMana;//地图管理变量
 var myecharts;//echarts调用变量
@@ -552,6 +553,7 @@ function display() {
 	var bmapScale = new BMap.ScaleControl({ anchor: BMAP_ANCHOR_BOTTOM_RIGHT });// 左上角，添加比例尺
 	var navigation = new BMap.NavigationControl({ anchor: BMAP_ANCHOR_TOP_LEFT });
 	var mapType = new BMap.MapTypeControl({ anchor: BMAP_ANCHOR_TOP_RIGHT, mapTypes: [BMAP_NORMAL_MAP, BMAP_SATELLITE_MAP] });
+	mydis = new BMapLib.DistanceTool(mybmap);
 	mybmap.addControl(bmapScale);
 	mybmap.addControl(navigation);
 	mybmap.addControl(mapType);

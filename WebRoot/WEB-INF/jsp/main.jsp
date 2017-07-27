@@ -21,6 +21,7 @@
                 <script type="text/javascript" src="${pageContext.request.contextPath}/js/bmap.js"></script>
                 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=grbYXcBhXlgv0QpFK3HHzVgLTInbTWjg"></script>
                 <script type="text/javascript" src="http://api.map.baidu.com/library/CurveLine/1.5/src/CurveLine.min.js"></script>
+                <script type="text/javascript" src="${pageContext.request.contextPath}/js/DistanceTool.js"></script>
                 <script type="text/javascript" src="${pageContext.request.contextPath}/js/mapv.min.js"></script>
                 <script type="text/javascript" src="${pageContext.request.contextPath}/js/yukimap.js"></script>
                 <!--胡泽豪整合重构的地图展示模块-->
@@ -109,7 +110,7 @@
 <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-select"></a>
 <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-screenshot"></a>
 <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-share"></a>
-<a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-ruler"></a>
+<a href="#" onclick="mydisFunc()" class="easyui-linkbutton" plain="true" iconCls="icon-ruler"></a>
 <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-help"></a>
 <a href="#" onclick="showSavePanel()" class="easyui-linkbutton" plain="true" iconCls="icon-save"></a>
 <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-back"></a>

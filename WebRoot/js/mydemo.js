@@ -11,7 +11,10 @@ function openTestPanel()
 {
 	$('#TestPanel').window('open');
 }
-
+function mydisFunc()
+{
+	mydis.open();
+}
 function showMapPanel()
 {
 	var mapsName = new Array();
@@ -50,6 +53,7 @@ function showMapPanel()
 
 function getMap(varmapid)
 {
+	//TODO 改成ajax的重定向
 	location.href="http://localhost:8080/AncientMap/main.action?mapid="+varmapid;
 }
 function showSavePanel()

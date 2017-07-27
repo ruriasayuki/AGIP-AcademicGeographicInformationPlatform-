@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.edu.zju.gis.mapper.MapsMapper">
+<insert id="createNewMap" parameterType="cn.edu.zju.gis.po.Maps" useGeneratedKeys="true" keyProperty="id">
+
+insert into maps (mapname,userid,accessibility, centerx, centery,zoomlevel,basemapid)
+values (#{mapname},#{userid},#{accessibility},#{centerx},#{centery},#{zoomlevel},#{basemapid})
+</insert>
+<select id="findMapById" parameterType="int" resultType="cn.edu.zju.gis.po.Maps">
+	select id,mapname,userid,accessibility,centerx,centery,zoomlevel,basemapid from maps where id=#{value}
+</select>
+<insert id="addLayerToMap" parameterType="cn.edu.zju.gis.po.MapLayer" useGeneratedKeys="true" keyProperty="id">
+	insert into mapslayers(mapid,layerid,state,style,zIndex)
+	values (#{mapid},#{layerid},#{state},'null',#{zIndex})
+</insert>
+<update id="updateMap" parameterType="cn.edu.zju.gis.po.Maps">
+	update maps 
+	set 
+		mapname = #{mapname},
+		userid = #{userid},
+		accessibility = #{accessibility},
+		centerx = #{centerx},
+		centery = #{centery},
+		zoomlevel = #{zoomlevel},
+		basemapid = #{basemapid}
+	where id = #{id}
+</update>
+<insert id="insertMap" parameterType="cn.edu.zju.gis.po.Maps" useGeneratedKeys="true" keyProperty="id">
+	insert into maps(mapname,userid,accessibility,centerx,centery,zoomlevel,basemapid)
+	values (#{mapname},#{userid},#{accessibility},#{centerx},#{centery},#{zoomlevel},#{basemapid})
+</insert>
+<insert id="insertMapLayer" parameterType="cn.edu.zju.gis.po.MapLayer" useGeneratedKeys="true" keyProperty="mlid">
+	insert into maplayer(mapid,layerid,state,style,zIndex)
+	values (#{mapid},#{layerid},#{state},#{style},#{zIndex})
+</insert>
+<select id="findMaps" resultType="cn.edu.zju.gis.po.Maps">
+	select * from maps;
+</select>
+<update id="updateMapLayer" parameterType="cn.edu.zju.gis.po.MapLayer" useGeneratedKeys="true" keyProperty="mlid">
+	update maplayer
+	set
+		mapid = #{mapid},
+		layerid = #{layerid},
+		state = #{state},
+		style = #{style},
+		zIndex = #{zIndex}
+	where mlid = #{mlid}	
+</update>
+<select id="findMapLayerByMapId" parameterType="int" resultType="cn.edu.zju.gis.po.MapLayer">
+<!-- 这里的写法太偏向pg -->
+	select mlid,id,
+	CASE WHEN state THEN 1
+	ELSE 0
+	END as state,
+	CASE WHEN accessibility THEN 1
+	ELSE 0
+	END as accessibility,
+	style,zindex,layername,userid,storelocation,type,datacontent 
+	from maplayer,layers where maplayer.mapid=#{value} and maplayer.layerid = layers.id;
+</select>
+<delete id="deleteMaps" parameterType="cn.edu.zju.gis.po.MapLayer" >
+	delete from maplayer where mlid=#{mlid}
+</delete>
+</mapper>
