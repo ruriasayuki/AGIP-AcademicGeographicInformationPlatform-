@@ -103,8 +103,10 @@ public class LayersController {
 					return "您上传的数据不符合规范";
 				}
 				else {
+					title[0]="name";
 					for(int i = 1; i< count; i++) {
 						if(title[i].equals("数值")) {
+							title[1]="value";
 							seniorCondition = true;
 						}
 						if("x".equalsIgnoreCase(title[i])) {
@@ -140,8 +142,10 @@ public class LayersController {
 					return "您上传的数据不符合规范";
 				}
 				else {
+					title[0]="name";
 					for(int i = 1; i< count; i++) {
 						if(title[i].equals("数值")) {
+							title[1]="value";
 							seniorCondition = true;
 						}
 						if("x".equalsIgnoreCase(title[i])) {
@@ -177,7 +181,9 @@ public class LayersController {
 					return "您上传的数据不符合规范";
 				}
 				else {
+					title[0]="name";
 					for(int i = 1; i< count; i++) {
+						title[1]="value";
 						if("x".equalsIgnoreCase(title[i])) {
 							hasXY++;
 						}
@@ -201,6 +207,7 @@ public class LayersController {
 					return "您上传的数据不符合规范";
 				}
 				else {
+					//有必要再做调整 或许会改成新版本的代码吧 = = 
 					content = Analyse.AnalyseCSV3(bufferedReader, title);
 					break;					
 				}

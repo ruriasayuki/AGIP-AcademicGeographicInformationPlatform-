@@ -15,6 +15,13 @@ function mydisFunc()
 {
 	mydis.open();
 }
+function myshareFunc()
+{
+	if($('#SharePanel').css('display')=='none')
+		$('#SharePanel').css('display','inline');
+	else
+		$('#SharePanel').css('display','none');
+}
 function showMapPanel()
 {
 	var mapsName = new Array();

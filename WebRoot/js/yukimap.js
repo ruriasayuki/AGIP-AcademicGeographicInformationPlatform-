@@ -162,13 +162,13 @@ function drawL1(layer, layerindex) {//分层设色图 使用mapv绘制
 		$.getJSON(layer.appendsrc, function (geojson) {//demo的geojson还是写死的
 
 			dataSet = mapv.geojson.getDataSet(geojson);
-			maxC = Number(gdata[0]["数值"]);
-			minC = Number(gdata[0]["数值"]);
+			maxC = Number(gdata[0].value);
+			minC = Number(gdata[0].value);
 			var data = dataSet.get({
 				filter: function (item) {//数据字段和geojson的name匹配 这里特殊化了一下 因为清代省份图用了两个字段 分别表示拼音和中文的省份名
 					for (var i = 0; i < gdata.length; i++) {
-						if (gdata[i]["地名"] == item.name) {
-							item.count = Number(gdata[i]["数值"]);
+						if (gdata[i].name == item.name) {
+							item.count = Number(gdata[i].value);
 							if (item.count > maxC) {
 								maxC = item.count;
 							}
@@ -264,6 +264,11 @@ function drawL2(layer, layerindex) {//等级符号图 （打算后面全用mapv�
 					if (temp.min < 0) offset = -temp.min + 1;
 					return (Math.log(val[2] + offset) - Math.log(temp.min + offset)) / (Math.log(temp.max + offset) - Math.log(temp.min + offset)) * (temp.maxSize - temp.minSize) + temp.minSize;
 				}
+				else if (temp.mapperType == "square") {
+					var offset = 0;
+					if (temp.min < 0) offset = -temp.min;
+					return ((val[2] + offset) + (temp.min + offset))*((val[2] + offset) - (temp.min + offset)) / ((temp.max + offset) - (temp.min + offset))/((temp.max + offset) + (temp.min + offset)) * (temp.maxSize - temp.minSize) + temp.minSize;
+				}
 				else return val[2];
 			}
 		myMapMana.maplayerlist[layerindex].style.series.itemStyle.normal.color
@@ -277,6 +282,12 @@ function drawL2(layer, layerindex) {//等级符号图 （打算后面全用mapv�
 					var offset = 1;
 					if (temp.min < 0) offset = -temp.min + 1;
 					dvalue = (Math.log(param.value[2] + offset) - Math.log(temp.min + offset)) / (Math.log(temp.max + offset) - Math.log(temp.min + offset));
+				}
+				else if(temp.mapperType == "square")
+				{
+					var offset = 0;
+					if(temp.min<0) offset = -temp.min;
+					dvalue = (param.value[2] - temp.min)*(param.value[2] + temp.min) / (temp.max - temp.min)/(temp.max + temp.min)
 				}
 				else
 				{ dvalue = (param.value[2] - temp.min) / (temp.max - temp.min); }
@@ -294,8 +305,8 @@ function drawL2(layer, layerindex) {//等级符号图 （打算后面全用mapv�
 		return myMapMana.maplayerlist[layerindex].style.series;
 	}
 	var data = layer.data;
-	var maxvalue = Number(data[0]["数值"]);
-	var minvalue = Number(data[0]["数值"]);
+	var maxvalue = Number(data[0].value);
+	var minvalue = Number(data[0].value);
 	var maxsize = 20;
 	var minsize = 5;
 	var maxcolor = "#5784ef";
@@ -304,8 +315,8 @@ function drawL2(layer, layerindex) {//等级符号图 （打算后面全用mapv�
 	var res = [];
 	for (var i = 0; i < data.length; i++) {
 		res.push({
-			name: data[i]["地名"],
-			value: [Number(data[i].X), Number(data[i].Y), Number(data[i]["数值"])]
+			name: data[i].name,
+			value: [Number(data[i].X), Number(data[i].Y), Number(data[i].value)]
 		});
 		if (res[i].value[2] > maxvalue) maxvalue = res[i].value[2];
 		if (res[i].value[2] < minvalue) minvalue = res[i].value[2];
@@ -383,8 +394,8 @@ function drawL3(layer, layerindex) {//点图 （打算后面全用mapv重构
 	var res = [];
 	for (var i = 0; i < data.length; i++) {
 		res.push({
-			name: data[i]["地名"],
-			value: [Number(data[i].X), Number(data[i].Y), Number(data[i]["数值"])]
+			name: data[i].name,
+			value: [Number(data[i].X), Number(data[i].Y), Number(data[i].value)]
 		});
 	}
 	var item = {

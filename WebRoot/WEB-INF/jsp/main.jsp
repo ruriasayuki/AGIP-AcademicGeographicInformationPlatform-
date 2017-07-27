@@ -107,11 +107,11 @@
 <div style="padding:5px;background:#fafafa;width:100%">
 <a href="#" onclick="showLayerPanel()" class="easyui-linkbutton" plain="true" iconCls="icon-add"></a>
 <a href="#" onclick="showMapPanel()"class="easyui-linkbutton" plain="true" iconCls="icon-map"></a>
-<a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-select"></a>
 <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-screenshot"></a>
-<a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-share"></a>
+<a href="#" onclick="myshareFunc()" class="easyui-linkbutton" plain="true" iconCls="icon-share"></a>
 <a href="#" onclick="mydisFunc()" class="easyui-linkbutton" plain="true" iconCls="icon-ruler"></a>
-<a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-help"></a>
+<!--TODO 打开帮助说明窗口  <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-help"></a>
+-->
 <a href="#" onclick="showSavePanel()" class="easyui-linkbutton" plain="true" iconCls="icon-save"></a>
 <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-back"></a>
 </div>
@@ -139,8 +139,22 @@
     <br>
     <br>
 </footer>
+<!-- 分享工具栏 -->
+<div id="SharePanel" style="position:absolute;display:none;padding:5px;background:#EEEEEE;top:90px;left:120px;border-radius:5px">
+<!-- JiaThis Button BEGIN -->
+<div class="jiathis_style_32x32">
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_tqq"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+</div>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+</div>
 <!-- 自定义tooltip -->
-<div id="mytooltip" style="position:absolute;display:none;padding:5px;background:#EE99DD;top:50%;left:50%;opacity:0.5;border-radius:5px">test tooltip </div>
+<div id="mytooltip" style="position:absolute;display:none;padding:5px;background:#DADADA;top:50%;left:50%;opacity:0.5;border-radius:5px">test tooltip </div>
 <script> 
                                                        function mouseMove(ev) {
                                                            Ev = ev || window.event;
@@ -250,6 +264,7 @@
 <a id="cancel" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" style="width:60px" onclick="closewin()">关闭</a>
 </div>
 </div>
+<!-- 线的点选框 -->
 <table id="QueryBoardline" class="easyui-window" title="查询结果" style="width:500px;height:100px" data-options="closed:true">
 <thead>
     <tr style="height:32px">
@@ -266,6 +281,10 @@
     </tr>
 </tbody>
 </table>
+
+
+
+
 <!-- ============== 点选查询弹窗（分层） ============== -->
 <table id="QueryBoard" class="easyui-window" title="查询结果" style="width:500px;height:100px" data-options="closed:true">
 <thead>
@@ -303,119 +322,7 @@
         <td id="nameL">董嗣杲</td>
         <td id="locationL">浙江钱塘</td>
         <td id="linkL"><a href="https://baike.baidu.com/item/董嗣杲" target="_blank">链接<a></td>
-                </tr>
-                <tr>
-                    <td id = "idL">2</td>
-                    <td id = "nameL">白珽</td>
-                    <td id = "locationL">浙江钱塘</td>
-                    <td id = "linkL"><a href="https://baike.baidu.com/item/白珽" target="_blank">链接<a></td>
-                <tr>
-                    <td id = "idL">3</td>
-                    <td id = "nameL">张仲寿</td>
-                    <td id = "locationL">浙江钱塘</td>
-                    <td id = "linkL"><a href="https://baike.baidu.com/item/张仲寿" target="_blank">链接<a></td>
-                </tr>
-                <tr>
-                    <td id = "idL">4</td>
-                    <td id = "nameL">仇远</td>
-                   <td id = "locationL">浙江钱塘</td>
-                    <td id = "linkL"><a href="https://baike.baidu.com/item/仇远" target="_blank">链接<a></td>
-                </tr>
-                <tr>
-                    <td id = "idL">5</td>
-                    <td id = "nameL">张楧</td>
-                    <td id = "locationL">浙江钱塘</td>
-                    <td id = "linkL"><a href="https://baike.baidu.com/item/张楧" target="_blank">链接<a></td>
-                </tr>
-                <tr>
-                    <td id = "idL">6</td>
-                    <td id = "nameL">白贲</td>
-                    <td id = "locationL">浙江钱塘</td>
-                    <td id = "linkL"><a href="https://baike.baidu.com/item/白贲" target="_blank">链接<a></td>                </tr>
-                <tr>
-                    <td id = "idL">7</td>
-                    <td id = "nameL">吴亮</td>
-                    <td id = "locationL">浙江钱塘</td>
-                    <td id = "linkL"><a href="https://baike.baidu.com/item/吴亮" target="_blank">链接<a></td>
-                </tr>
-                <tr>
-                    <td id = "idL">8</td>
-                    <td id = "nameL">沈德章</td>
-                    <td id = "locationL">浙江钱塘</td>
-                    <td id = "linkL"><a href="https://baike.baidu.com/item/沈德章" target="_blank">链接<a></td>
-                </tr>
-                <tr>
-                    <td id = "idL">9</td>
-                    <td id = "nameL">陈坚</td>
-                    <td id = "locationL">浙江钱塘</td>
-                    <td id = "linkL"><a href="https://baike.baidu.com/item/陈坚" target="_blank">链接<a></td>
-                </tr>
-                <tr>
-                    <td id = "idL">10</td>
-                    <td id = "nameL">刘大彬</td>
-                    <td id = "locationL">浙江钱塘</td>
-                    <td id = "linkL"><a href="https://baike.baidu.com/item/刘大彬" target="_blank">链接<a></td>
-                </tr>
-                <tr>
-                    <td id = "idL">11</td>
-                    <td id = "nameL">叶林</td>
-                    <td id = "locationL">浙江钱塘</td>
-                    <td id = "linkL"><a href="https://baike.baidu.com/item/叶林" target="_blank">链接<a></td>
-                </tr>
-                <tr>
-                    <td id = "idL">12</td>
-                    <td id = "nameL">杨彝</td>
-                    <td id = "locationL">浙江钱塘</td>
-                    <td id = "linkL"><a href="https://baike.baidu.com/item/杨彝" target="_blank">链接<a></td>
-                </tr>
-                <tr>
-                    <td id = "idL">13</td>
-                    <td id = "nameL">杨彝</td>
-                    <td id = "locationL">浙江钱塘</td>
-                    <td id = "linkL"><a href="https://baike.baidu.com/item/杨彝" target="_blank">链接<a></td>
-                </tr>
-                <tr>
-                    <td id = "idL">14</td>
-                    <td id = "nameL">叶森</td>
-                    <td id = "locationL">浙江钱塘</td>
-                    <td id = "linkL"><a href="https://baike.baidu.com/item/叶森" target="_blank">链接<a></td>
-                </tr>
-                <tr>
-                    <td id = "idL">15</td>
-                    <td id = "nameL">俞和</td>
-                    <td id = "locationL">浙江钱塘</td>
-                    <td id = "linkL"><a href="https://baike.baidu.com/item/俞和" target="_blank">链接<a></td>
-                </tr>
-                <tr>
-                    <td id = "idL">16</td>
-                    <td id = "nameL">应才</td>
-                    <td id = "locationL">浙江钱塘</td>
-                    <td id = "linkL"><a href="https://baike.baidu.com/item/应才" target="_blank">链接<a></td>
-                </tr>
-                <tr>
-                    <td id = "idL">17</td>
-                    <td id = "nameL">宋杞</td>
-                    <td id = "locationL">浙江钱塘</td>
-                    <td id = "linkL"><a href="https://baike.baidu.com/item/宋杞" target="_blank">链接<a></td>
-                </tr>
-                <tr>
-                    <td id = "idL">18</td>
-                    <td id = "nameL">李晔</td>
-                    <td id = "locationL">浙江钱塘</td>
-                    <td id = "linkL"><a href="https://baike.baidu.com/item/李晔" target="_blank">链接<a></td>
-                </tr>
-                <tr>
-                    <td id = "idL">19</td>
-                    <td id = "nameL">刘中</td>
-                    <td id = "locationL">浙江钱塘</td>
-                    <td id = "linkL"><a href="https://baike.baidu.com/item/刘中" target="_blank">链接<a></td>
-                </tr>
-                <tr>
-                    <td id = "idL">20</td>
-                    <td id = "nameL">张舜咨</td>
-                    <td id = "locationL">浙江钱塘</td>
-                    <td id = "linkL"><a href="https://baike.baidu.com/item/张舜咨" target="_blank">链接<a></td>
-                </tr>
+    </tr>
             </tbody>
         </table>
         

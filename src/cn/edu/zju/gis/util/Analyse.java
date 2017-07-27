@@ -101,7 +101,7 @@ public class Analyse {
 		
 	}
 	
-	//�켣ͼ
+	//或许会做修改 
 	public static String AnalyseCSV3(BufferedReader bufferedReader,String titles[]) throws IOException {
 		String content = "[";
 		String line = null;//��ȡbufferedReader��ÿһ��
