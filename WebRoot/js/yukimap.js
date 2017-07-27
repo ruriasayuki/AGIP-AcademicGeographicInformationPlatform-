@@ -1,3 +1,4 @@
+//读取数据的结构
 function Yklayer(layerjson) {
 	function stateanaly(statedata) {
 		if (statedata == null) return true;
@@ -55,11 +56,14 @@ function nothave(yklayer) {
 	return true;
 }
 function Ykmap(mapjson) {
+	var mapstyle = $.parseJSON(mapjson.mapstyle);
 	this.mapid = mapjson.id;
 	this.mapname = mapjson.mapname;
-	this.centerx = mapjson.centerx;
-	this.centery = mapjson.centery;
-	this.zoomlevel = mapjson.zoomlevel;
+	this.centerx = mapstyle.centerx;
+	this.centery = mapstyle.centery;
+	this.zoomlevel = mapstyle.zoomlevel;
+	this.mapmode = mapstyle.mapmode;
+	//TODO 增加百度地图的样式配置
 	this.maplayerlist = layeranaly(mapjson.maplayer);
 }
 
@@ -568,6 +572,7 @@ function display() {
 	mybmap.addControl(bmapScale);
 	mybmap.addControl(navigation);
 	mybmap.addControl(mapType);
+	if(myMapMana.mapmode==1) mybmap.setMapType(BMAP_SATELLITE_MAP);
 	myecharts.on('mouseover', function (params) {
 		tooltipPub.flag=1;
 		console.log(params);
@@ -585,6 +590,7 @@ function display() {
 	});
 	redraw();
 }
+//保存数据的结构 
 function Icelayer(YKlayer) {
 	this.mlid = YKlayer.mlid;
 	this.layerid = YKlayer.layerid;
@@ -594,15 +600,27 @@ function Icelayer(YKlayer) {
 	this.zIndex = YKlayer.zIndex;
 }
 function Icemap(YKmap) {
+	var mapstyle = {
+		centerx : YKmap.centerx,
+		centery : YKmap.centery,
+		zoomlevel : YKmap.zoomlevel,
+		mapmode : YKmap.mapmode
+	}
 	this.id = YKmap.mapid;
 	this.mapname = YKmap.mapname;
-	this.centerx = YKmap.centerx;
-	this.centery = YKmap.centery;
-	this.zoomlevel = YKmap.zoomlevel;
+	this.mapstyle = JSON.stringify(mapstyle);
 }
 
 function savemap() {
-
+	var centerPoint = mybmap.getCenter();
+	myMapMana.centerx = centerPoint.lng;
+	myMapMana.centery = centerPoint.lat;
+	var mapmodeString = mybmap.getMapType().getName();
+	myMapMana.zoomlevel = mybmap.getZoom();
+	if(mapmodeString == "地图")
+		myMapMana.mapmode = 0;
+	else
+		myMapMana.mapmode =1;
 	var mapForSave = new Icemap(myMapMana);
 	var layerForSave = new Array();
 	layerForSave = [];

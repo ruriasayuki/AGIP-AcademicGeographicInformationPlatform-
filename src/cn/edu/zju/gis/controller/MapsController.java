@@ -28,25 +28,7 @@ public class MapsController
 {
 	@Autowired
 	private MapsService mapsService;
-	@Autowired
-	private UsersService usersService;
-	@RequestMapping("/createNewMap") //将会和viewMap合并重构 这个作为传空白参数的viewMap存在
-	public ModelAndView find() throws Exception 
-	{
-		MapsCustom map = new MapsCustom("new map",1,1,100,40,7,0);
-		mapsService.createnewmap(map);
-		int loginflag = usersService.checklogin();
-		System.out.println(map.getId());
-		//杩斿洖ModelAndView
-		ModelAndView modelAndView =  new ModelAndView();
-
-		modelAndView.addObject("map", map);
-		modelAndView.addObject("loginflag", loginflag);
-		//鎸囧畾瑙嗗浘
-		modelAndView.setViewName("main");
-		
-		return modelAndView;
-	}
+	
 	@RequestMapping("/addLayerToMap")
 	public ModelAndView addLayerToMap(int mapid,int layerid) throws Exception
 	{
@@ -85,9 +67,7 @@ public class MapsController
         //TODO 暂时前端只提供这些参数 用户模块的userid和权限模块的accessibility不提供，地图模块待定（毕竟我们其实没有特别精致的历史地图资料）
         Maps mapForSave = new Maps(mapObj.getId(),
         		mapObj.getMapname(),
-        		mapObj.getCenterx(),
-        		mapObj.getCentery(),
-        		mapObj.getZoomlevel()
+        		mapObj.getMapstyle()
         		);
         List<MapLayer> oldLayerlist = new ArrayList<MapLayer>();
         if(mapForSave.getId()==0)

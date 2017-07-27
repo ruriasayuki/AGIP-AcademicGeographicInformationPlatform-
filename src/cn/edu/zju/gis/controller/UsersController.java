@@ -58,11 +58,10 @@ public class UsersController {
 	
 	@RequestMapping(value = "/main")
 	public ModelAndView openmain(Integer mapid) throws Exception{
-	//mapid=7;
 		int loginflag = usersService.checklogin();//虚假的登陆情况判断，会重写的
 		MapsCustom map=null;//地图初始化为空
 		if(mapid==null)
-			map= new MapsCustom("new map",1,1,110,40,5,0);
+			map= new MapsCustom("new map",1,1,0,"{\"centerx\":110,\"centery\":40,\"zoomlevel\":5,\"mapmode\":0}");
 		else
 		{
 			Maps mapa = mapsService.findMapById(mapid);

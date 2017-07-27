@@ -9,14 +9,14 @@ public class MapsCustom extends Maps {
 		super(map);
 		maplayer=null;
 	}
-	public MapsCustom(String mapname, int userid, int accessibility, float centerx, float centery, int zoomlevel,
-			int basemapid) {
-		super(mapname, userid, accessibility, centerx, centery, zoomlevel, basemapid);
+	public MapsCustom(String mapname, int userid, int accessibility, 
+			int basemapid, String mapstyle) {
+		super(mapname, userid, accessibility, basemapid,mapstyle);
 		maplayer=null;
 	}
-	public MapsCustom(int id,String mapname, int userid, int accessibility, float centerx, float centery, int zoomlevel,
-			int basemapid) {
-		super(id,mapname, userid, accessibility, centerx, centery, zoomlevel, basemapid);
+	public MapsCustom(int id,String mapname, int userid, int accessibility,
+			int basemapid,String mapstyle) {
+		super(id,mapname, userid, accessibility, basemapid,mapstyle);
 
 	}
 	public List<MapLayer> getMaplayer() {

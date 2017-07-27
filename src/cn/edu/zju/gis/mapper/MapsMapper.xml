@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.edu.zju.gis.mapper.MapsMapper">
-<insert id="createNewMap" parameterType="cn.edu.zju.gis.po.Maps" useGeneratedKeys="true" keyProperty="id">
 
-insert into maps (mapname,userid,accessibility, centerx, centery,zoomlevel,basemapid)
-values (#{mapname},#{userid},#{accessibility},#{centerx},#{centery},#{zoomlevel},#{basemapid})
-</insert>
 <select id="findMapById" parameterType="int" resultType="cn.edu.zju.gis.po.Maps">
-	select id,mapname,userid,accessibility,centerx,centery,zoomlevel,basemapid from maps where id=#{value}
+	select id,mapname,userid,accessibility,basemapid,mapstyle from maps where id=#{value}
 </select>
 <insert id="addLayerToMap" parameterType="cn.edu.zju.gis.po.MapLayer" useGeneratedKeys="true" keyProperty="id">
 	insert into mapslayers(mapid,layerid,state,style,zIndex)
@@ -19,15 +15,13 @@ values (#{mapname},#{userid},#{accessibility},#{centerx},#{centery},#{zoomlevel}
 		mapname = #{mapname},
 		userid = #{userid},
 		accessibility = #{accessibility},
-		centerx = #{centerx},
-		centery = #{centery},
-		zoomlevel = #{zoomlevel},
-		basemapid = #{basemapid}
+		basemapid = #{basemapid},
+		mapstyle = #{mapstyle}
 	where id = #{id}
 </update>
 <insert id="insertMap" parameterType="cn.edu.zju.gis.po.Maps" useGeneratedKeys="true" keyProperty="id">
-	insert into maps(mapname,userid,accessibility,centerx,centery,zoomlevel,basemapid)
-	values (#{mapname},#{userid},#{accessibility},#{centerx},#{centery},#{zoomlevel},#{basemapid})
+	insert into maps(mapname,userid,accessibility,basemapid,mapstyle)
+	values (#{mapname},#{userid},#{accessibility},#{basemapid},#{mapstyle})
 </insert>
 <insert id="insertMapLayer" parameterType="cn.edu.zju.gis.po.MapLayer" useGeneratedKeys="true" keyProperty="mlid">
 	insert into maplayer(mapid,layerid,state,style,zIndex)
