@@ -278,15 +278,29 @@
 
 </div>
 
+<!-- ============== 属性查询结果返回框  ============== -->
+<div id="resultPanel" class="easyui-window" title="查询结果" style="width:600px;height:400px" data-options="closed:true">
+<table id="resultTable">
+    <thead>
+		<tr>
+			<th data-options="field:'layername'">图层名称</th>
+			<th data-options="field:'name'">名称</th>
+			<th data-options="field:'datacontent'">数据内容</th>
+			<th data-options="field:'type'">几何类型</th>
+		</tr>
+    </thead>
+    <tbody id='resultSet'>
+	</tbody>
+</table>
+</div>
 
-
-<!-- ============== 查询结果返回框  ============== -->
+<!-- ============== 点选查询结果返回框  ============== -->
 <table id="QueryBoard" class="easyui-window" title="查询结果" style="width:500px;height:100px" data-options="closed:true">
 <thead>
     <tr style="height:32px">
 <th>图层名</th>
 <th>名称</th>
-<th>数值/内容</th>
+<th>数据内容</th>
 <th>几何类型</th>
 </tr>
 </thead>

@@ -1,4 +1,5 @@
 function bgsearch() {
+    autoComplete.deleteDIV();
     if(has(autoComplete.select))
     match(autoComplete.select);
     else 
@@ -261,7 +262,7 @@ AutoComplete.prototype = {
     //设置值  
     setValue: function (_this, result) {
         return function () {
-            _this.select = _this.value_arr[result];
+            _this.select = result;
             _this.obj.value = this.seq;
             _this.autoObj.className = "auto_hidden";
         }
@@ -363,7 +364,8 @@ AutoComplete.prototype = {
                     var div = document.createElement("div");
                     div.className = "auto_onmouseout";
                     div.seq = valueArr[i].name;
-                    div.onclick = this.setValue(this, i);
+                    var tempobj = valueArr[i];
+                    div.onclick = this.setValue(this, tempobj);
                     div.onmouseover = this.autoOnmouseover(this, div_index);
                     div.innerHTML = valueArr[i].name.replace(reg2, "<strong>$1</strong>") + '&emsp;<span style="font-size:8px;font-style:italic">' + valueArr[i].type + '</span>';//搜索到的字符粗体显示  
                     this.autoObj.appendChild(div);
