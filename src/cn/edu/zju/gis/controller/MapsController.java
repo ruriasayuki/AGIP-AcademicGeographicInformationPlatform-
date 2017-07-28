@@ -78,10 +78,11 @@ public class MapsController
         {
         	int updateMap = mapsService.updateMap(mapForSave);
         	oldLayerlist = mapsService.findMapLayerByMapId(mapForSave.getId());
-        	boolean flag=true;
-        	for (MapLayer layer : maplayerArr)
+        	
+        	for (MapLayer i : oldLayerlist)
             {
-        	for(MapLayer i : oldLayerlist)
+        		boolean flag=true;
+        	for(MapLayer layer : maplayerArr)
         	{
         		if( layer.getMlid() == i.getMlid())
         		{
@@ -90,7 +91,7 @@ public class MapsController
         		}
         	}    
         	if(flag){
-        		int deletemaplayer = mapsService.deleteMapLayer(layer);
+        		int deletemaplayer = mapsService.deleteMapLayer(i);
         	}
             }
         }

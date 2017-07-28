@@ -49,7 +49,7 @@
 	CASE WHEN accessibility THEN 1
 	ELSE 0
 	END as accessibility,
-	style,zindex,layername,userid,storelocation,type,datacontent 
+	style,zindex,layername,userid,storelocation,type
 	from maplayer,layers where maplayer.mapid=#{value} and maplayer.layerid = layers.id;
 </select>
 <delete id="deleteMaps" parameterType="cn.edu.zju.gis.po.MapLayer" >

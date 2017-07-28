@@ -1,4 +1,20 @@
-//读取数据的结构
+//————————————————————————**yukimap.js**————————————————————————//
+//包含echarts&mapv整合结构
+//包含前端容器 YKmap 和YKlayer
+//包含保存地图用的结构Icemap和Icelayer
+//包含所有管理用全局变量
+//入口function myinit()
+//————————————————————————以上为说明————————————————————————//
+//自制的判定用工具
+function nothave(yklayer) {
+	var templist = myMapMana.maplayerlist;
+	for (var i = 0; i < templist.length; i++) {
+		if (templist[i].layerid == yklayer.layerid) return false;
+	}
+	return true;
+}
+//前端数据结构定义
+//前端图层结构
 function Yklayer(layerjson) {
 	function stateanaly(statedata) {
 		if (statedata == null) return true;
@@ -23,48 +39,42 @@ function Yklayer(layerjson) {
 			return $.parseJSON(datajson);
 		}
 	}
-	this.mlid = layerjson.mlid;
-	this.layerid = layerjson.id;
-	this.layername = layerjson.layername;
-	this.layeruserid = layerjson.userid;
-	this.storelocation = layerjson.storelocation;
-	this.accessibility = layerjson.accessibility;
-	this.appendsrc = layerjson.appendDataSrc;
-	this.type = parseInt(layerjson.type);
-	this.data = dataanaly(layerjson.datacontent);
-	this.state = stateanaly(layerjson.state);
-	this.style = dataanaly(layerjson.style);//直接存放echart的series或者mapv的item 
-	this.zIndex = zanaly(layerjson.zIndex);
-	this.mapv = null;//管理mapv图层
-	//this.echarts=null;
+	this.mlid = layerjson.mlid;//在maplayer表中的唯一标识符
+	this.layerid = layerjson.id;//在layer表中的唯一标识符
+	this.layername = layerjson.layername;//图层名
+	this.layeruserid = layerjson.userid;//图层创建者的用户id
+	this.storelocation = layerjson.storelocation;//图层额外数据的保存路径
+	this.accessibility = layerjson.accessibility;//图层的公开设定
+	this.appendsrc = layerjson.appendDataSrc;//图层的追加参考地理数据的路径（如geojson或者坐标匹配表）
+	this.type = parseInt(layerjson.type);//图层类型
+	this.data = dataanaly(layerjson.datacontent);//图层数据(因为style里都有备份数据)
+	this.state = stateanaly(layerjson.state);//图层在当前地图的显隐状态
+	this.style = dataanaly(layerjson.style);//根据不同的类型有着不同结构的样式表
+	this.zIndex = zanaly(layerjson.zIndex);//图层叠放顺序(mapv图层单独管理 不受干扰)
+	this.mapv = null;//管理mapv图层的引用
 }
-function layeranaly(data) {
-	var layers = new Array();
-	if (data == null) return layers;
-	var i = 0;
-	for (var i = 0; i < data.length; i++) {
-		layers.push(new Yklayer(data[i]));
-	}
-	if (i == 0) layers.push(new Yklayer(data));
-	return layers;
-}
-function nothave(yklayer) {
-	var templist = myMapMana.maplayerlist;
-	for (var i = 0; i < templist.length; i++) {
-		if (templist[i].layerid == yklayer.layerid) return false;
-	}
-	return true;
-}
+//前端地图容器结构
 function Ykmap(mapjson) {
-	var mapstyle = $.parseJSON(mapjson.mapstyle);
-	this.mapid = mapjson.id;
-	this.mapname = mapjson.mapname;
-	this.centerx = mapstyle.centerx;
+	//图层解析函数
+	function layeranaly(data) {
+		var layers = new Array();
+		if (data == null) return layers;
+		var i = 0;
+		for (var i = 0; i < data.length; i++) {
+			layers.push(new Yklayer(data[i]));
+		}
+		if (i == 0) layers.push(new Yklayer(data));
+		return layers;
+	}
+	var mapstyle = $.parseJSON(mapjson.mapstyle);//解析百度地图配置json
+	this.mapid = mapjson.id;//地图id
+	this.mapname = mapjson.mapname;//地图名称
+	this.centerx = mapstyle.centerx;//百度地图初始化经纬度
 	this.centery = mapstyle.centery;
-	this.zoomlevel = mapstyle.zoomlevel;
-	this.mapmode = mapstyle.mapmode;
+	this.zoomlevel = mapstyle.zoomlevel;//百度地图初始化缩放等级
+	this.mapmode = mapstyle.mapmode;//百度地图初始化地图类型
 	//TODO 增加百度地图的样式配置
-	this.maplayerlist = layeranaly(mapjson.maplayer);
+	this.maplayerlist = layeranaly(mapjson.maplayer);//地图图层列表
 }
 
 function echartsSetting(stylejson) {
@@ -141,16 +151,13 @@ function refresh() {
 
 function drawL1(layer, layerindex) {//分层设色图 使用mapv绘制
 	var dataSet;
-	/*var gradient = {//应该是和echarts的命名空间污染。。。
-			'0': '#ffffff',
-	        '1.0': '#ff0000'
-    };
-    */
-	//缺省
+
+	//缺省设定
 	var splitList;
 	var maxC, minC;
 	var splitNum = 10;
 	var splitType = "linear";
+	var highlight = "#edacbe";
 	if (has(myMapMana.maplayerlist[layerindex].mapv)) return true;//暂时用这个提高效率
 	if (has(myMapMana.maplayerlist[layerindex].style)) {
 		dataSet = new mapv.DataSet(myMapMana.maplayerlist[layerindex].style.dataSet._data);
@@ -159,6 +166,7 @@ function drawL1(layer, layerindex) {//分层设色图 使用mapv绘制
 		minC = myMapMana.maplayerlist[layerindex].style.options.min;
 		splitNum = myMapMana.maplayerlist[layerindex].style.options.splitNum;
 		splitList = myMapMana.maplayerlist[layerindex].style.options.splitList;
+		highlight =  myMapMana.maplayerlist[layerindex].style.options.highlight;
 	}
 	else {
 		var gdata = layer.data;
@@ -199,24 +207,22 @@ function drawL1(layer, layerindex) {//分层设色图 使用mapv绘制
 			draw: 'intensity',
 			max: maxC,
 			min: minC,
+			highlight,highlight,
 			splitNum: splitNum,
 			splitType: splitType,
-			//gradient:gradient,
 			splitList: splitList,
 			shadowColor: 'rgba(0, 0, 0, 0.5)', // 投影颜色
 			shadowBlur: 10,  // 投影模糊级数
 			methods: {
 				click: function (item) {
+					if (tooltipPub.flag == 0) {
 					$('#QueryBoard').window('open');
 					$('#QueryBoard').window('expand');
-					$('#gidL0').text(item.gid);
+					$('#layerL0').text(layer.layername);
 					$('#nameL0').text(item.name);
-					$('#name_pyL0').text(item.name_py);
 					$('#countL0').text(item.count);
-					if (item.name == '浙江' || item.name == '浙江省')
-						$('#link0').html("<a onclick='openTestPanel()'>更多信息</a>");
-					else
-						$('#link0').text("none");
+					$('#typeL0').text('面');
+					}
 				},
 				mousemove: function (item) {
 					item = item || {};
@@ -224,10 +230,9 @@ function drawL1(layer, layerindex) {//分层设色图 使用mapv绘制
 					var data = dataSet.get();
 					for (var i = 0; i < data.length; i++) {
 						if (item.gid == data[i].gid) {//这里也是 geojson里面是gid 总之item的下面的东西的类型都要注意和geojson里面得对应字段的匹配问题
-							data[i].fillStyle = 'yellow';
+							data[i].fillStyle = layer.style.options.highlight;
 							flag = 1;
-							if(tooltipPub.flag==0)
-							{
+							if (tooltipPub.flag == 0) {
 								$("#mytooltip").html(item.name);
 								$("#mytooltip").css("top", (mousePos.y - 40) + "px");
 								$("#mytooltip").css("left", (mousePos.x + 10) + "px");
@@ -271,7 +276,7 @@ function drawL2(layer, layerindex) {//等级符号图 （打算后面全用mapv�
 				else if (temp.mapperType == "square") {
 					var offset = 0;
 					if (temp.min < 0) offset = -temp.min;
-					return ((val[2] + offset) + (temp.min + offset))*((val[2] + offset) - (temp.min + offset)) / ((temp.max + offset) - (temp.min + offset))/((temp.max + offset) + (temp.min + offset)) * (temp.maxSize - temp.minSize) + temp.minSize;
+					return ((val[2] + offset) + (temp.min + offset)) * ((val[2] + offset) - (temp.min + offset)) / ((temp.max + offset) - (temp.min + offset)) / ((temp.max + offset) + (temp.min + offset)) * (temp.maxSize - temp.minSize) + temp.minSize;
 				}
 				else return val[2];
 			}
@@ -287,11 +292,10 @@ function drawL2(layer, layerindex) {//等级符号图 （打算后面全用mapv�
 					if (temp.min < 0) offset = -temp.min + 1;
 					dvalue = (Math.log(param.value[2] + offset) - Math.log(temp.min + offset)) / (Math.log(temp.max + offset) - Math.log(temp.min + offset));
 				}
-				else if(temp.mapperType == "square")
-				{
+				else if (temp.mapperType == "square") {
 					var offset = 0;
-					if(temp.min<0) offset = -temp.min;
-					dvalue = (param.value[2] - temp.min)*(param.value[2] + temp.min) / (temp.max - temp.min)/(temp.max + temp.min)
+					if (temp.min < 0) offset = -temp.min;
+					dvalue = (param.value[2] - temp.min) * (param.value[2] + temp.min) / (temp.max - temp.min) / (temp.max + temp.min)
 				}
 				else
 				{ dvalue = (param.value[2] - temp.min) / (temp.max - temp.min); }
@@ -476,7 +480,7 @@ function drawL4(layer, layerindex) {//轨迹图 （打算后面全用mapv重构
 	return item;
 }
 var tooltipPub = {
-	flag:0
+	flag: 0
 }
 function display() {
 	myecharts = echarts.init(document.getElementById('map'));
@@ -572,9 +576,9 @@ function display() {
 	mybmap.addControl(bmapScale);
 	mybmap.addControl(navigation);
 	mybmap.addControl(mapType);
-	if(myMapMana.mapmode==1) mybmap.setMapType(BMAP_SATELLITE_MAP);
+	if (myMapMana.mapmode == 1) mybmap.setMapType(BMAP_SATELLITE_MAP);
 	myecharts.on('mouseover', function (params) {
-		tooltipPub.flag=1;
+		tooltipPub.flag = 1;
 		console.log(params);
 		$("#mytooltip").html(params.name);
 		$("#mytooltip").css("top", (mousePos.y - 40) + "px");
@@ -582,11 +586,23 @@ function display() {
 		$("#mytooltip").css("display", "inline");
 	});
 	myecharts.on('mouseout', function (params) {
-		tooltipPub.flag=0;
+		tooltipPub.flag = 0;
 		$("#mytooltip").css("display", "none");
 	});
 	myecharts.on('click', function (params) {
-		
+		$('#QueryBoard').window('open');
+		$('#QueryBoard').window('expand');
+		$('#layerL0').text(params.seriesName);
+		if (params.seriesType == "lines") {
+			$('#nameL0').text(params.data.ID);
+			$('#countL0').text('source:' + params.data.coords[0] + ',end:' + params.data.coords[1]);
+			$('#typeL0').text('线');
+		}
+		else {
+			$('#nameL0').text(params.name);
+			$('#countL0').text(params.value[2]);
+			$('#typeL0').text('点');
+		}
 	});
 	redraw();
 }
@@ -601,10 +617,10 @@ function Icelayer(YKlayer) {
 }
 function Icemap(YKmap) {
 	var mapstyle = {
-		centerx : YKmap.centerx,
-		centery : YKmap.centery,
-		zoomlevel : YKmap.zoomlevel,
-		mapmode : YKmap.mapmode
+		centerx: YKmap.centerx,
+		centery: YKmap.centery,
+		zoomlevel: YKmap.zoomlevel,
+		mapmode: YKmap.mapmode
 	}
 	this.id = YKmap.mapid;
 	this.mapname = YKmap.mapname;
@@ -617,10 +633,10 @@ function savemap() {
 	myMapMana.centery = centerPoint.lat;
 	var mapmodeString = mybmap.getMapType().getName();
 	myMapMana.zoomlevel = mybmap.getZoom();
-	if(mapmodeString == "地图")
+	if (mapmodeString == "地图")
 		myMapMana.mapmode = 0;
 	else
-		myMapMana.mapmode =1;
+		myMapMana.mapmode = 1;
 	var mapForSave = new Icemap(myMapMana);
 	var layerForSave = new Array();
 	layerForSave = [];

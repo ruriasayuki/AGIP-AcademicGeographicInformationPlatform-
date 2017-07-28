@@ -22,8 +22,17 @@ function myshareFunc()
 	else
 		$('#SharePanel').css('display','none');
 }
+function showSearchPanel()
+{
+	if($('#searchBox').css('display')=='none')
+		$('#searchBox').css('display','inline');
+	else
+		$('#searchBox').css('display','none');
+}
 function showMapPanel()
 {
+	if($('#mapPanel').css('display')=='none')
+	{
 	var mapsName = new Array();
 	$.ajax({
 		url:"./getMapList.action",
@@ -55,7 +64,10 @@ function showMapPanel()
 	    		getMap(param.id);
 	    	}
 	});
-	$('#mapPanel').window('open');
+	$('#mapPanel').css('display','inline');
+	}
+	else
+	$('#mapPanel').css('display','none');
 }
 
 function getMap(varmapid)

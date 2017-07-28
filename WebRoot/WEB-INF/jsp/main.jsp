@@ -113,7 +113,7 @@
 <!--TODO 打开帮助说明窗口  <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-help"></a>
 -->
 <a href="#" onclick="showSavePanel()" class="easyui-linkbutton" plain="true" iconCls="icon-save"></a>
-<a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-back"></a>
+<a href="#" onclick="showSearchPanel()" class="easyui-linkbutton" plain="true" iconCls="icon-search"></a>
 </div>
 </div>
 <div id="maplayerTree" data-options="region:'west',split:true" title="图层" style="width:200px;">
@@ -140,7 +140,7 @@
     <br>
 </footer>
 <!-- 分享工具栏 -->
-<div id="SharePanel" style="position:absolute;display:none;padding:5px;background:#EEEEEE;top:90px;left:120px;border-radius:5px">
+<div id="SharePanel" style="position:absolute;display:none;padding:5px;background:#EEEEEE;top:90px;left:90px;border-radius:5px">
 <!-- JiaThis Button BEGIN -->
 <div class="jiathis_style_32x32">
 	<a class="jiathis_button_qzone"></a>
@@ -154,7 +154,7 @@
 
 </div>
 <!-- 自定义tooltip -->
-<div id="mytooltip" style="position:absolute;display:none;padding:5px;background:#DADADA;top:50%;left:50%;opacity:0.5;border-radius:5px">test tooltip </div>
+<div id="mytooltip" style="position:absolute;display:none;padding:5px;background:rgba(150,150,150,0.6);top:50%;left:50%;border-radius:5px">test tooltip </div>
 <script> 
                                                        function mouseMove(ev) {
                                                            Ev = ev || window.event;
@@ -171,8 +171,8 @@
                                                        }
                                                        document.onmousemove = mouseMove; 
 </script>
-<div id="mapPanel" class="easyui-window" title="打开地图" style="width:300px;height:80px;" align:'center' data-options="modal:true,resizable:false,closed:true">
-<div>
+
+<div id="mapPanel" style="position:absolute;display:none;padding:5px;background:#EEEEEE;top:90px;left:30px;border-radius:5px">
     <form>
         <select id="selectMapName" name="type" class="easyui-combobox" style="width:200px;margin-left: 50px;">
 <option>请选择地图 </option>
@@ -180,7 +180,6 @@
 <!--  <input id="SelectBtn" class="btn btn-primary btn-mini " type="submit" value="确定" onclick="getMap()">
     -->
 </form>
-</div>
 </div>
 
 <div id="changeName" class="easyui-window" title="修改名称" style="width:300px;height:80px;" align:'center' data-options="modal:true,resizable:false,closed:true">
@@ -214,7 +213,10 @@
 <div id="databorder" style="width: 98%;height: 60%;margin: 1%;overflow-y: scroll;border:1px solid gray">
 
 </div>
+
 </div>
+
+
 <!--右半栏-->
 <div data-options="region:'east',border:false" style="width: 40%;">
 <table id="tt">
@@ -264,45 +266,30 @@
 <a id="cancel" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" style="width:60px" onclick="closewin()">关闭</a>
 </div>
 </div>
-<!-- 线的点选框 -->
-<table id="QueryBoardline" class="easyui-window" title="查询结果" style="width:500px;height:100px" data-options="closed:true">
-<thead>
-    <tr style="height:32px">
-<th>FID</th>
-<th>起始坐标</th>
-<th>结束坐标</th>
-</tr>
-</thead>
-<tbody>
-    <tr>
-        <td id="gid">NA</td>
-        <td id="coords_strat">NA</td>
-        <td id="coords_end">NA</td>
-    </tr>
-</tbody>
-</table>
+
+<!-- 小查询框 -->
+<div id="searchBox" style="position:absolute;display:none;padding:5px;background:#EEEEEE;top:90px;left:180px;border-radius:5px">
+<input id="p_apiName" name="apiName" type="text" autocomplete="off" style="width:100px;height:20px;" onkeyup="autoComplete.start(event)">  
+</div>
 
 
 
-
-<!-- ============== 点选查询弹窗（分层） ============== -->
+<!-- ============== 查询结果返回框  ============== -->
 <table id="QueryBoard" class="easyui-window" title="查询结果" style="width:500px;height:100px" data-options="closed:true">
 <thead>
     <tr style="height:32px">
-<th>GID</th>
-<th>地区名</th>
-<th>拼音</th>
-<th>被映射的值</th>
-<th>扩展链接</th>
+<th>图层名</th>
+<th>名称</th>
+<th>数值/内容</th>
+<th>几何类型</th>
 </tr>
 </thead>
 <tbody>
     <tr>
-        <td id="gidL0">NA</td>
+        <td id="layerL0">NA</td>
         <td id="nameL0">NA</td>
-        <td id="name_pyL0">NA</td>
         <td id="countL0">NA</td>
-        <td id="link0">NA</td>
+        <td id="typeL0">NA</td>
     </tr>
 </tbody>
 </table>

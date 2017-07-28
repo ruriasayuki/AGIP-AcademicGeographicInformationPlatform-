@@ -524,12 +524,14 @@ function changstyle() {
             } else
             if (myMapMana.maplayerlist[i].type == '0') {
                 var div = '<div style="margin:10px;">最大值颜色：<input type="color" id="maxcolor" /><br/><br/>最小值颜色：<input type="color" id="mincolor" />' +
+                '<br/><br/>高光颜色：&emsp;<input type="color" id="highcolor" />' +
                     '</br></br>分段数：<input type="text" id="splitNum" value="' + myMapMana.maplayerlist[i].style.options.splitNum + '"></br>' +
                     '<br/><span>颜色映射方式 ：</span> &ensp; &ensp;<select id="splitType" class="easyui-combobox"><option value="linear">线性</option><option value="square">平方</option><option value="log">对数</option></select>';
                 $('#stylediv').html(div);
                 var nowSplitList = myMapMana.maplayerlist[i].mapv.options.splitList;
                 $("#mincolor")[0].value = nowSplitList[0].value;
                 $("#maxcolor")[0].value = nowSplitList[nowSplitList.length - 1].value;
+                $('#highcolor')[0].value = myMapMana.maplayerlist[i].style.options.highlight;
                 $("#splitType").val(myMapMana.maplayerlist[i].mapv.options.splitType);
             }
             break;
@@ -592,6 +594,7 @@ function savestyle() {
                 //TODO drawLegend();
                 myMapMana.maplayerlist[i].style.options.splitNum = splitNum;
                 myMapMana.maplayerlist[i].style.options.splitType = splitType;
+                myMapMana.maplayerlist[i].style.options.highlight = $("#highcolor")[0].value;;
                 myMapMana.maplayerlist[i].mapv.update({
                     options: {
                         splitList: newSplitList
