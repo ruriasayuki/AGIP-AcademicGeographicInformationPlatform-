@@ -3,10 +3,10 @@
 	display:none
 }
 .auto_onmouseover{
-	background-color:rgba(180,180,180,0.8)
+	background-color:#e7e2fc
 }
 .auto_onmouseout{
-	background-color:rgba(180,180,180,0.2)
+	background-color:#d7cde4
 }
 .auto_show{
 	display:inline

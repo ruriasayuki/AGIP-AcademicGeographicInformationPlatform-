@@ -171,6 +171,7 @@ function drawL1(layer, layerindex) {//分层设色图 使用mapv绘制
 		splitNum = myMapMana.maplayerlist[layerindex].style.options.splitNum;
 		splitList = myMapMana.maplayerlist[layerindex].style.options.splitList;
 		highlight =  myMapMana.maplayerlist[layerindex].style.options.highlight;
+		splitType = myMapMana.maplayerlist[layerindex].style.options.splitType;
 	}
 	else {
 		var gdata = layer.data;

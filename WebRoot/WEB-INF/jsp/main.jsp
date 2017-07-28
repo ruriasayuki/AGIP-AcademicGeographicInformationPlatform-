@@ -143,7 +143,7 @@
     <br>
 </footer>
 <!-- 分享工具栏 -->
-<div id="SharePanel" style="position:absolute;display:none;padding:5px;background:#EEEEEE;top:90px;left:90px;border-radius:5px">
+<div id="SharePanel" style="position:absolute;display:none;padding:5px;opacity:0.9;background:#EEEEEE;top:90px;left:90px;border-radius:5px">
 <!-- JiaThis Button BEGIN -->
 <div class="jiathis_style_32x32">
 	<a class="jiathis_button_qzone"></a>
@@ -175,7 +175,7 @@
                                                        document.onmousemove = mouseMove; 
 </script>
 
-<div id="mapPanel" style="position:absolute;display:none;padding:5px;background:#EEEEEE;top:90px;left:30px;border-radius:5px">
+<div id="mapPanel" style="position:absolute;display:none;padding:5px;opacity:0.9;background:#EEEEEE;top:90px;left:30px;border-radius:5px">
     <form>
         <select id="selectMapName" name="type" class="easyui-combobox" style="width:200px;margin-left: 50px;">
 <option>请选择地图 </option>
@@ -271,7 +271,7 @@
 </div>
 
 <!-- 小查询框 -->
-<div id="searchBox" style="position:absolute;display:none;padding:5px;background:#EEEEEE;top:90px;left:180px;border-radius:5px">
+<div id="searchBox" style="position:absolute;display:none;padding:5px;opacity:0.9;background:#EEEEEE;top:90px;left:180px;border-radius:5px">
 <input id="p_apiName" name="apiName" type="text" autocomplete="off" style="width:200px;height:20px;" onkeyup="autoComplete.start(event)">  
 <a id="search" href="#" class="easyui-linkbutton"  onclick="bgsearch()">搜索</a>
 <div class="auto_hidden" style="height: auto;position:absolute; background-color: #F0F0F0;font-size: 10pt;" id="auto"></div>
@@ -300,24 +300,6 @@
 </tbody>
 </table>
 
-<table id="TestPanel" class="easyui-window" title="查询结果" style="width:500px;height:100px" data-options="closed:true">
-<thead>
-    <tr style="height:32px">
-<th>ID</th>
-<th>作者</th>
-<th>具体地区</th>
-<th>扩展链接</th>
-</tr>
-</thead>
-<tbody>
-    <tr>
-        <td id="idL">1</td>
-        <td id="nameL">董嗣杲</td>
-        <td id="locationL">浙江钱塘</td>
-        <td id="linkL"><a href="https://baike.baidu.com/item/董嗣杲" target="_blank">链接<a></td>
-    </tr>
-            </tbody>
-        </table>
         
 </body>
 

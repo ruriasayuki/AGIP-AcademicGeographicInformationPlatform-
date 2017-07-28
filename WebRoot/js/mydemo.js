@@ -87,6 +87,12 @@ function showSavePanel()
 	savemap();
 	$('#savePanel').window('close');
 }
+
+function showResultPanel(resultSet)
+{
+	console.log(resultSet);
+}
+
 $(document).ready(function() {
 	getData();
 	myinit();
