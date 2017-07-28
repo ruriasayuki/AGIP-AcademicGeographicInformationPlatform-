@@ -17,6 +17,8 @@ function mydisFunc()
 }
 function myshareFunc()
 {
+	$('#mapPanel').css('display','none');
+	$('#searchBox').css('display','none');
 	if($('#SharePanel').css('display')=='none')
 		$('#SharePanel').css('display','inline');
 	else
@@ -24,6 +26,8 @@ function myshareFunc()
 }
 function showSearchPanel()
 {
+	$('#SharePanel').css('display','none');
+	$('#mapPanel').css('display','none');
 	if($('#searchBox').css('display')=='none')
 		$('#searchBox').css('display','inline');
 	else
@@ -31,6 +35,8 @@ function showSearchPanel()
 }
 function showMapPanel()
 {
+	$('#searchBox').css('display','none');
+	$('#SharePanel').css('display','none');
 	if($('#mapPanel').css('display')=='none')
 	{
 	var mapsName = new Array();
@@ -84,5 +90,5 @@ function showSavePanel()
 $(document).ready(function() {
 	getData();
 	myinit();
-
+	createAutoComplete();
 });

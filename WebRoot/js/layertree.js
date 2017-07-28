@@ -177,22 +177,6 @@ function addLayertoSilo(lname, ltype) {
     layerSilo.push(newLayer);
 };
 
-//DONE 重绘所有被勾选的分层图//整合至yukimap的redraw函数
-function redrawMapv() {
-    for (var i = 0; i < layerSilo.length; i++) {
-        if (layerSilo[i].checked == true) {
-            for (var j = 0; j < layers.length; j++) {
-                if (layers[j].options.name == layerSilo[i].name) {
-                    var tmp = layers[j];
-                    layers[j].destroy();
-                    layers.splice(j, 1, new mapv.baiduMapLayer(bmap, tmp.dataSet, tmp.options));
-                }
-            };
-        };
-    };
-};
-
-//DONE 移除一个图层//need
 function removeLayer() {
     var t = $('#layerTree');
     var node = t.tree('getSelected');

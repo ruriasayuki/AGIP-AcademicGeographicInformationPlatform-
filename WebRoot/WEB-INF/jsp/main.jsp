@@ -26,13 +26,16 @@
                 <script type="text/javascript" src="${pageContext.request.contextPath}/js/yukimap.js"></script>
                 <!--胡泽豪整合重构的地图展示模块-->
                 <script type="text/javascript" src="${pageContext.request.contextPath}/js/layerpanel.js"></script>
-                <!--主要由胡毅荣提供代码 属于图层添加模块-->
+                <!--主要由胡毅荣组提供代码 属于图层添加模块-->
                 <script type="text/javascript" src="${pageContext.request.contextPath}/js/layertree.js"></script>
-                <!--主要由孟林昊提供代码 属于图层树模块 为地图展示子模块-->
+                <!--主要由孟林昊组提供代码 属于图层树模块 为地图展示子模块-->
                 <script type="text/javascript" src="${pageContext.request.contextPath}/js/mydemo.js"></script>
+                <!-- 梁旭坚组的带有自动补完功能的查询模块 -->
+                <script type="text/javascript" src="${pageContext.request.contextPath}/js/AttrSearch.js"></script>
                 <link href="css/publicstyle.css" rel="stylesheet">
                 <link href="css/whitestyle.css" rel="stylesheet">
                 <link href="css/searchLayer.css" rel="stylesheet">
+                <link href="css/autocomplete.css" rel="stylesheet">
                 <script>
             var mapdata = ${map};//获取后台返回的map数据
         </script>
@@ -269,7 +272,10 @@
 
 <!-- 小查询框 -->
 <div id="searchBox" style="position:absolute;display:none;padding:5px;background:#EEEEEE;top:90px;left:180px;border-radius:5px">
-<input id="p_apiName" name="apiName" type="text" autocomplete="off" style="width:100px;height:20px;" onkeyup="autoComplete.start(event)">  
+<input id="p_apiName" name="apiName" type="text" autocomplete="off" style="width:200px;height:20px;" onkeyup="autoComplete.start(event)">  
+<a id="search" href="#" class="easyui-linkbutton"  onclick="bgsearch()">搜索</a>
+<div class="auto_hidden" style="height: auto;position:absolute; background-color: #F0F0F0;font-size: 10pt;" id="auto"></div>
+
 </div>
 
 

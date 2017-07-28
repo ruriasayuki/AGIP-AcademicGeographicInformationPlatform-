@@ -53,10 +53,8 @@ function Yklayer(layerjson) {
 	this.zIndex = zanaly(layerjson.zIndex);//图层叠放顺序(mapv图层单独管理 不受干扰)
 	this.mapv = null;//管理mapv图层的引用
 }
-//前端地图容器结构
-function Ykmap(mapjson) {
-	//图层解析函数
-	function layeranaly(data) {
+//由json解析图层列表的函数 被AddLayerToMap调用 和YKmap的构造函数调用
+function layeranaly(data) {
 		var layers = new Array();
 		if (data == null) return layers;
 		var i = 0;
@@ -66,6 +64,9 @@ function Ykmap(mapjson) {
 		if (i == 0) layers.push(new Yklayer(data));
 		return layers;
 	}
+//前端地图容器结构
+function Ykmap(mapjson) {
+	//图层解析函数
 	var mapstyle = $.parseJSON(mapjson.mapstyle);//解析百度地图配置json
 	this.mapid = mapjson.id;//地图id
 	this.mapname = mapjson.mapname;//地图名称
@@ -146,6 +147,9 @@ function refresh() {
 			myMapMana.maplayerlist[i].mapv.bindEvent();
 			myMapMana.maplayerlist[i].mapv.show();
 		}
+	}
+	if(has(autoComplete)){
+	autoComplete.setArr(getLayerStringDataArr());
 	}
 }
 
@@ -403,7 +407,7 @@ function drawL3(layer, layerindex) {//点图 （打算后面全用mapv重构
 	for (var i = 0; i < data.length; i++) {
 		res.push({
 			name: data[i].name,
-			value: [Number(data[i].X), Number(data[i].Y), Number(data[i].value)]
+			value: [Number(data[i].X), Number(data[i].Y), data[i].value]
 		});
 	}
 	var item = {
