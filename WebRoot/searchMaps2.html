@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<title>search</title>
+<script type="text/javascript" src="./plugin/jquery-3.2.1.min.js"></script>
+<link rel="stylesheet" href="./plugin/bootstrap-3.3.7/css/bootstrap.min.css">
+<script src="./plugin/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+
+<script type="text/javascript" src="./plugin/jquery-easyui-1.5.2/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="./plugin/jquery-easyui-1.5.2/locale/easyui-lang-zh_CN.js"></script>
+
+<style type="text/css">  
+    .search-results{
+        margin-left: auto;
+    	margin-right: auto;
+    	max-width: 800px;
+    	margin-top: 30px;
+    	margin-bottom: 20px;
+    }
+    .search-header{
+    	background-image: url(img/image.jpg);
+    	color:#FFFFFF;
+    	text-align:center;
+    }
+    .search-footer{
+    	padding-top: 50px;
+    	padding-bottom: 50px;
+    	margin-top: 100px;
+    	color: #99979c;
+    	text-align: center;
+    	background-color: #2a2730;
+    }
+    
+    footer {
+    background-color:black;
+    color:white;
+    clear:both;
+    text-align:center;
+    padding:5px; 
+    width:100%;
+	}
+</style>
+
+<script type="text/javascript">
+	var userid = 1;           //暂时设userid为1
+	var page = 0;     //页码(和数组对应从0 开始)
+	var curPage = 0;   //当前页
+	var mes = new Array();     //存放每页显示内容的字符串
+	var data = null;
+	$(document).ready(function(){		
+		//发一个同步请求，得到地图json
+		$.ajax({
+		url: "./getMapList.action",
+		async: false,
+		type: "POST",
+		dataType: "text",
+		data: {
+			userid: 1
+		},
+		success: function (result) {
+
+			data = $.parseJSON(result);
+		}
+	})
+			var list = $("#resultList");
+			var strHtml = ""; //存储数据的变量
+			var count = 0;
+			list.empty();
+			page = 0;
+			$.each(data,function(infoIndex,info){
+				if(info["accessibility"]=="0"&&(info["userid"]!=userid)){}   //判断地图对于用户是否可见
+				else{
+					count = count + 1;
+					if(count==4){            //每页显示3条记录
+						mes.push(strHtml);   
+						strHtml="";
+						page=page+1;
+						count=1;
+					}					
+					strHtml += '<button type="button" class="list-group-item" onclick="openMap('
+							+ info["id"] 
+							+ ')">'
+							+ '<div class="row"><div class="col-md-3"><h4><strong>' 
+							+ info["mapname"]
+							+ '</strong></h4></div>'	
+							+ '<div class="col-md-3  col-md-offset-3 col-xs-12"><h5>'
+							+ info["userid"]
+							+ '</h5></div></div></button>';										
+				}
+			});
+			
+			if(strHtml!=""){
+				mes.push(strHtml);
+			}
+			list.html(mes[curPage]);  
+			var pager = $("#pager");
+    		pager.html("当前第"+(curPage+1)+"页,共"+(page+1)+"页");
+	      
+    });//ready
+    
+    
+    function search(){
+    	var key = $("#searchInput").val();
+    	$.getJSON("maplist.json",function(data){
+			var list = $("#resultList");
+			var strHtml = ""; //存储数据的变量
+			var count = 0;
+			page = 0;
+			list.empty();
+			mes.splice(0,mes.length);   //清空数组
+			$.each(data,function(infoIndex,info){			
+				var mapname = info["mapname"];
+				if(mapname.indexOf(key)>=0){		//判断地图名中是否包含关键词		
+					if(info["accessibility"]=="0"&&(info["userid"]!=userid)){}   //判断地图对于用户是否可见
+					else{
+						count = count + 1;
+						if(count==4){            //每页显示3条记录
+							mes.push(strHtml);   
+							strHtml="";
+							page=page+1;
+							count=1;
+						}					
+						strHtml += '<button type="button" class="list-group-item" onclick="openMap('
+								+ info["id"] 
+								+ ')">'
+								+ '<div class="row"><div class="col-md-3"><h4><strong>' 
+								+ info["mapname"]
+								+ '</strong></h4></div>'	
+								+ '<div class="col-md-3  col-md-offset-3 col-xs-12"><h5>'
+								+ info["userid"]
+								+ '</h5></div></div></button>';	
+						}
+					}				
+				else{}
+			});
+			if(strHtml!=""){
+				mes.push(strHtml);
+			}
+			list.html(mes[0]);   
+			var pager = $("#pager");
+    		pager.html("当前第"+(curPage+1)+"页,共"+(page+1)+"页");
+		})
+    }
+    
+    //点击地图信息条目后执行的函数
+    function openMap(mapid){
+    	//TODO 改成ajax的重定向
+    	location.href = "http://localhost:8080/AncientMap/main.action?mapid=" + mapid;
+    }
+    
+    //向前翻页
+    function prevPage(){
+    	if(curPage>0){
+    		curPage-=1;
+    		var list = $("#resultList");
+    		list.empty();
+    		list.html(mes[curPage]);
+    		var pager = $("#pager");
+    		pager.html("当前第"+(curPage+1)+"页,共"+(page+1)+"页");
+    	}   	
+    }
+    //向后翻页
+    function nextPage(){
+    	if(curPage<page){
+    		curPage+=1;
+    		var list = $("#resultList");  		
+    		list.empty();
+    		list.html(mes[curPage]);
+    		var pager = $("#pager");
+    		pager.html("当前第"+(curPage+1)+"页,共"+(page+1)+"页");
+    	}   	
+    }
+</script>
+
+
+</head>
+
+<body>
+	<!-- 巨幕 -->
+	<div class="jumbotron search-header">	
+		<nav class="navbar">
+			<div class="container" style="text-align:right">			
+				<h4>user1</h4>				
+			</div>
+		</nav>
+		<div class="container">
+			<div class="row" >
+  				<div class="col-xs-12" >
+  					<h1>Search for maps</h1>
+    				<div class="input-group col-md-6 col-md-offset-3">
+    					<input id="searchInput" type="text" class="form-control" placeholder="Search for...">
+      					<!-- 搜索按钮 -->
+      					<span class="input-group-btn">
+        					<button class="btn btn-default" type="button" onclick="search()">
+        						<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+							</button>
+      					</span>    					
+    				</div>
+  				</div>
+  			</div>
+  		</div>
+	</div>
+
+<!-- 搜索结果展示区 -->
+<div class="search-results">
+	<div class="container-fluid">
+		<!-- 标题组 -->
+		<div class="list-group" style="display:block;" >			
+			<div class="list-group-item">
+				<div class="row">
+					<div class="col-md-3">
+						<h4>mapname</h4>						
+					</div>
+					<!--  <div class="col-md-9 hidden-xs">
+						<h6>username</h6>
+					</div>
+					-->
+					<div class="col-md-3 col-md-offset-3 col-xs-12">
+						<h4>userid</h4>
+					</div>
+				</div>			
+			</div>	
+			
+			
+		<!-- 搜索结果 -->
+		<div id="resultList" class="list-group" style="display:block;" >
+			<!--  <button type="button" class="list-group-item">
+				<div class="row">
+					<div class="col-md-3">
+						<h4><strong>mapname</strong></h4>						
+					</div>
+					<div class="col-md-9 hidden-xs">
+						<p>description</p>
+					</div>
+					<div class="col-md-9  col-md-offset-3 col-xs-12">
+						<p>username</p>
+					</div>
+				</div>			
+			</button>
+			
+			<button type="button" class="list-group-item">
+				<div class="row">
+					<div class="col-md-3">
+						<h4><strong>mapname</strong></h4>						
+					</div>
+					<div class="col-md-3">
+						<h5>username</h5>
+					</div>
+				</div>			
+			</button>-->
+		</div><!-- /.list-group -->
+		<nav aria-label="...">
+  			<ul class="pager">
+    			<li><a onclick="prevPage()">Prev</a></li>    
+    			<li><a onclick="nextPage()">Next</a></li>
+    			<li><p id="pager"></p></li>
+  			</ul> 			
+		</nav>
+
+	</div>
+</div>
+</div>
+<footer>
+	<p>ZJU GIS</p>
+</footer>
+
+</body>
+</html>

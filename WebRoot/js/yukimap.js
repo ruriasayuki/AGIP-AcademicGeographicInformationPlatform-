@@ -238,7 +238,7 @@ function drawL1(layer, layerindex) {//分层设色图 使用mapv绘制
 							data[i].fillStyle = layer.style.options.highlight;
 							flag = 1;
 							if (tooltipPub.flag == 0) {
-								$("#mytooltip").html(item.name);
+								$("#mytooltip").html(layer.layername+':'+item.name+':'+item.count);
 								$("#mytooltip").css("top", (mousePos.y - 40) + "px");
 								$("#mytooltip").css("left", (mousePos.x + 10) + "px");
 								$("#mytooltip").css("display", "inline");

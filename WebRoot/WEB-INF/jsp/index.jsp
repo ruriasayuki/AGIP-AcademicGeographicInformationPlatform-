@@ -39,7 +39,7 @@
 			            <b class="caret"></b>
 		            </a>
 		                <ul class="dropdown-menu" id="usermenu">
-			                <li><a href="file:///E:/kaihashitsu/web/AncientMap/WebRoot/searchMaps.html">查看地图</a></li>
+			                <li><a href="${pageContext.request.contextPath}/searchMaps2.html">查看地图</a></li>
 			                <li><a href="#">注册</a></li>
 		                </ul>
 	                </li>
