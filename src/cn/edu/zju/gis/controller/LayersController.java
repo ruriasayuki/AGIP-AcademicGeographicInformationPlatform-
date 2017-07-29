@@ -7,9 +7,12 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.annotations.Case;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +47,8 @@ public class LayersController {
 			@RequestParam(value="accessibility") String accessibility,
 			@RequestParam(value="type") String type,
 			@RequestParam(value="file") MultipartFile file,
-			@RequestParam(value="appendDataSrc") String appendDataSrc) throws Exception {
+			@RequestParam(value="appendDataSrc") String appendDataSrc,
+			HttpSession session) throws Exception {
 		
 		String filename = file.getOriginalFilename();
 		//获取文件的大小
@@ -227,7 +231,7 @@ public class LayersController {
 		layer.setLayername(layername);
 		layer.setType(Integer.parseInt(type));
 		layer.setStorelocation(storeLocation);
-		layer.setUserid(1);
+		layer.setUserid((Integer)session.getAttribute("userid"));
 		layer.setDatacontent(content);
 		layer.setAppendDataSrc(appendDataSrc);
 		boolean bool = layersService.addLayers(layer);
@@ -434,9 +438,16 @@ public class LayersController {
 	@RequestMapping(value = "/searchLayers",method = RequestMethod.POST,   
 	        produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public String searchLayers(String keyword,String type) throws Exception {
+	public String searchLayers(String keyword,String type,HttpSession session) throws Exception {
 		List<Layers> list = layersService.searchLayers(keyword,Integer.parseInt(type));
+		int userid = (Integer)session.getAttribute("userid");
+		List<Layers> result = new ArrayList<Layers>();
+		for(Layers layer:list)
+		{
+			if(layer.getAccessibility() || layer.getUserid()==userid)
+				result.add(layer);
+		}
 		Gson gson = new Gson();
-		return gson.toJson(list);
+		return gson.toJson(result);
 	}
 }

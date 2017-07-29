@@ -3,13 +3,13 @@ var eventFun = {
 	setStep : function(index) {
 		for (var i = 2; i <= index; i++) {
 			$("#step" + i + "Li").addClass("blue").removeClass("gray");
-			$("#step" + i + "Img").attr("src", "./image/3_blue_blue.png");
+			$("#step" + i + "Img").attr("src", "./img/3_blue_blue.png");
 		}
 		for (var i = index + 1; i <= 4; i++) {
 			$("#step" + i + "Li").addClass("gray").removeClass("blue");
-			$("#step" + i + "Img").attr("src", "./image/3_gray_gray.png");
+			$("#step" + i + "Img").attr("src", "./img/3_gray_gray.png");
 		}
-		$("#step" + (index + 1) + "Img").attr("src", "./image/3_blue_gray.png");
+		$("#step" + (index + 1) + "Img").attr("src", "./img/3_blue_gray.png");
 	}
 };
 
@@ -94,7 +94,7 @@ $(document).ready(function() {
 				$("#pinfo").text("密码必须小于等于20位，请重新填写");
 	        }else{
    	            $("#pinfo").text('');
-   	            $("#pinfo").append("<img src='./image/3_ok.png' />");
+   	            $("#pinfo").append("<img src='./img/3_ok.png' />");
    	            state2=true;
 			}
 		}

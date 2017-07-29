@@ -44,12 +44,23 @@
 </style>
 
 <script type="text/javascript">
-	var userid = 1;           //暂时设userid为1
+	var userid = 0;
+	var username = "";
 	var page = 0;     //页码(和数组对应从0 开始)
 	var curPage = 0;   //当前页
 	var mes = new Array();     //存放每页显示内容的字符串
 	var data = null;
-	$(document).ready(function(){		
+	$(document).ready(function(){
+		$.ajax({
+			url: "./getActiveUser.action",
+			async: false,
+			type: "POST",
+			dataType: "text",
+			data: {
+			},success: function (result) {
+				username = $.parseJSON(result).username;
+				userid = $.parseJSON(result).userid;
+			}});
 		//发一个同步请求，得到地图json
 		$.ajax({
 		url: "./getMapList.action",
@@ -57,7 +68,7 @@
 		type: "POST",
 		dataType: "text",
 		data: {
-			userid: 1
+			userid: userid
 		},
 		success: function (result) {
 
@@ -97,7 +108,7 @@
 			list.html(mes[curPage]);  
 			var pager = $("#pager");
     		pager.html("当前第"+(curPage+1)+"页,共"+(page+1)+"页");
-	      
+	        $('#username').html(username);
     });//ready
     
     
@@ -182,7 +193,7 @@
 	<div class="jumbotron search-header">	
 		<nav class="navbar">
 			<div class="container" style="text-align:right">			
-				<h4>user1</h4>				
+				<h4 id="username">user1</h4>				
 			</div>
 		</nav>
 		<div class="container">

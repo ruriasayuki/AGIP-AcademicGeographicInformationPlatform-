@@ -48,12 +48,12 @@ public class Maps {
 		this.mapstyle =mapstyle;
 	}
 	
-	public Maps(int id,String mapname,int userid,String mapstyle)
+	public Maps(int id,String mapname,int userid,int accessibility,String mapstyle)
 	{
 		this.id = id;
 		this.mapname = mapname;
 		this.userid=userid;
-		this.accessibility=1;
+		this.accessibility=accessibility;
 		this.basemapid=0;
 		this.mapstyle = mapstyle;
 	}

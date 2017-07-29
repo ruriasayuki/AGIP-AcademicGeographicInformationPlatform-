@@ -54,6 +54,7 @@ public class UsersServiceImpl implements UsersService{
 		// TODO Auto-generated method stub
 		if(session.getAttribute("username")!=null) {
 			session.removeAttribute("username");
+			session.removeAttribute("userid");
 			return "success";
 		}else {
 			return "fail";

@@ -188,10 +188,14 @@
 </form>
 </div>
 
-<div id="changeName" class="easyui-window" title="修改名称" style="width:300px;height:80px;" align:'center' data-options="modal:true,resizable:false,closed:true">
+<div id="changeName" class="easyui-window" title="修改名称" style="width:280px;height:100px;" align:'center' data-options="modal:true,resizable:false,closed:true">
 <div>
     新名称:<input id='nameForChange'></input>
     <input id="OKBtn" class="btn btn-primary btn-mini " type="submit" value="确定" onclick="changeName()">
+    </br>
+    <span>地图权限:</span>
+    <input type="radio"  name="accessType" value="1" >公开&nbsp;&nbsp;
+    <input type="radio"  name="accessType" value="0" >私有&nbsp;&nbsp;
 </div>
 </div>
 
@@ -317,7 +321,7 @@
 </tbody>
 </table>
 <!-- ============== 登录框  ============== -->
-<div id="userwin" class="easyui-window" title="用户登录" style="width:420px; height:280px;border:solid 1px #AAAAAA;" data-options="iconCls:'icon-save', modal:true, maximizable:false">
+<div id="userwin" class="easyui-window" title="用户登录" style="width:420px; height:300px;border:solid 1px #AAAAAA;" data-options="iconCls:'icon-save', modal:true, maximizable:false">
     	<div style="padding:15px 30px;margin:2px;border:solid 1px #AAAAAA">
             <label style="display:inline-block;width:50px">帐号</label><input id="account" class="easyui-textbox" style="width:280px" data-options="iconCls:'icon-man', required:true, prompt:'enter your name'"/><br/><br/>
             <label style="display:inline-block;width:50px">密码</label><input id="pwd" class="easyui-passwordbox" style="width:280px"  data-options="required:true, prompt:'enter your password'"/><br/><br/>

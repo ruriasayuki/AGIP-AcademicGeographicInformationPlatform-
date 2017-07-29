@@ -2,13 +2,16 @@ var layerTreeJson = [{
     "id": "layerFather",
     "text": "上层图层"
 }];
-function openChangeName(name) {
+function openChangeName(name,acces) {
     $('#changeName').find('#nameForChange').val(name);
+    $('#changeName').find('input[name="accessType"]').removeAttr("checked");
+    $('#changeName').find('input[name="accessType"][value="'+acces+'"]').prop("checked", true);
     $('#changeName').window('open');
 }
 function changeName() {
     $('#changeName').window('close');
     myMapMana.mapname = $('#changeName').find('#nameForChange').val();
+    myMapMana.mapaccess = $('#changeName').find('input[name="accessType"]:checked').val();
     echartsoption.title.text = $('#changeName').find('#nameForChange').val();
     $('.accordion').find('.panel-header').find('.panel-title').html(myMapMana.mapname);
     redraw();
@@ -22,10 +25,9 @@ function initLayertree() {
         return false;
     });
     $('.accordion').find('.panel-header').mousedown(function (e) {
-        console.log(e.which);
         //右键为3
         if (1 == e.which) {
-            openChangeName(myMapMana.mapname);
+            openChangeName(myMapMana.mapname,myMapMana.mapaccess);
             ;
         }
     });

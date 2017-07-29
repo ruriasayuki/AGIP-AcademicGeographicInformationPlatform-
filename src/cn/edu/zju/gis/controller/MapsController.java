@@ -42,9 +42,15 @@ public class MapsController
 	@ResponseBody
 	public String getMapList(int userid) throws Exception
 	{
-		List<Maps> mapName = mapsService.getMapList();
+		List<Maps> maps = mapsService.getMapList();
+		List<Maps> result = new ArrayList<Maps>();
+		for(Maps map:maps)
+		{
+			if(map.getAccessibility()==1 || userid==map.getUserid())
+				result.add(map);
+		}
 		Gson gson = new Gson();
-		return gson.toJson(mapName);
+		return gson.toJson(result);
 	}
 	
 	
@@ -64,10 +70,11 @@ public class MapsController
         {
         	maplayerArr.add(gson.fromJson(jsonObject, MapLayer.class));
         }
-        //TODO 暂时前端只提供这些参数 用户模块的userid和权限模块的accessibility不提供，地图模块待定（毕竟我们其实没有特别精致的历史地图资料）
+        //TODO 底图模块仍然待定 个人觉得仍然是个伪需求
         Maps mapForSave = new Maps(mapObj.getId(),
         		mapObj.getMapname(),
         		mapObj.getUserid(),
+        		mapObj.getAccessibility(),
         		mapObj.getMapstyle()
         		);
         List<MapLayer> oldLayerlist = new ArrayList<MapLayer>();

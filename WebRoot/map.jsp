@@ -40,7 +40,7 @@
 		<div class="dataEach" style="margin-top: 5px;display:none">
 		   <div style="margin-top: 7px;">
 		        <span class="dataEach_name">userid:</span>
-		        <input type="text" id="userid" name="userid" value='<%=Session["userid"]%>'>
+		        <input type="text" id="userid" name="userid" value='${session.getAttribute("userid").toString()}'>
 		    </div>
 		</div>
         
@@ -100,7 +100,7 @@
 		<div class="dataEach" style="margin-top: 5px;display:none">
 		   <div style="margin-top: 7px;">
 		        <span class="dataEach_name">userid:</span>
-		        <input type="text" id="userid" name="userid" value='<%=Session["userid"]%>'>
+		        <input type="text" id="userid" name="userid" value='${session.getAttribute("userid").toString()}'>
 		    </div>
 		</div>
         

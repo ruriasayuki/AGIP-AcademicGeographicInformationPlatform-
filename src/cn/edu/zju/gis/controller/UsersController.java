@@ -205,4 +205,16 @@ public class UsersController {
 		user.setPwdNew(password);
 		usersService.setNewPwd(user,response);
 	}
+	@RequestMapping("/getActiveUser")
+	@ResponseBody
+	public String getUserbySession(HttpSession session)
+	{
+		String userjson = "";
+		String username = (String)session.getAttribute("username");
+		Integer userid = (Integer)session.getAttribute("userid");
+		if(username==null)
+			return "{\"username\":\"游客\",\"userid\":0}";
+		userjson = "{\"username\":\""+username+"\",\"userid\":"+userid+"}";
+		return userjson;
+	}
 }

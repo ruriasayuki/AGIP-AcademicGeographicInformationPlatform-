@@ -7,9 +7,7 @@ function changetheme(rec) {
 		$('#easyuiTheme').attr('href', './jquery-easyui-1.5.2/themes/default/easyui.css');
 	}
 }
-function openTestPanel() {
-	$('#TestPanel').window('open');
-}
+
 function mydisFunc() {
 	mydis.open();
 }
