@@ -57,5 +57,7 @@
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/gson-2.3.1.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jsp-api.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/servlet-api.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/commons-email-1.2.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/javax.mail.jar"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>

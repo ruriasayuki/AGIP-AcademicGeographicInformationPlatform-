@@ -1,6 +1,7 @@
 package cn.edu.zju.gis.mapper;
 
 import cn.edu.zju.gis.po.Users;
+import cn.edu.zju.gis.po.email_checkcode;
 
 public interface UsersMapper {
 	// 根据id查询用户信息
@@ -9,8 +10,16 @@ public interface UsersMapper {
 	public Users findUser(Users user) throws Exception;
 	
 	public int checklogin() throws Exception;
+	public Users login(Users user) throws Exception;
+	public int register(Users user) throws Exception;
+	public Users userExists(Users user);	
 	
-	public void virtuallogin() throws Exception;
+	public int insert_emailcheckcode(email_checkcode ec);
+	public int checkcodeemail_deleteduplicate(email_checkcode ec);
+	public int checkcodeemail_iscorrect(email_checkcode ec);
+	public String findEmailByUsername(String username);
+	public Users emailExists(String email);
 	
-	public void virtuallogout() throws Exception;
+	public int pwdOld(Users user);
+	public int UpdatePasswordByEmail(Users user);
 }

@@ -1,0 +1,22 @@
+.messager-body {
+	font-size: 16px;
+}
+
+.info {
+	margin-left: 20px;
+}
+
+.mylabel {
+	display: inline-block;
+	width: 90px;
+}
+
+#head {
+	text-align: center;
+}
+
+#myform {
+	position: relative;
+	padding-left: 39%;
+	padding-top: 50px;
+}

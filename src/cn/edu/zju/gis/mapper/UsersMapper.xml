@@ -21,13 +21,46 @@
 	<select id="findUser" parameterType="cn.edu.zju.gis.po.Users" resultType="cn.edu.zju.gis.po.Users">
 		SELECT * FROM USERS WHERE username = #{username} and password = #{password}
 	</select>
-	<select id="checklogin" resultType="int">
+	
+	 <select id="checklogin" resultType="int">
 		SELECT userid FROM sitemanager limit 1;
 	</select>
-	<update id="virtuallogout">
-		UPDATE sitemanager set userid = 0;
+	<select id="login" parameterType="cn.edu.zju.gis.po.Users" resultType="cn.edu.zju.gis.po.Users">
+		SELECT * FROM USERS WHERE username=#{username} AND password=#{password}
+	</select>	
+	<insert id="register" parameterType="cn.edu.zju.gis.po.Users">
+		INSERT INTO USERS(username,password,email)
+		VALUES(#{username},#{password},#{email})
+	</insert>
+	<select id="userExists" parameterType="cn.edu.zju.gis.po.Users" resultType="cn.edu.zju.gis.po.Users">
+		SELECT * FROM USERS WHERE username=#{username}
+	</select> 
+	
+	<insert id="insert_emailcheckcode" parameterType="cn.edu.zju.gis.po.email_checkcode">
+		INSERT INTO email_checkcode(email,checkcode,createtime)
+		VALUES(#{email},#{checkcode},#{createtime})
+	</insert>
+	<delete id="checkcodeemail_deleteduplicate" parameterType="cn.edu.zju.gis.po.email_checkcode">
+		DELETE FROM email_checkcode WHERE email=#{email}
+	</delete>
+	
+	<select id="checkcodeemail_iscorrect" parameterType="cn.edu.zju.gis.po.email_checkcode" resultType="int">
+		SELECT count(*) FROM email_checkcode 
+		WHERE email=#{email} AND checkcode=#{checkcode} AND createtime-#{createtime}&lt;300
+	</select>
+	
+	<select id="findEmailByUsername" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT email FROM USERS WHERE username=#{username};
+	</select>
+	<select id="emailExists" parameterType="java.lang.String" resultType="cn.edu.zju.gis.po.Users">
+		SELECT * FROM USERS WHERE email=#{email}
+	</select>
+	
+	<update id="pwdOld" parameterType="cn.edu.zju.gis.po.Users" >
+		UPDATE USERS SET password=#{pwdNew} WHERE username=#{username}
 	</update>
-	<update id="virtuallogin">
-		UPDATE sitemanager set userid = 1;
+	
+	<update id="UpdatePasswordByEmail" parameterType="cn.edu.zju.gis.po.Users">
+		UPDATE USERS SET password=#{pwdNew} WHERE email=#{email}
 	</update>
 </mapper>

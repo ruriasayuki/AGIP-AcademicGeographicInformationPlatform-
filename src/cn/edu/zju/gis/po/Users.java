@@ -4,7 +4,8 @@ public class Users {
 	private int id; // 用户ID
 	private String username;// 用户姓名
 	private String password;// 用户密码
-
+	private String pwdNew;
+	private String email;
 	public int getId() {
 		return id;
 	}
@@ -27,6 +28,22 @@ public class Users {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getPwdNew() {
+		return pwdNew;
+	}
+
+	public void setPwdNew(String pwdNew) {
+		this.pwdNew = pwdNew;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 }

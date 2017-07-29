@@ -19,28 +19,30 @@
                 <script type="text/javascript" src="${pageContext.request.contextPath}/jquery-easyui-1.5.2/jquery.easyui.min.js"></script>
                 <script type="text/javascript" src="${pageContext.request.contextPath}/js/echarts.js"></script>
                 <script type="text/javascript" src="${pageContext.request.contextPath}/js/bmap.js"></script>
+                <script type="text/javascript" src="${pageContext.request.contextPath}/js/md5.js"></script>
+                <script type="text/javascript" src="${pageContext.request.contextPath}/js/userTreat.js"></script>
+                <script type="text/javascript" src="${pageContext.request.contextPath}/js/styleChange.js"></script>
                 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=grbYXcBhXlgv0QpFK3HHzVgLTInbTWjg"></script>
                 <script type="text/javascript" src="http://api.map.baidu.com/library/CurveLine/1.5/src/CurveLine.min.js"></script>
-                <script type="text/javascript" src="${pageContext.request.contextPath}/js/DistanceTool.js"></script>
-                <script type="text/javascript" src="${pageContext.request.contextPath}/js/mapv.min.js"></script>
+                <script type="text/javascript" src="${pageContext.request.contextPath}/js/mapv.js"></script>
                 <script type="text/javascript" src="${pageContext.request.contextPath}/js/yukimap.js"></script>
+                <script type="text/javascript" src="${pageContext.request.contextPath}/js/DistanceTool.js"></script>
                 <!--胡泽豪整合重构的地图展示模块-->
                 <script type="text/javascript" src="${pageContext.request.contextPath}/js/layerpanel.js"></script>
-                <!--主要由胡毅荣组提供代码 属于图层添加模块-->
+                <!--主要由胡毅荣提供代码 属于图层添加模块-->
                 <script type="text/javascript" src="${pageContext.request.contextPath}/js/layertree.js"></script>
-                <!--主要由孟林昊组提供代码 属于图层树模块 为地图展示子模块-->
+                <!--主要由孟林昊提供代码 属于图层树模块 为地图展示子模块-->
                 <script type="text/javascript" src="${pageContext.request.contextPath}/js/mydemo.js"></script>
-                <!-- 梁旭坚组的带有自动补完功能的查询模块 -->
+				<!-- 梁旭坚组的带有自动补完功能的查询模块 -->
                 <script type="text/javascript" src="${pageContext.request.contextPath}/js/AttrSearch.js"></script>
                 <link href="css/publicstyle.css" rel="stylesheet">
                 <link href="css/whitestyle.css" rel="stylesheet">
                 <link href="css/searchLayer.css" rel="stylesheet">
-                <link href="css/autocomplete.css" rel="stylesheet">
+				<link href="css/autocomplete.css" rel="stylesheet">
                 <script>
             var mapdata = ${map};//获取后台返回的map数据
         </script>
 </head>
-
 <body>
     <c:set var="pagename" value="main" />
     <nav class="navbar navbar-default navbar-fixed-top">
@@ -66,8 +68,9 @@
 </ul>
 </li>
 </ul>
+
 <c:choose>
-    <c:when test="${loginflag eq 0}">
+    <c:when test="${username eq null}">
         <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -75,11 +78,11 @@
 			            <b class="caret"></b>
 		            </a>
                 <ul class="dropdown-menu" id="usermenu">
-                    <li><a href="file:///E:/kaihashitsu/web/AncientMap/WebRoot/searchMaps.html">查看地图</a></li>
-                    <li><a href="#">注册</a></li>
+                    <li><a href="${pageContext.request.contextPath}/searchMaps2.html">查看地图</a></li>
+                    <li><a href="registerPanel.action">注册</a></li>
                 </ul>
-            </li>
-            <li><a href="login.action?page=${pagename}">登录</a></li>
+            </li> 
+            <li><a id="loginwinbtn" href="#">登录</a></li>
             <li><a href="about.action">关于</a></li>
         </ul>
     </c:when>
@@ -87,16 +90,16 @@
         <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-			                Admin@GIS.ZJU
+			                ${username}
 			            <b class="caret"></b>
 		            </a>
                 <ul class="dropdown-menu" id="usermenu">
                     <li><a href="${pageContext.request.contextPath}/searchMaps2.html">查看地图</a></li>
                     <li><a href="${pageContext.request.contextPath}/map.html">上传图层</a></li>
-                    <li><a href="#">个人管理</a></li>
+                    <li><a href="ModifyPwd.action">修改密码</a></li>
                 </ul>
             </li>
-            <li><a href="logout.action?page=${pagename}">注销</a></li>
+            <li><a id="logoutbtn" href="#">注销</a></li>
             <li><a href="about.action">关于</a></li>
         </ul>
     </c:otherwise>
@@ -313,7 +316,25 @@
     </tr>
 </tbody>
 </table>
-
+<!-- ============== 登录框  ============== -->
+<div id="userwin" class="easyui-window" title="用户登录" style="width:420px; height:280px;border:solid 1px #AAAAAA;" data-options="iconCls:'icon-save', modal:true, maximizable:false">
+    	<div style="padding:15px 30px;margin:2px;border:solid 1px #AAAAAA">
+            <label style="display:inline-block;width:50px">帐号</label><input id="account" class="easyui-textbox" style="width:280px" data-options="iconCls:'icon-man', required:true, prompt:'enter your name'"/><br/><br/>
+            <label style="display:inline-block;width:50px">密码</label><input id="pwd" class="easyui-passwordbox" style="width:280px"  data-options="required:true, prompt:'enter your password'"/><br/><br/>
+            <input id="checkpwd" name="checkpwd" type="checkbox"/>记住密码<br/><br/>
+            <input id="checklogin" name="checklogin" type="checkbox"/>自动登录<br/>
+        </div>
+        <div style="padding-left: 230px;margin-top: 10px">
+            <input id="loginbtn" class="easyui-linkbutton" value="登录" style="width:70px; height: 20px" />
+            <input id="cancelbtn" class="easyui-linkbutton" value="取消" style="width:70px; height:20px" />
+        </div>
+        <div style="position:relative">
+        	<a href="./ForgetPassword.jsp" style="position:absolute;left:40px;top:18px">忘记密码？</a>
+        </div>
+        <div style="position:relative">
+        	<a href="./registerPanel.action" style="position:absolute;left:320px;top:18px">立即注册</a>
+        </div>
+    </div>
         
 </body>
 

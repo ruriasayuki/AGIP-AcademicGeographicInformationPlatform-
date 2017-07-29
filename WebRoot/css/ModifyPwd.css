@@ -1,0 +1,18 @@
+#head {
+	text-align: center;
+}
+
+#modifyDiv {
+	position: relative;
+	padding-left: 40%;
+	padding-top: 50px;
+}
+
+.mylabel {
+	display: inline-block;
+	width: 80px;
+}
+
+.messager-body {
+	font-size: 16px;
+}
