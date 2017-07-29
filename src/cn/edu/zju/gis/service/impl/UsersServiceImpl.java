@@ -41,6 +41,7 @@ public class UsersServiceImpl implements UsersService{
 		finduser = usersMapper.login(user);
 		if(finduser != null) {
 			session.setAttribute("username", finduser.getUsername());
+			session.setAttribute("userid", finduser.getId());
 			return "success";
 		}
 		else {
@@ -221,5 +222,11 @@ public class UsersServiceImpl implements UsersService{
 		ec.setCreatetime(timestampnow);
 		usersMapper.checkcodeemail_deleteduplicate(ec);//如果有重复就删掉（相当于更新）
 		usersMapper.insert_emailcheckcode(ec);
+	}
+
+	@Override
+	public Users findUserByName(String name) throws Exception {
+		Users user = usersMapper.findUserByName(name);
+		return user;
 	}
 }

@@ -9,6 +9,8 @@ import cn.edu.zju.gis.po.Users;
 public interface UsersService {
 	public Users findUserById(int id) throws Exception;
 	public Users findUser(Users user) throws Exception;
+	public Users findUserByName(String user) throws Exception;
+	
 	public String login(Users user,HttpSession session) throws Exception;
 	public String logout(HttpSession session);
 	public void register(Users user,HttpServletRequest request,HttpServletResponse response) throws Exception;

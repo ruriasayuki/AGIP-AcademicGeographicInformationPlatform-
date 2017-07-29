@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=utf-8"
+    pageEncoding="utf-8"%>
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -10,7 +12,6 @@
     <link href="plugin/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <link href="css/animate.css" rel="stylesheet">
     <link href="css/zzsc.css" rel="stylesheet">
-    <![endif]-->
     <link href="css/map.css" rel="stylesheet">
 </head>
 <body>
@@ -39,7 +40,7 @@
 		<div class="dataEach" style="margin-top: 5px;display:none">
 		   <div style="margin-top: 7px;">
 		        <span class="dataEach_name">userid:</span>
-		        <input type="text" id="userid" name="userid" value="1">
+		        <input type="text" id="userid" name="userid" value='<%=Session["userid"]%>'>
 		    </div>
 		</div>
         
@@ -99,7 +100,7 @@
 		<div class="dataEach" style="margin-top: 5px;display:none">
 		   <div style="margin-top: 7px;">
 		        <span class="dataEach_name">userid:</span>
-		        <input type="text" id="userid" name="userid" value="1">
+		        <input type="text" id="userid" name="userid" value='<%=Session["userid"]%>'>
 		    </div>
 		</div>
         

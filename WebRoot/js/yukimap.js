@@ -69,6 +69,7 @@ function Ykmap(mapjson) {
 	//图层解析函数
 	var mapstyle = $.parseJSON(mapjson.mapstyle);//解析百度地图配置json
 	this.mapid = mapjson.id;//地图id
+	this.mapuserid = mapjson.userid;
 	this.mapname = mapjson.mapname;//地图名称
 	this.centerx = mapstyle.centerx;//百度地图初始化经纬度
 	this.centery = mapstyle.centery;
@@ -636,6 +637,7 @@ function Icemap(YKmap) {
 		mapmode: YKmap.mapmode
 	}
 	this.id = YKmap.mapid;
+	this.userid = YKmap.mapuserid;
 	this.mapname = YKmap.mapname;
 	this.mapstyle = JSON.stringify(mapstyle);
 }

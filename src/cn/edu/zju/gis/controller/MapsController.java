@@ -67,6 +67,7 @@ public class MapsController
         //TODO 暂时前端只提供这些参数 用户模块的userid和权限模块的accessibility不提供，地图模块待定（毕竟我们其实没有特别精致的历史地图资料）
         Maps mapForSave = new Maps(mapObj.getId(),
         		mapObj.getMapname(),
+        		mapObj.getUserid(),
         		mapObj.getMapstyle()
         		);
         List<MapLayer> oldLayerlist = new ArrayList<MapLayer>();

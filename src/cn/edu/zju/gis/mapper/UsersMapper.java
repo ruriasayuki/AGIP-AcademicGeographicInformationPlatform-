@@ -9,6 +9,8 @@ public interface UsersMapper {
 	// 根据账号密码查询用户
 	public Users findUser(Users user) throws Exception;
 	
+	public Users findUserByName(String name) throws Exception;
+	
 	public int checklogin() throws Exception;
 	public Users login(Users user) throws Exception;
 	public int register(Users user) throws Exception;

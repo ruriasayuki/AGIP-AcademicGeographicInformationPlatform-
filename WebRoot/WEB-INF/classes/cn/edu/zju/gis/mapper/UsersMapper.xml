@@ -21,6 +21,9 @@
 	<select id="findUser" parameterType="cn.edu.zju.gis.po.Users" resultType="cn.edu.zju.gis.po.Users">
 		SELECT * FROM USERS WHERE username = #{username} and password = #{password}
 	</select>
+	<select id="findUserByName" parameterType="java.lang.String" resultType="cn.edu.zju.gis.po.Users">
+		SELECT * FROM USERS WHERE username = #{value}
+	</select>
 	
 	 <select id="checklogin" resultType="int">
 		SELECT userid FROM sitemanager limit 1;

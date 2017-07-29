@@ -59,10 +59,15 @@ public class UsersController {
 	}
 	
 	@RequestMapping(value = "/main")
-	public ModelAndView openmain(Integer mapid) throws Exception{
+	public ModelAndView openmain(Integer mapid,HttpSession session) throws Exception{
+		String username =(String) session.getAttribute("username");
+		Users nowuser = null;
+		if(username==null) nowuser = new Users();
+		else
+			nowuser = usersService.findUserByName(username);
 		MapsCustom map=null;//地图初始化为空
 		if(mapid==null)
-			map= new MapsCustom("new map",1,1,0,"{\"centerx\":110,\"centery\":40,\"zoomlevel\":5,\"mapmode\":0}");
+			map= new MapsCustom("new map",nowuser.getId(),1,0,"{\"centerx\":110,\"centery\":40,\"zoomlevel\":5,\"mapmode\":0}");
 		else
 		{
 			Maps mapa = mapsService.findMapById(mapid);

@@ -95,7 +95,7 @@
 		            </a>
                 <ul class="dropdown-menu" id="usermenu">
                     <li><a href="${pageContext.request.contextPath}/searchMaps2.html">查看地图</a></li>
-                    <li><a href="${pageContext.request.contextPath}/map.html">上传图层</a></li>
+                    <li><a href="${pageContext.request.contextPath}/map.jsp">上传图层</a></li>
                     <li><a href="ModifyPwd.action">修改密码</a></li>
                 </ul>
             </li>
