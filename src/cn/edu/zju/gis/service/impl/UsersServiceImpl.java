@@ -130,7 +130,11 @@ public class UsersServiceImpl implements UsersService{
 		usersMapper.checkcodeemail_deleteduplicate(ec);//如果有重复就删掉（相当于更新）
 		usersMapper.insert_emailcheckcode(ec);
 		
-		System.out.println(email2send);
+		//在此处设置邮箱发送器
+		EmailSender es = new EmailSender("zjugis2014","zjugis2014");//这里是特地申请的163邮箱
+		es.sendemail2address(email2send, checkcode);
+		//嗯。。。个人觉得这个东西挺好玩的 以后可以搞一些自动发邮件的事情
+		
 		response.getWriter().append("验证码已发送至"+email2send);
 	}
 	

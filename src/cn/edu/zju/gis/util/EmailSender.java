@@ -15,28 +15,25 @@ import org.apache.commons.mail.*;
 public class EmailSender {
 	
 	String myaddress="";
-	public EmailSender(String myaddress){
-		this.myaddress=myaddress;
-		System.out.println(this.myaddress);
+	String mypassword="";
+	public EmailSender(String address,String password){
+		this.myaddress=address;
+		this.mypassword=password;
 	}
 	public String toString() {
 		return myaddress;
 	}
-	
-	
-	
 	public void sendemail2address(String addrees2send,String checkcode) {
 		
 		SimpleEmail email = new SimpleEmail();
 		email.setHostName("smtp.163.com");
-		email.setAuthentication(myaddress, "");
+		email.setAuthentication(myaddress, mypassword);
+		email.setSmtpPort(25);
 		try{
 			email.setCharset("UTF-8");
 			email.addTo(addrees2send);
 			email.setFrom(myaddress+"@163.com");
-			email.setSubject("上古地图-验证码");
-			
-			
+			email.setSubject("AGIP验证码");
 			email.setMsg("验证码："+checkcode);//4位验证码
 			email.send();
 		} 
