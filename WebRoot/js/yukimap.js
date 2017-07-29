@@ -485,7 +485,8 @@ function drawL4(layer, layerindex) {//轨迹图 （打算后面全用mapv重构
 	return item;
 }
 var tooltipPub = {
-	flag: 0
+	flag: 0,
+	nowIndex:0
 }
 function display() {
 	myecharts = echarts.init(document.getElementById('map'));
@@ -584,8 +585,15 @@ function display() {
 	if (myMapMana.mapmode == 1) mybmap.setMapType(BMAP_SATELLITE_MAP);
 	myecharts.on('mouseover', function (params) {
 		tooltipPub.flag = 1;
-		console.log(params);
-		$("#mytooltip").html(params.name);
+		var tooltipHtml="";
+		switch(params.seriesType){
+			case "lines":
+				tooltipHtml = params.seriesName+':'+params.data.ID;
+				break;
+			case "scatter":
+				tooltipHtml = params.seriesName+':'+params.name+','+params.data.value[2];
+		}
+		$("#mytooltip").html(tooltipHtml);
 		$("#mytooltip").css("top", (mousePos.y - 40) + "px");
 		$("#mytooltip").css("left", (mousePos.x + 10) + "px");
 		$("#mytooltip").css("display", "inline");

@@ -331,6 +331,72 @@ function ColorArrayToHex(colorArray) {
     }
     return '#' + OctToHex(colorArray.r) + OctToHex(colorArray.g) + OctToHex(colorArray.b);
 }
+/**
+ * HSL颜色值转换为RGB. 
+ * 换算公式改编自 http://en.wikipedia.org/wiki/HSL_color_space.
+ * h, s, 和 l 设定在 [0, 1] 之间
+ * 返回的 r, g, 和 b 在 [0, 255]之间
+ *
+ * @param   Number  h       色相
+ * @param   Number  s       饱和度
+ * @param   Number  l       亮度
+ * @return  Array           RGB色值数值
+ */
+function hslToRgb(h, s, l){
+    var r, g, b;
+
+    if(s == 0){
+        r = g = b = l; // achromatic
+    }else{
+        var hue2rgb = function hue2rgb(p, q, t){
+            while(t < 0) t += 1;
+            while(t > 1) t -= 1;
+            if(t < 1/6) return p + (q - p) * 6 * t;
+            if(t < 1/2) return q;
+            if(t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+            return p;
+        }
+
+        var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+        var p = 2 * l - q;
+        r = hue2rgb(p, q, h + 1/3);
+        g = hue2rgb(p, q, h);
+        b = hue2rgb(p, q, h - 1/3);
+    }
+
+    return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
+}
+/**
+ * RGB 颜色值转换为 HSL.
+ * 转换公式参考自 http://en.wikipedia.org/wiki/HSL_color_space.
+ * r, g, 和 b 需要在 [0, 255] 范围内
+ * 返回的 h, s, 和 l 在 [0, 1] 之间
+ *
+ * @param   Number  r       红色色值
+ * @param   Number  g       绿色色值
+ * @param   Number  b       蓝色色值
+ * @return  Array           HSL各值数组
+ */
+function rgbToHsl(r, g, b){
+    r /= 255, g /= 255, b /= 255;
+    var max = Math.max(r, g, b), min = Math.min(r, g, b);
+    var h, s, l = (max + min) / 2;
+
+    if(max == min){
+        h = s = 0; // achromatic
+    }else{
+        var d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        switch(max){
+            case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+            case g: h = (b - r) / d + 2; break;
+            case b: h = (r - g) / d + 4; break;
+        }
+        h /= 6;
+    }
+
+    return [h, s, l];
+}
 //
 ////**yukiToolBegin
 //雪家色彩映射器
@@ -341,6 +407,7 @@ function ColorArrayToHex(colorArray) {
 //色彩字符串 最大值颜色,
 //字符串 分段数,
 //字符串类型 暂时只有linear)
+//有待重构... 需要分离数值映射和色彩映射，以便精简代码，色彩映射也应该提供rgb（特点是色彩跨度大的时候从灰色过度）和hsl（特点是色彩跨度大的时候从色相环过度）两种空间的渐变方案 暂时是写死的hsl色彩过渡方案
 function yukiColorMapper(min, max, minColor, maxColor, num, style) {
     var ColorMaps = new Array();
     ColorMaps = [];
@@ -349,12 +416,16 @@ function yukiColorMapper(min, max, minColor, maxColor, num, style) {
     var ymaxColor = colorHex(maxColor);
     var valueColor = HexToColorArray(yminColor);
     var endColor = HexToColorArray(ymaxColor);
+    var valueColorhsl = rgbToHsl(valueColor.r,valueColor.g,valueColor.b);
+    var endColorhsl = rgbToHsl(endColor.r,endColor.g,endColor.b);
+    if((endColorhsl[0]-valueColorhsl[0])>0.5) endColorhsl[0]=endColorhsl[0]-1;
+    else if((valueColorhsl[0]-endColorhsl[0])>0.5) valueColorhsl[0] = valueColorhsl[0]-1;
     //线性映射
     if (style == "linear") {
         var step = (max - min) / num;
-        var rstep = (endColor.r - valueColor.r) / num;
-        var gstep = (endColor.g - valueColor.g) / num;
-        var bstep = (endColor.b - valueColor.b) / num;
+        var hstep = (endColorhsl[0] - valueColorhsl[0]) / num;
+        var sstep = (endColorhsl[1] - valueColorhsl[1]) / num;
+        var lstep = (endColorhsl[2] - valueColorhsl[2]) / num;
         var nowstart = min - 1;
         var nowend = min + step;
         var nowColor = {
@@ -364,10 +435,16 @@ function yukiColorMapper(min, max, minColor, maxColor, num, style) {
         };
         while (nowend < max) {
             ColorMaps.push({ start: parseInt(nowstart), end: parseInt(nowend), value: ColorArrayToHex(nowColor) });
+            //
+            valueColorhsl[0]+=hstep;
+            valueColorhsl[1]+=sstep;
+            valueColorhsl[2]+=lstep;
+            var nowRgb = hslToRgb(valueColorhsl[0],valueColorhsl[1],valueColorhsl[2]);
+            //
             valueColor = {
-                r: valueColor.r + rstep,
-                g: valueColor.g + gstep,
-                b: valueColor.b + bstep
+                r: nowRgb[0],
+                g: nowRgb[1],
+                b: nowRgb[2]
             };
             nowstart = nowend;
             nowend = nowend + step;
@@ -383,9 +460,9 @@ function yukiColorMapper(min, max, minColor, maxColor, num, style) {
         var offset=1;
         if(min<0) offset = -min+1;
         var step = (Math.log(max+offset) - Math.log(min+offset)) / num;
-        var rstep = (endColor.r - valueColor.r) / num;
-        var gstep = (endColor.g - valueColor.g) / num;
-        var bstep = (endColor.b - valueColor.b) / num;
+        var hstep = (endColorhsl[0] - valueColorhsl[0]) / num;
+        var sstep = (endColorhsl[1] - valueColorhsl[1]) / num;
+        var lstep = (endColorhsl[2] - valueColorhsl[2]) / num;
         var nowstart = min - 1;
         var nowstartLog = Math.log(min + offset);
         var nowendLog = nowstartLog+step;
@@ -397,10 +474,16 @@ function yukiColorMapper(min, max, minColor, maxColor, num, style) {
         };
         while (nowend < max) {
             ColorMaps.push({ start: parseInt(nowstart), end: parseInt(nowend), value: ColorArrayToHex(nowColor) });
+            //
+            valueColorhsl[0]+=hstep;
+            valueColorhsl[1]+=sstep;
+            valueColorhsl[2]+=lstep;
+            var nowRgb = hslToRgb(valueColorhsl[0],valueColorhsl[1],valueColorhsl[2]);
+            //
             valueColor = {
-                r: valueColor.r + rstep,
-                g: valueColor.g + gstep,
-                b: valueColor.b + bstep
+                r: nowRgb[0],
+                g: nowRgb[1],
+                b: nowRgb[2]
             };
             nowstart = nowend;
             nowendLog = nowendLog + step;
@@ -417,9 +500,9 @@ function yukiColorMapper(min, max, minColor, maxColor, num, style) {
         var offset=0;
         if(min<0) offset = -min;
         var step = (max*max - min*min) / num;
-        var rstep = (endColor.r - valueColor.r) / num;
-        var gstep = (endColor.g - valueColor.g) / num;
-        var bstep = (endColor.b - valueColor.b) / num;
+        var hstep = (endColorhsl[0] - valueColorhsl[0]) / num;
+        var sstep = (endColorhsl[1] - valueColorhsl[1]) / num;
+        var lstep = (endColorhsl[2] - valueColorhsl[2]) / num;
         var nowstart = min - 1;
         var nowstartSquare = nowstart*nowstart;
         var nowendSquare = nowstartSquare+step;
@@ -431,10 +514,16 @@ function yukiColorMapper(min, max, minColor, maxColor, num, style) {
         };
         while (nowend < max) {
             ColorMaps.push({ start: parseInt(nowstart), end: parseInt(nowend), value: ColorArrayToHex(nowColor) });
+            //
+            valueColorhsl[0]+=hstep;
+            valueColorhsl[1]+=sstep;
+            valueColorhsl[2]+=lstep;
+            var nowRgb = hslToRgb(valueColorhsl[0],valueColorhsl[1],valueColorhsl[2]);
+            //
             valueColor = {
-                r: valueColor.r + rstep,
-                g: valueColor.g + gstep,
-                b: valueColor.b + bstep
+                r: nowRgb[0],
+                g: nowRgb[1],
+                b: nowRgb[2]
             };
             nowstart = nowend;
             nowendSquare = nowendSquare + step;
