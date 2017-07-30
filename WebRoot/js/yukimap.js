@@ -140,6 +140,7 @@ var echartsoption;//echarts的option json
 var myseries = new Array();//echartseries管理变量
 var bmapoverlay;//bmap的覆盖物管理变量
 var myinit;//初始化函数
+var mySearchMarker;
 //***//////////---程序入口---//////////***//
 function myinit() {
 	maxz = 0;
@@ -694,6 +695,13 @@ function display() {
 	mybmap.addControl(bmapScale);
 	mybmap.addControl(navigation);
 	mybmap.addControl(mapType);
+	
+	//初始化查询结果标记
+	mySearchMarker = new BMap.Marker(new BMap.Point(120,30));
+	mybmap.addOverlay(mySearchMarker);
+	mySearchMarker.hide();
+	mySearchMarker.setOffset(new BMap.Size(0,-2));
+	
 	if (myMapMana.mapmode == 1) mybmap.setMapType(BMAP_SATELLITE_MAP);
 	myecharts.on('mouseover', function (params) {
 		tooltipPub.flag = 1;

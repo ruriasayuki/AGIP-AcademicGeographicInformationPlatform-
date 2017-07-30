@@ -26,7 +26,7 @@ function match(info) {//查询所需要的信息匹配 并且返回结果选框
                                 name: data[i].name,
                                 count: data[i].count,
                                 type: '面',
-                                index: i//遇事不决存索引 这里还在纠结平移缩放怎么弄
+                                index: { layer: index, feature: i }//遇事不决存索引 这里还在纠结平移缩放怎么弄
                             }
                             resultSet.push(temp);
                         }
@@ -43,7 +43,7 @@ function match(info) {//查询所需要的信息匹配 并且返回结果选框
                                 name: data[i].name,
                                 count: data[i].value[2],
                                 type: '点',
-                                index: i//遇事不决存索引 这里还在纠结平移缩放怎么弄
+                                index: { layer: index, feature: i }//遇事不决存索引 这里还在纠结平移缩放怎么弄
                             }
                             resultSet.push(temp);
                         }
@@ -56,7 +56,7 @@ function match(info) {//查询所需要的信息匹配 并且返回结果选框
                                 name: data.ID,
                                 count: data.coords,
                                 type: '面',
-                                index: i//遇事不决存索引 这里还在纠结平移缩放怎么弄
+                                index: { layer: index, feature: i }//遇事不决存索引 这里还在纠结平移缩放怎么弄
                             }
                             resultSet.push(temp);
                         }

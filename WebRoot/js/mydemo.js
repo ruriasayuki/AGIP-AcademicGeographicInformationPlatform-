@@ -13,7 +13,7 @@ function mydisFunc() {
 }
 function myshareFunc() {
 	$('#mapPanel').css('display', 'none');
-	$('#searchBox').css('display', 'none');
+	closeSearchPanel();
 	if ($('#SharePanel').css('display') == 'none')
 		$('#SharePanel').css('display', 'inline');
 	else
@@ -25,10 +25,15 @@ function showSearchPanel() {
 	if ($('#searchBox').css('display') == 'none')
 		$('#searchBox').css('display', 'inline');
 	else
-		$('#searchBox').css('display', 'none');
+		closeSearchPanel();
+}
+function closeSearchPanel()
+{
+	$('#searchBox').css('display', 'none');
+	mySearchMarker.hide();
 }
 function showMapPanel() {
-	$('#searchBox').css('display', 'none');
+	closeSearchPanel();
 	$('#SharePanel').css('display', 'none');
 	if ($('#mapPanel').css('display') == 'none') {
 		var mapsName = new Array();
@@ -133,6 +138,8 @@ function zoomMapTo(obj)
 		var point1= new BMap.Point(tx-dx,ty-dy);
 		var point2= new BMap.Point(tx+dx,ty+dy);
 		mybmap.setViewport([point1,point2]);
+		mySearchMarker.setPosition(new BMap.Point(tx,ty));
+		mySearchMarker.show();
 		break;
 	case 2:
 		var data = layer.style.series.data;
@@ -143,6 +150,8 @@ function zoomMapTo(obj)
 		var point1= new BMap.Point(tx-dx,ty-dy);
 		var point2= new BMap.Point(tx+dx,ty+dy);
 		mybmap.setViewport([point1,point2]);
+		mySearchMarker.setPosition(new BMap.Point(tx,ty));
+		mySearchMarker.show();
 		break;
 	case 3:
 		var data = layer.style.data;
@@ -153,6 +162,10 @@ function zoomMapTo(obj)
 			coords.push(new BMap.Point(coord[0],coord[1]));
 		}
 		mybmap.setViewport(coords);
+		var tx = (data[index].coords[0][0]+data[index].coords[1][0])/2;
+		var ty = (data[index].coords[1][0]+data[index].coords[1][1])/2;
+		mySearchMarker.setPosition(new BMap.Point(tx,ty));
+		mySearchMarker.show();
 		break;
 	}
 }
