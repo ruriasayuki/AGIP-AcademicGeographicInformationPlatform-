@@ -80,9 +80,7 @@ function Ykmap(mapjson) {
 	this.maplayerlist = layeranaly(mapjson.maplayer);//地图图层列表
 }
 
-function echartsSetting(stylejson) {
-	//基于某种手法来构造这些变量，并且用于redraw	
-}
+
 function has(item) {
 	if (item) return true;
 	else return false;
@@ -153,6 +151,7 @@ function refresh() {
 	if(has(autoComplete)){
 	autoComplete.setArr(getLayerStringDataArr());
 	}
+	redrawLegend();
 }
 
 function drawL1(layer, layerindex) {//分层设色图 使用mapv绘制
@@ -486,6 +485,59 @@ function drawL4(layer, layerindex) {//轨迹图 （打算后面全用mapv重构
 	myMapMana.maplayerlist[layerindex].style = item;
 	return item;
 }
+function redrawLegend()
+{
+	var legendContent="<strong>图例<strong></br>";
+	for(var i=0;i<myMapMana.maplayerlist.length;i++)
+	{
+		var layer = myMapMana.maplayerlist[i];
+		var layerType = layer.type;
+		switch(layerType)
+		{
+		case 0:
+			legendContent+=layer.layername+'</br>';
+			var styleInfo = layer.style.options;
+			var colorlen = styleInfo.splitList.length;
+			var maxcolor = styleInfo.splitList[colorlen-1].value;
+			var mincolor = styleInfo.splitList[0].value;
+			var maxval = styleInfo.max;
+			var minval = styleInfo.min;
+			legendContent+='<div class="rectangle" style="background-color:'+maxcolor+'"></div>';
+			legendContent+='&emsp;'+maxval+'</br>';
+			legendContent+='<div class="rectangle" style="background-color:'+mincolor+'"></div>';
+			legendContent+='&emsp;'+minval+'</br>';
+			break;
+		case 1:
+			legendContent+=layer.layername+'</br>';
+			var styleInfo = layer.style.append;
+			var maxcolor = styleInfo.maxColor;
+			var mincolor = styleInfo.minColor;
+			var maxval = styleInfo.max;
+			var minval = styleInfo.min;
+			legendContent+='<div class="circle" style="background-color:'+maxcolor+'"></div>';
+			legendContent+='&emsp;'+maxval+'</br>';
+			legendContent+='<div class="circle" style="background-color:'+mincolor+'"></div>';
+			legendContent+='&emsp;'+minval+'</br>';
+			break;
+		case 2:
+			var pointcolor = layer.style.itemStyle.normal.color;
+			legendContent+='<div class="circle" style="background-color:'+pointcolor+'"></div>';
+			legendContent+='&emsp;'+layer.layername+'</br>';
+			break;
+		case 3:
+			var colors = layer.style.lineStyle.normal.color.colorStops;
+			var begincolor = colors[0].color;
+			var endcolor = colors[1].color;
+			legendContent+='<div class="line" style="background: linear-gradient(to right, '+begincolor+' , '+endcolor+')"></div>';
+			legendContent+='&emsp;'+layer.layername+'</br>';
+			break;
+		}
+	}
+	$('#mylegend').html(legendContent);
+	$('#mylegend').css("display","inline");
+}
+
+
 var tooltipPub = {
 	flag: 0,
 	nowIndex:0

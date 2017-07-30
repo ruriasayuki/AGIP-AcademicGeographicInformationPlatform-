@@ -666,7 +666,6 @@ function savestyle() {
                 var splitNum = $('#splitNum').val();
                 var splitType = $('#splitType').val();
                 var newSplitList = yukiColorMapper(min, max, minColor, maxColor, splitNum, splitType);
-                //TODO drawLegend();
                 myMapMana.maplayerlist[i].style.options.splitNum = splitNum;
                 myMapMana.maplayerlist[i].style.options.splitType = splitType;
                 myMapMana.maplayerlist[i].style.options.highlight = $("#highcolor")[0].value;;

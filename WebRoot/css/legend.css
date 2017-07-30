@@ -1,0 +1,21 @@
+@CHARSET "UTF-8";
+.rectangle {
+            width: 30px;
+            height: 20px;
+            background-color: orangered;
+            border-radius: 10%;
+            float:left
+        }
+.circle {
+            width: 10px;
+            height: 10px;
+            background-color: orangered;
+            border-radius: 50%;
+            float:left
+        }
+.line{
+            width: 30px;
+            height: 3px;
+            background-color: orangered;
+            float:left
+        }

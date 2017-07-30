@@ -39,6 +39,7 @@
                 <link href="css/whitestyle.css" rel="stylesheet">
                 <link href="css/searchLayer.css" rel="stylesheet">
 				<link href="css/autocomplete.css" rel="stylesheet">
+				<link href="css/legend.css" rel="stylesheet">
                 <script>
             var mapdata = ${map};//获取后台返回的map数据
         </script>
@@ -145,7 +146,7 @@
     <br>
     <br>
 </footer>
-<!-- 分享工具栏 -->
+<!-- 分享工具栏 BEGIN-->
 <div id="SharePanel" style="position:absolute;display:none;padding:5px;opacity:0.9;background:#EEEEEE;top:90px;left:90px;border-radius:5px">
 <!-- JiaThis Button BEGIN -->
 <div class="jiathis_style_32x32">
@@ -157,10 +158,15 @@
 </div>
 <script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
 <!-- JiaThis Button END -->
+</div>
+<!-- 分享工具栏 END -->
+<!-- 自定义图例 -->
+<div id="mylegend" style="position:absolute;display:none;padding:5px;background:rgba(200,200,200,0.2);bottom:60px;right:1%;border-radius:5px">
 
 </div>
+
 <!-- 自定义tooltip -->
-<div id="mytooltip" style="position:absolute;display:none;padding:5px;background:rgba(150,150,150,0.6);top:50%;left:50%;border-radius:5px">test tooltip </div>
+<div id="mytooltip" style="position:absolute;display:none;padding:5px;background:rgba(150,150,150,0.3);top:50%;left:50%;border-radius:5px">test tooltip </div>
 <script> 
                                                        function mouseMove(ev) {
                                                            Ev = ev || window.event;
