@@ -5,6 +5,51 @@
 //包含所有管理用全局变量
 //入口function myinit()
 //————————————————————————以上为说明————————————————————————//
+//面状物的包围盒工具
+function getBoundBox(pointArray)
+{
+	var maxX,minX,maxY,minY;
+	maxX=minX=pointArray[0][0][0][0];
+	maxY=minY=pointArray[0][0][0][1];
+	for(var i=0;i<pointArray.length;i++)
+		{
+			var pointArrayL0=pointArray[i];
+			for(var j=0;j<pointArrayL0.length;j++)
+				{
+					var pointArrayL1=pointArrayL0[j];
+					for(var k=0;k<pointArrayL1.length;k++)
+						{
+							var tx = pointArrayL1[k][0];
+							var ty = pointArrayL1[k][1];
+							if(tx>maxX) maxX=tx;
+							if(tx<minX) minX=tx;
+							if(ty>maxY) maxY=ty;
+							if(ty<minY) minY=ty;
+						}
+				}
+		}
+	return({maxX:maxX,minX:minX,maxY:maxY,minY:minY});
+}
+//点状物的缩放等级确定
+function getAverageDistance(pointArray)
+{
+	var maxX,minX,maxY,minY;
+	maxX=minX=pointArray[0].value[0];
+	maxY=minY=pointArray[0].value[1];
+	for(var i=0;i<pointArray.length;i++)
+	{
+		var tx = pointArray[i].value[0];
+		var ty = pointArray[i].value[1];
+		if(tx>maxX) maxX=tx;
+		if(tx<minX) minX=tx;
+		if(ty>maxY) maxY=ty;
+		if(ty<minY) minY=ty;
+	}
+	var k = Math.sqrt(pointArray.length)-1;
+	var dx = (maxX-minX)/k;
+	var dy = (maxY-minY)/k;
+	return {dx:dx,dy:dy};
+}
 //自制的判定用工具
 function nothave(yklayer) {
 	var templist = myMapMana.maplayerlist;
@@ -138,9 +183,13 @@ function redraw() {
 	refresh();
 }
 function refresh() {
-	//测试参数修改
-	//echartsoption.title.text="changed";
+	var centerPoint = mybmap.getCenter();
+	myMapMana.centerx = centerPoint.lng;
+	myMapMana.centery = centerPoint.lat;
+	myMapMana.zoomlevel = mybmap.getZoom();
 	echartsoption.series = myseries;
+	echartsoption.bmap.center = [myMapMana.centerx, myMapMana.centery];
+	echartsoption.bmap.zoom= myMapMana.zoomlevel;
 	myecharts.setOption(echartsoption);
 	for (var i = 0; i < myMapMana.maplayerlist.length; i++) {
 		if ((myMapMana.maplayerlist[i].state) && (has(myMapMana.maplayerlist[i].mapv))) {
@@ -187,6 +236,7 @@ function drawL1(layer, layerindex) {//分层设色图 使用mapv绘制
 					for (var i = 0; i < gdata.length; i++) {
 						if (gdata[i].name == item.name) {
 							item.count = Number(gdata[i].value);
+							item.bound = getBoundBox(item.geometry.coordinates);
 							if (item.count > maxC) {
 								maxC = item.count;
 							}
@@ -383,6 +433,7 @@ function drawL2(layer, layerindex) {//等级符号图 （打算后面全用mapv�
 			}
 		}
 	}
+	var avgDis = getAverageDistance(res);
 	myMapMana.maplayerlist[layerindex].style = {
 		series: item, append: {
 			max: maxvalue,
@@ -391,7 +442,8 @@ function drawL2(layer, layerindex) {//等级符号图 （打算后面全用mapv�
 			minSize: minsize,
 			maxColor: maxcolor,
 			minColor: mincolor,
-			mapperType: mappertype
+			mapperType: mappertype,
+			avgDis: avgDis
 		}
 	};
 	return item;
@@ -401,8 +453,8 @@ function drawL3(layer, layerindex) {//点图 （打算后面全用mapv重构
 		//同步zIndex值之后重绘
 		//对已有style做修改后没反应就在此重设
 		//回调函数必须在此重设
-		myMapMana.maplayerlist[layerindex].style.z = myMapMana.maplayerlist[layerindex].zIndex;
-		return myMapMana.maplayerlist[layerindex].style;
+		myMapMana.maplayerlist[layerindex].style.series.z = myMapMana.maplayerlist[layerindex].zIndex;
+		return myMapMana.maplayerlist[layerindex].style.series;
 	}
 	var data = layer.data;
 	var res = [];
@@ -446,7 +498,12 @@ function drawL3(layer, layerindex) {//点图 （打算后面全用mapv重构
 			}
 		}
 	}
-	myMapMana.maplayerlist[layerindex].style = item;
+	var avgDis = getAverageDistance(res);
+	myMapMana.maplayerlist[layerindex].style = 
+	{series: item, append: {
+		avgDis: avgDis
+	}
+};
 	return item;
 }
 function drawL4(layer, layerindex) {//轨迹图 （打算后面全用mapv重构
@@ -491,6 +548,7 @@ function redrawLegend()
 	for(var i=0;i<myMapMana.maplayerlist.length;i++)
 	{
 		var layer = myMapMana.maplayerlist[i];
+		if(!layer.state) continue;
 		var layerType = layer.type;
 		switch(layerType)
 		{
@@ -502,9 +560,9 @@ function redrawLegend()
 			var mincolor = styleInfo.splitList[0].value;
 			var maxval = styleInfo.max;
 			var minval = styleInfo.min;
-			legendContent+='<div class="rectangle" style="background-color:'+maxcolor+'"></div>';
+			legendContent+='<div class="block"></div><div class="rectangle" style="background-color:'+maxcolor+'"></div>';
 			legendContent+='&emsp;'+maxval+'</br>';
-			legendContent+='<div class="rectangle" style="background-color:'+mincolor+'"></div>';
+			legendContent+='<div class="block"></div><div class="rectangle" style="background-color:'+mincolor+'"></div>';
 			legendContent+='&emsp;'+minval+'</br>';
 			break;
 		case 1:
@@ -514,13 +572,13 @@ function redrawLegend()
 			var mincolor = styleInfo.minColor;
 			var maxval = styleInfo.max;
 			var minval = styleInfo.min;
-			legendContent+='<div class="circle" style="background-color:'+maxcolor+'"></div>';
+			legendContent+='<div class="block"></div><div class="circle" style="background-color:'+maxcolor+'"></div>';
 			legendContent+='&emsp;'+maxval+'</br>';
-			legendContent+='<div class="circle" style="background-color:'+mincolor+'"></div>';
+			legendContent+='<div class="block"></div><div class="circle" style="background-color:'+mincolor+'"></div>';
 			legendContent+='&emsp;'+minval+'</br>';
 			break;
 		case 2:
-			var pointcolor = layer.style.itemStyle.normal.color;
+			var pointcolor = layer.style.series.itemStyle.normal.color;
 			legendContent+='<div class="circle" style="background-color:'+pointcolor+'"></div>';
 			legendContent+='&emsp;'+layer.layername+'</br>';
 			break;

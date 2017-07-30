@@ -113,7 +113,48 @@ function showResultPanel(resultSet) {
 
 function zoomMapTo(obj)
 {
-	console.log(obj);
+	var layer = myMapMana.maplayerlist[obj.index.layer];
+	var index = obj.index.feature;
+	switch(layer.type)
+	{
+	case 0:
+		var data = layer.style.dataSet._data;
+		var BB = data[index].bound;
+		var point1 = new BMap.Point(BB.minX,BB.minY);
+		var point2 = new BMap.Point(BB.maxX,BB.maxY);
+		mybmap.setViewport([point1,point2]);
+		break;
+	case 1:
+		var data = layer.style.series.data;
+		var tx=data[index].value[0];
+		var ty=data[index].value[1];
+		var dx=layer.style.append.avgDis.dx;
+		var dy=layer.style.append.avgDis.dy;
+		var point1= new BMap.Point(tx-dx,ty-dy);
+		var point2= new BMap.Point(tx+dx,ty+dy);
+		mybmap.setViewport([point1,point2]);
+		break;
+	case 2:
+		var data = layer.style.series.data;
+		var tx=data[index].value[0];
+		var ty=data[index].value[1];
+		var dx=layer.style.append.avgDis.dx;
+		var dy=layer.style.append.avgDis.dy;
+		var point1= new BMap.Point(tx-dx,ty-dy);
+		var point2= new BMap.Point(tx+dx,ty+dy);
+		mybmap.setViewport([point1,point2]);
+		break;
+	case 3:
+		var data = layer.style.data;
+		var coords = new Array();
+		for(var i=0;i<2;i++)
+		{
+			var coord = data[index].coords[i];
+			coords.push(new BMap.Point(coord[0],coord[1]));
+		}
+		mybmap.setViewport(coords);
+		break;
+	}
 }
 
 $(document).ready(function () {

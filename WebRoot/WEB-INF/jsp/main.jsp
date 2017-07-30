@@ -161,12 +161,12 @@
 </div>
 <!-- 分享工具栏 END -->
 <!-- 自定义图例 -->
-<div id="mylegend" style="position:absolute;display:none;padding:5px;background:rgba(200,200,200,0.2);bottom:60px;right:1%;border-radius:5px">
+<div id="mylegend" style="position:absolute;display:none;padding:5px;background:rgba(220,220,220,0.7);bottom:60px;right:1%;border-radius:5px">
 
 </div>
 
 <!-- 自定义tooltip -->
-<div id="mytooltip" style="position:absolute;display:none;padding:5px;background:rgba(150,150,150,0.3);top:50%;left:50%;border-radius:5px">test tooltip </div>
+<div id="mytooltip" style="position:absolute;display:none;padding:5px;background:rgba(220,220,220,0.7);top:50%;left:50%;border-radius:5px">test tooltip </div>
 <script> 
                                                        function mouseMove(ev) {
                                                            Ev = ev || window.event;

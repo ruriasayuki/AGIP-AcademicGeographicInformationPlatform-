@@ -35,7 +35,7 @@ function match(info) {//查询所需要的信息匹配 并且返回结果选框
                         var data = myMapMana.maplayerlist[index].style.series.data;
                     case 2:
                         if (type == 2) {
-                            var data = myMapMana.maplayerlist[index].style.data;
+                            var data = myMapMana.maplayerlist[index].style.series.data;
                         }
                         for (var i = 0; i < data.length; i++) {
                             var temp = {
@@ -90,7 +90,7 @@ function match(info) {//查询所需要的信息匹配 并且返回结果选框
                             var data = myMapMana.maplayerlist[j].style.series.data;
                         case 2:
                             if (type == 2) {
-                                var data = myMapMana.maplayerlist[j].style.data;
+                                var data = myMapMana.maplayerlist[j].style.series.data;
                             }
                             for (var i = 0; i < data.length; i++) {
                                 if (reg.test(data[i].name)) {
@@ -111,9 +111,9 @@ function match(info) {//查询所需要的信息匹配 并且返回结果选框
                                 if (reg.test(data[i].ID)) {
                                     var temp = {
                                         layername: layername,
-                                        name: data.ID,
-                                        count: data.coords,
-                                        type: '面',
+                                        name: data[i].ID,
+                                        count: data[i].coords,
+                                        type: '线',
                                         index: { layer: j, feature: i }//遇事不决存索引 这里还在纠结平移缩放怎么弄
                                     }
                                     resultSet.push(temp);
@@ -132,7 +132,7 @@ function match(info) {//查询所需要的信息匹配 并且返回结果选框
                     var layername = myMapMana.maplayerlist[j].layername;
                     switch (type) {
                         case 2:
-                            var data = myMapMana.maplayerlist[j].style.data;
+                            var data = myMapMana.maplayerlist[j].style.series.data;
                             for (var i = 0; i < data.length; i++) {
                                 if (reg.test(data[i].value[2])) {
                                     var temp = {
@@ -153,9 +153,9 @@ function match(info) {//查询所需要的信息匹配 并且返回结果选框
                                 if (reg.test(data[i].ID)) {
                                     var temp = {
                                         layername: layername,
-                                        name: data.ID,
-                                        count: data.coords,
-                                        type: '面',
+                                        name: data[i].ID,
+                                        count: data[i].coords,
+                                        type: '线',
                                         index: { layer: j, feature: i }//遇事不决存索引 这里还在纠结平移缩放怎么弄
                                     }
                                     resultSet.push(temp);
@@ -197,7 +197,7 @@ function getLayerStringDataArr() {
                 }
             case 2:
                 {
-                    var data = layer.style.data;
+                    var data = layer.style.series.data;
                     for (var j = 0; j < data.length; j++) {
                         resultArr.push({ name: data[j].name, type: "地名" });
                         resultArr.push({ name: data[j].value[2], type: "数据" });

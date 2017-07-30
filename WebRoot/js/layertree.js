@@ -570,10 +570,10 @@ function changstyle() {
             } else 
             if (myMapMana.maplayerlist[i].type == 2) {//如果是点图
                 var div = '<div style="margin:10px;"><br/><br/>点基本颜色： &ensp; &ensp;<input type="color" id="color1" /><br/><br/>点高亮颜色： &ensp; &ensp;<input type="color" id="color2" /><br/><br/>点样式 ：</span> &ensp; &ensp;<select id="pointStyle" class="easyui-combobox"><option value="1">无</option><option value="2">点</option><option value="3">箭头</option></select>' +
-                    '</br></br>点大小：<input type="text" id="pointSize" value="' + myMapMana.maplayerlist[i].style.symbolSize + '">';
+                    '</br></br>点大小：<input type="text" id="pointSize" value="' + myMapMana.maplayerlist[i].style.series.symbolSize + '">';
                 $('#stylediv').html(div);
-                $("#color1")[0].value = myMapMana.maplayerlist[i].style.itemStyle.normal.color;
-                $("#color2")[0].value = myMapMana.maplayerlist[i].style.itemStyle.emphasis.color;
+                $("#color1")[0].value = myMapMana.maplayerlist[i].style.series.itemStyle.normal.color;
+                $("#color2")[0].value = myMapMana.maplayerlist[i].style.series.itemStyle.emphasis.color;
             } else
             if (myMapMana.maplayerlist[i].type == 3) {//如果是轨迹图
                 var div = '<div style="margin:10px;"><label><input type="radio" name="curvevalue" checked="checked" value="str"/>直线</label> <label><input type="radio" name="curvevalue" value="cur"/>曲线</label><br/><br/>轨迹起点颜色： &ensp; &ensp;<input type="color" id="color1" /><br/><br/>轨迹终点颜色： &ensp; &ensp;<input type="color" id="color2" /><br/><br/>轨迹方向点颜色  ： <input type="color" id="color3" /><br/>' +
@@ -628,9 +628,9 @@ function savestyle() {
                 myMapMana.maplayerlist[i].style.append.mapperType = $('#mapperType').val();
             }
             if (myMapMana.maplayerlist[i].type == '2') {
-                myMapMana.maplayerlist[i].style.itemStyle.normal.color = $("#color1")[0].value;
-                myMapMana.maplayerlist[i].style.itemStyle.emphasis.color = $("#color2")[0].value;
-                myMapMana.maplayerlist[i].style.symbolSize = $('#pointSize').val();
+                myMapMana.maplayerlist[i].style.series.itemStyle.normal.color = $("#color1")[0].value;
+                myMapMana.maplayerlist[i].style.series.itemStyle.emphasis.color = $("#color2")[0].value;
+                myMapMana.maplayerlist[i].style.series.symbolSize = $('#pointSize').val();
             }
             if (myMapMana.maplayerlist[i].type == '3') {//判断是哪种图层类型
                 var checkValue = $('input:radio[name="curvevalue"]:checked').val();
