@@ -108,7 +108,9 @@
 			list.html(mes[curPage]);  
 			var pager = $("#pager");
     		pager.html("当前第"+(curPage+1)+"页,共"+(page+1)+"页");
-	        $('#username').html(username);
+	        if(userid==0) $('#username').html("游客");
+	        else
+    		$('#username').html(username);
     });//ready
     
     

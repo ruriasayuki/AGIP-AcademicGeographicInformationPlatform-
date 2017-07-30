@@ -440,7 +440,8 @@ public class LayersController {
 	@ResponseBody
 	public String searchLayers(String keyword,String type,HttpSession session) throws Exception {
 		List<Layers> list = layersService.searchLayers(keyword,Integer.parseInt(type));
-		int userid = (Integer)session.getAttribute("userid");
+		Integer userid = (Integer)session.getAttribute("userid");
+		if(userid==null) userid=0;
 		List<Layers> result = new ArrayList<Layers>();
 		for(Layers layer:list)
 		{

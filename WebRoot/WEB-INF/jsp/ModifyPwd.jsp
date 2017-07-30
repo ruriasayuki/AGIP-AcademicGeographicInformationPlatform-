@@ -17,7 +17,7 @@
 </head>
 <body>
 <div id="head"><br/>
-<span style="font-weight: bold; font-size: xx-large;">Ancient Map</span><span style="font-size: x-large;">|修改密码</span>
+<span style="font-weight: bold; font-size: xx-large;">学术地图发布平台</span><span style="font-size: x-large;">|修改密码</span>
 </div>
 <div id="modifyDiv">
     <label class="mylabel">原密码</label>

@@ -128,6 +128,8 @@ function zoomMapTo(obj)
 		var point1 = new BMap.Point(BB.minX,BB.minY);
 		var point2 = new BMap.Point(BB.maxX,BB.maxY);
 		mybmap.setViewport([point1,point2]);
+		mySearchMarker.setPosition(new BMap.Point((BB.minX+BB.maxX)/2,(BB.minY+BB.maxY)/2));
+		mySearchMarker.show();
 		break;
 	case 1:
 		var data = layer.style.series.data;

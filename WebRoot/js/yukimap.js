@@ -763,6 +763,26 @@ function Icemap(YKmap) {
 }
 
 function savemap() {
+	var userid;
+	$.ajax({
+		url: "./getActiveUser.action",
+		async: false,
+		type: "POST",
+		dataType: "text",
+		data: {
+		},success: function (result) {
+			userid = $.parseJSON(result).userid;
+		}});
+	if(userid==0) {alert("请先登录或注册再保存地图");return;}
+	if(userid!=myMapMana.mapuserid) 
+		{
+		myMapMana.mapid=0;
+		myMapMana.mapuserid=userid;
+		for(var i=0;i<myMapMana.maplayerlist.length;i++)
+			{
+			myMapMana.maplayerlist[i].mlid=0;
+			}
+		}
 	var centerPoint = mybmap.getCenter();
 	myMapMana.centerx = centerPoint.lng;
 	myMapMana.centery = centerPoint.lat;
