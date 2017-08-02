@@ -327,7 +327,7 @@
 </tbody>
 </table>
 <!-- ============== 登录框  ============== -->
-<div id="userwin" class="easyui-window" title="用户登录" style="width:420px; height:300px;border:solid 1px #AAAAAA;" data-options="iconCls:'icon-save', modal:true, maximizable:false">
+<div id="userwin" class="easyui-window" title="用户登录" style="width:420px; height:300px;border:solid 1px #AAAAAA;" data-options="iconCls:'icon-man', modal:true, maximizable:false">
     	<div style="padding:15px 30px;margin:2px;border:solid 1px #AAAAAA">
             <label style="display:inline-block;width:50px">帐号</label><input id="account" class="easyui-textbox" style="width:280px" data-options="iconCls:'icon-man', required:true, prompt:'enter your name'"/><br/><br/>
             <label style="display:inline-block;width:50px">密码</label><input id="pwd" class="easyui-passwordbox" style="width:280px"  data-options="required:true, prompt:'enter your password'"/><br/><br/>

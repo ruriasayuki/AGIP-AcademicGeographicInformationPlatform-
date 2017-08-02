@@ -116,7 +116,31 @@
     
     function search(){
     	var key = $("#searchInput").val();
-    	$.getJSON("maplist.json",function(data){
+    	var data;
+    		$.ajax({
+    			url: "./getActiveUser.action",
+    			async: false,
+    			type: "POST",
+    			dataType: "text",
+    			data: {
+    			},success: function (result) {
+    				username = $.parseJSON(result).username;
+    				userid = $.parseJSON(result).userid;
+    			}});
+    		//发一个同步请求，得到地图json
+    		$.ajax({
+    		url: "./getMapList.action",
+    		async: false,
+    		type: "POST",
+    		dataType: "text",
+    		data: {
+    			userid: userid
+    		},
+    		success: function (result) {
+
+    			data = $.parseJSON(result);
+    		}
+    	});
 			var list = $("#resultList");
 			var strHtml = ""; //存储数据的变量
 			var count = 0;
@@ -154,7 +178,6 @@
 			list.html(mes[0]);   
 			var pager = $("#pager");
     		pager.html("当前第"+(curPage+1)+"页,共"+(page+1)+"页");
-		})
     }
     
     //点击地图信息条目后执行的函数

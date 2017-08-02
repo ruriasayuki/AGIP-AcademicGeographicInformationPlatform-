@@ -29,9 +29,9 @@
     <input id="passwordagain" name="passwordagain" class="easyui-passwordbox"  required="required" style="width:200px;height:30px" /><span id="painfo" class="info"></span><br/><br/>
     <label class="mylabel">邮箱</label>
     <input id="email" name="email" class="easyui-textbox" data-options="required:true"  style="width:200px;height:30px" /><span id="einfo" class="info"></span><br/><br/> 
-    <input id="sendcode2email" class="easyui-linkbutton" value="邮箱验证码" style="height:30px;width:90px" />
+    <input id="sendcode2email" readonly="readonly" class="easyui-linkbutton" value="邮箱验证码" style="height:30px;width:90px" />
     <input id="email_code" name="email_code_name" class="easyui-textbox" data-options="required:true" style="width:200px;height:30px" /><span id="ecinfo" class="info"></span><br/><br/>
-    <input id="registerbtn" class="easyui-linkbutton" value="注册" data-options="height:30,width:295"/>
+    <input id="registerbtn" readonly="readonly"  class="easyui-linkbutton" value="注册" data-options="height:30,width:295"/>
     </form>
 </div>
 </body>

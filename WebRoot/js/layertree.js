@@ -216,7 +216,7 @@ function onLayerCheck(node, checked) {
 var nodeOrders; //图层次序数组
 function getOrders(roots) {
     for (var i = roots.length - 1; i >= 0; i--) {
-        if (roots[i].children == null && roots[i].type > 0) {
+        if (roots[i].children == null) {
             if (roots[i].checked == true)
                 nodeOrders.push({
                     "id": roots[i].id,

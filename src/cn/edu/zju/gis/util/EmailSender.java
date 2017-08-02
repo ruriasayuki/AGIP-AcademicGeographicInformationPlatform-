@@ -27,8 +27,7 @@ public class EmailSender {
 		
 		SimpleEmail email = new SimpleEmail();
 		email.setHostName("smtp.163.com");
-		email.setAuthentication(myaddress, mypassword);
-		email.setSmtpPort(25);
+		email.setAuthentication(myaddress, "zjugis2014");
 		try{
 			email.setCharset("UTF-8");
 			email.addTo(addrees2send);

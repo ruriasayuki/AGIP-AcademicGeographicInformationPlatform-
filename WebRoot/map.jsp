@@ -412,7 +412,7 @@
     </div>
     <div id="last1">
         <h3>Do you like this Ancient Map?</h3>
-        <a class="btn btn-default slider-btn animated fadeIn" href="#">Join us</a>
+        <a class="btn btn-default slider-btn animated fadeIn" href="index.action">Join us</a>
     </div>
     <div id="last2">
             <div class="tail1">

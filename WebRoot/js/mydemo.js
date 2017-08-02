@@ -118,6 +118,10 @@ function showResultPanel(resultSet) {
 
 function zoomMapTo(obj)
 {
+	if(!has(mySearchMarker))
+	{mySearchMarker = new BMap.Marker(new BMap.Point(120,90));
+	mySearchMarker.setOffset(new BMap.Size(0,-2));
+	mybmap.addOverlay(mySearchMarker);}
 	var layer = myMapMana.maplayerlist[obj.index.layer];
 	var index = obj.index.feature;
 	switch(layer.type)

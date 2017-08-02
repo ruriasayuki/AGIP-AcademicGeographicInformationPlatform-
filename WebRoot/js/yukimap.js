@@ -213,7 +213,13 @@ function drawL1(layer, layerindex) {//分层设色图 使用mapv绘制
 	var splitNum = 10;
 	var splitType = "linear";
 	var highlight = "#edacbe";
-	if (has(myMapMana.maplayerlist[layerindex].mapv)) return true;//暂时用这个提高效率
+	if (has(myMapMana.maplayerlist[layerindex].mapv)) {
+		myMapMana.maplayerlist[layerindex].mapv.update({
+			options:{
+				zIndex:myMapMana.maplayerlist[layerindex].zIndex
+			}
+		});
+		return true;}//暂时用这个提高效率
 	if (has(myMapMana.maplayerlist[layerindex].style)) {
 		dataSet = new mapv.DataSet(myMapMana.maplayerlist[layerindex].style.dataSet._data);
 		//gradient = myMapMana.maplayerlist[layerindex].style.options.gradient || gradient;
@@ -261,9 +267,10 @@ function drawL1(layer, layerindex) {//分层设色图 使用mapv绘制
 	//下面开始设置
 	{
 		var options = {
-			draw: 'intensity',
+			draw: 'choropleth',
 			max: maxC,
 			min: minC,
+			zIndex:myMapMana.maplayerlist[layerindex].zIndex,
 			highlight,highlight,
 			splitNum: splitNum,
 			splitType: splitType,
@@ -286,7 +293,11 @@ function drawL1(layer, layerindex) {//分层设色图 使用mapv绘制
 					var flag = 0;
 					var data = dataSet.get();
 					for (var i = 0; i < data.length; i++) {
-						if (item.gid == data[i].gid) {//这里也是 geojson里面是gid 总之item的下面的东西的类型都要注意和geojson里面得对应字段的匹配问题
+						var a,b;
+						if(has(item.id)) {a=item.id;b=data[i].id;}
+						else if(has(item.gid)) {a=item.gid;b=data[i].gid;}
+						
+						if (has(a)&&a==b) {//这里也是 geojson里面是gid 总之item的下面的东西的类型都要注意和geojson里面得对应字段的匹配问题
 							data[i].fillStyle = layer.style.options.highlight;
 							flag = 1;
 							if (tooltipPub.flag == 0) {
@@ -696,11 +707,7 @@ function display() {
 	mybmap.addControl(navigation);
 	mybmap.addControl(mapType);
 	
-	//初始化查询结果标记
-	mySearchMarker = new BMap.Marker(new BMap.Point(120,30));
-	mybmap.addOverlay(mySearchMarker);
-	mySearchMarker.hide();
-	mySearchMarker.setOffset(new BMap.Size(0,-2));
+
 	
 	if (myMapMana.mapmode == 1) mybmap.setMapType(BMAP_SATELLITE_MAP);
 	myecharts.on('mouseover', function (params) {
