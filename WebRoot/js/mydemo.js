@@ -30,7 +30,7 @@ function showSearchPanel() {
 function closeSearchPanel()
 {
 	$('#searchBox').css('display', 'none');
-	mySearchMarker.hide();
+	if(has(mySearchMarker)) mySearchMarker.hide();
 }
 function showMapPanel() {
 	closeSearchPanel();
