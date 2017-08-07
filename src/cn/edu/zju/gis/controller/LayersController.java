@@ -451,4 +451,12 @@ public class LayersController {
 		Gson gson = new Gson();
 		return gson.toJson(result);
 	}
+	
+	@RequestMapping(value = "/setLayerType",method = RequestMethod.POST,   
+	        produces = "text/html;charset=UTF-8")
+	@ResponseBody
+	public String setLayerType(int LayerType,HttpSession session) throws Exception {
+		session.setAttribute("LayerType", LayerType);	
+		return "success";
+	}
 }
