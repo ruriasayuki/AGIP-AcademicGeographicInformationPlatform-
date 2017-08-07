@@ -37,13 +37,25 @@ function showMapPanel() {
 	$('#SharePanel').css('display', 'none');
 	if ($('#mapPanel').css('display') == 'none') {
 		var mapsName = new Array();
+		var username;
+		var userid;
+		$.ajax({
+			url: "./getActiveUser.action",
+			async: false,
+			type: "POST",
+			dataType: "text",
+			data: {
+			},success: function (result) {
+				username = $.parseJSON(result).username;
+				userid = $.parseJSON(result).userid;
+			}});
 		$.ajax({
 			url: "./getMapList.action",
 			async: false,
 			type: "POST",
 			dataType: "text",
 			data: {
-				userid: 1
+				userid: userid
 			},
 			success: function (result) {
 				var resultobj = $.parseJSON(result);
