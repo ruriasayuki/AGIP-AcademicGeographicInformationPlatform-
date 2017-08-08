@@ -18,7 +18,18 @@ $(".next1").click(function(){
 		alert("亲！先选择模板哦");		
 	}
 	else {
-		
+		//先以index为标记向session里面设定图层类型……以便前端整合上传界面
+		$.ajax({
+			url: "./setLayerType.action",
+			async: false,
+			type: "POST",
+			dataType: "text",
+			data: {
+				LayerType:index
+			},success: function (result) {
+				console.log(result);
+			}});
+		//
 		next_fs = $(this).parent().siblings("fieldset").eq(index);
 		console.log(next_fs);
 		//activate next step on progressbar using the index of next_fs
