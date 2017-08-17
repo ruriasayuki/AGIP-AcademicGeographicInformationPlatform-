@@ -175,6 +175,8 @@ public class UsersController {
 		}		
 	}
 	
+	
+	//感觉有重构的必要 竟然吧response都往service里面传……使得controller的代码看不出返回情况
 	@RequestMapping("/check")
 	public void check(String checkcode,HttpServletRequest request,HttpServletResponse response) throws Exception{
 		String email = request.getSession().getAttribute("email").toString();
