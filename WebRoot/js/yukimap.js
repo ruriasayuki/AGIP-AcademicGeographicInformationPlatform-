@@ -145,7 +145,7 @@ var mySearchMarker;
 function myinit() {
 	maxz = 0;
 	myMapMana = new Ykmap(mapdata);
-	initLayertree();
+	initLayertree(myMapMana.mapname);
 	display();
 }
 

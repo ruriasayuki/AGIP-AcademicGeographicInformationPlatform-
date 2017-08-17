@@ -1,6 +1,7 @@
 var layerTreeJson = [{
-    "id": "layerFather",
-    "text": "上层图层"
+    "id": 0,
+    "text": "new map",
+    "type":"map"
 }];
 function openChangeName(name,acces) {
     $('#changeName').find('#nameForChange').val(name);
@@ -17,7 +18,7 @@ function changeName() {
     redraw();
 }
 
-function initLayertree() {
+function initLayertree(mapname) {
     //
     $('.accordion').find('.panel-header').find('.panel-title').html(myMapMana.mapname);//not save TODO find a save way to change title name.
     // 
@@ -31,12 +32,13 @@ function initLayertree() {
             ;
         }
     });
+    layerTreeJson[0].text=mapname;
     $("#layerTree").tree({
         dataType: "json",
         data: layerTreeJson,
         //是否显示复选框
         checkbox: function (node) {
-            if (node.id == "layerFather") {
+            if (node.type == "map") {
                 return false;
             } else {
                 return true;
@@ -45,7 +47,7 @@ function initLayertree() {
         //DONE 一些情况下不允许拖动
         onBeforeDrop: function (target, source, point) {
             //Father不能被拖动
-            if (source.id === 'layerFather') {
+            if (source.type === 'map') {
                 return false;
             };
             //append：移动为子节点
@@ -111,11 +113,12 @@ function addTreeNode(layer) {
         "id": layer.layerid,
         "text": layer.layername,
         "checked": layer.state,
-        "type": layer.type
+        "type": "layer",
+        "layertype":layer.type
     };
 
     //如果是echarts图层
-    if (newLayer.type > 0) {
+    if (newLayer.layertype >= 0) {
         //假如图层树尚空，创建子节点数组容器
         if (layerTreeJson[0]["children"] == null) {
             layerTreeJson[0]["children"] = new Array();
@@ -124,7 +127,7 @@ function addTreeNode(layer) {
         layerTreeJson[0]["children"].unshift(newLayer);
     }
 
-    else if (newLayer.type == 0) {
+    else if (newLayer.layertype < 0) {
         if (layerTreeJson.length < 2) {
             var newFather = {
                 "id": "layerFather",
