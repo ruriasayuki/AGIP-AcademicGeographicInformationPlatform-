@@ -7,9 +7,13 @@ public class Maps {
 	int accessibility;
 	int basemapid;
 	String mapstyle;
+	int addable;
+	String layertree;
+	
 	public Maps()
 	{
 		mapname="";
+		layertree="";
 	}
 	public Maps(Maps map)
 	{
@@ -19,20 +23,10 @@ public class Maps {
 		this.accessibility=map.accessibility;
 		this.basemapid=map.basemapid;
 		this.mapstyle = map.mapstyle;
+		this.addable = map.addable;
+		this.layertree = map.layertree;
 	}
-	public Maps(String mapname,
-			int userid,
-			int accessibility,
-			int basemapid,
-			String mapstyle)
-	{
-		this.id=0;
-		this.mapname=mapname;
-		this.userid=userid;
-		this.accessibility=accessibility;
-		this.basemapid=basemapid;
-		this.mapstyle =mapstyle;
-	}
+	
 	public Maps(int id,
 			String mapname,
 			int userid,
@@ -48,16 +42,25 @@ public class Maps {
 		this.mapstyle =mapstyle;
 	}
 	
-	public Maps(int id,String mapname,int userid,int accessibility,String mapstyle)
+	public Maps(int id,
+			String mapname,
+			int userid,
+			int accessibility,
+			int basemapid,
+			String mapstyle,
+			int addable,
+			String layertree)
 	{
-		this.id = id;
-		this.mapname = mapname;
+		this.id=id;
+		this.mapname=mapname;
 		this.userid=userid;
 		this.accessibility=accessibility;
-		this.basemapid=0;
-		this.mapstyle = mapstyle;
+		this.basemapid=basemapid;
+		this.mapstyle =mapstyle;
+		this.addable =addable;
+		this.layertree = layertree;
 	}
-	
+
 	public String getMapstyle() {
 		return mapstyle;
 	}
@@ -95,5 +98,16 @@ public class Maps {
 	public void setBasemapid(int basemapid) {
 		this.basemapid = basemapid;
 	}
-	
+	public int getAddable() {
+		return addable;
+	}
+	public void setAddable(int addable) {
+		this.addable = addable;
+	}
+	public String getLayertree() {
+		return layertree;
+	}
+	public void setLayertree(String layertree) {
+		this.layertree = layertree;
+	}
 }

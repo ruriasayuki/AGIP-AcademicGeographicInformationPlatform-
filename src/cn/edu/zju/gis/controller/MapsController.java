@@ -75,6 +75,7 @@ public class MapsController
         		mapObj.getMapname(),
         		mapObj.getUserid(),
         		mapObj.getAccessibility(),
+        		0,
         		mapObj.getMapstyle()
         		);
         List<MapLayer> oldLayerlist = new ArrayList<MapLayer>();

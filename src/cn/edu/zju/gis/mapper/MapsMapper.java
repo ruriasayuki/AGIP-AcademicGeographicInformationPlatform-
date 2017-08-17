@@ -7,10 +7,8 @@ import cn.edu.zju.gis.po.Maps;
 
 public interface MapsMapper {
 	public void createNewMap(Maps map);
-	public Maps findMapById(int id);
 	
-	//这个好像没用了（...
-	public void addLayerToMap(MapLayer twoid);
+	public Maps findMapById(int id);
 	
 	public int insertMap(Maps map);
 	

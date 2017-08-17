@@ -5,23 +5,22 @@
 <select id="findMapById" parameterType="int" resultType="cn.edu.zju.gis.po.Maps">
 	select id,mapname,userid,accessibility,basemapid,mapstyle from maps where id=#{value}
 </select>
-<insert id="addLayerToMap" parameterType="cn.edu.zju.gis.po.MapLayer" useGeneratedKeys="true" keyProperty="id">
-	insert into mapslayers(mapid,layerid,state,style,zIndex)
-	values (#{mapid},#{layerid},#{state},'null',#{zIndex})
-</insert>
+
 <update id="updateMap" parameterType="cn.edu.zju.gis.po.Maps">
 	update maps 
 	set 
 		mapname = #{mapname},
 		userid = #{userid},
 		accessibility = #{accessibility},
+		addable = #{addable},
+		layertree = #{layertree},
 		basemapid = #{basemapid},
 		mapstyle = #{mapstyle}
 	where id = #{id}
 </update>
 <insert id="insertMap" parameterType="cn.edu.zju.gis.po.Maps" useGeneratedKeys="true" keyProperty="id">
-	insert into maps(mapname,userid,accessibility,basemapid,mapstyle)
-	values (#{mapname},#{userid},#{accessibility},#{basemapid},#{mapstyle})
+	insert into maps(mapname,userid,accessibility,addable,layertree,basemapid,mapstyle)
+	values (#{mapname},#{userid},#{accessibility},#{addable},#{layertree},#{basemapid},#{mapstyle})
 </insert>
 <insert id="insertMapLayer" parameterType="cn.edu.zju.gis.po.MapLayer" useGeneratedKeys="true" keyProperty="mlid">
 	insert into maplayer(mapid,layerid,state,style,zIndex)
