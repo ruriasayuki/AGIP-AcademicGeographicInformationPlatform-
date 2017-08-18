@@ -102,7 +102,7 @@
                 var contentDateBorder = "";             
                 $("#table").find("tr").each(function () {
                 	  if($(this).hasClass("select")){
-                		  contentDateBorder += $(this).children('td:eq(4)').text() +"<br/><br/>";
+                		  //contentDateBorder += $(this).children('td:eq(4)').text() +"<br/><br/>";
                 	  }
            		});
                 $("#databorder").html(contentDateBorder);
@@ -112,7 +112,7 @@
             	var contentDateBorder = "";             
                 $("#table").find("tr").each(function () {
                 	  if($(this).hasClass("select")){
-                		  contentDateBorder += $(this).children('td:eq(4)').text() +"<br/><br/>";
+                		  //contentDateBorder += $(this).children('td:eq(4)').text() +"<br/><br/>";
                 	  }
            		});
                 $("#databorder").html(contentDateBorder);
@@ -124,7 +124,7 @@
         	 var contentDateBorder = "";             
              $("#table").find("tr").each(function () {
              	  if($(this).hasClass("select") || $(this).hasClass("over")){
-             		  contentDateBorder += $(this).children('td:eq(4)').text() +"<br/><br/>";
+             		  //contentDateBorder += $(this).children('td:eq(4)').text() +"<br/><br/>";
              	  }
         		});
              $("#databorder").html(contentDateBorder);
@@ -134,7 +134,7 @@
         	 var contentDateBorder = "";             
              $("#table").find("tr").each(function () {
              	  if($(this).hasClass("select") || $(this).hasClass("over")){
-             		  contentDateBorder += $(this).children('td:eq(4)').text() +"<br/><br/>";
+             		  //contentDateBorder += $(this).children('td:eq(4)').text() +"<br/><br/>";
              	  }
         		});
              $("#databorder").html(contentDateBorder);
