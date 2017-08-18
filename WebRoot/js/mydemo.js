@@ -102,7 +102,7 @@ function addMapToMap(varmapid)
 		data: {
 			mapid:varmapid
 		},success: function (result) {
-			newlayerlist = layeranaly(result); 
+			newlayerlist = layeranaly($.parseJSON(result)); 
 		}});
 	$.ajax({
 		url: "./getMapInfo.action",
@@ -121,6 +121,7 @@ function addMapToMap(varmapid)
 		}
 	submaptree[0].type="submap";
 	addsubtree(submaptree);
+	redraw();
 }
 
 function showSavePanel() {

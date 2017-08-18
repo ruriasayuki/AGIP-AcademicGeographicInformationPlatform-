@@ -11,8 +11,11 @@ function openChangeName(name,acces) {
 }
 function changeName() {
     $('#changeName').window('close');
+    
     myMapMana.mapname = $('#changeName').find('#nameForChange').val();
     myMapMana.mapaccess = $('#changeName').find('input[name="accessType"]:checked').val();
+    
+    layerTreeJson[0].text=myMapMana.mapname;
     echartsoption.title.text = $('#changeName').find('#nameForChange').val();
     $('.accordion').find('.panel-header').find('.panel-title').html(myMapMana.mapname);
     redraw();
@@ -61,7 +64,7 @@ function initLayertree(mapid,mapname) {
             if (point === 'append') {
                 //有些node不能添加子node，即不能拖图层到其他图层下级           
                 var targetNode = $(this).tree('getNode', target);
-                if (targetNode.type === 'layer') {
+                if (has(targetNode.nodetype)&&targetNode.nodetype === 'layer') {
                     return false;
                 };
                 /*
@@ -136,16 +139,16 @@ function addTreeNode(layer) {
     //创建新节点
 	//对于新添加的图层的渲染后id……即mlid 加载的时候来更新
     var newLayer = {
-        "id": layer.mlid,
-        "tempid":layer.layerid,
+        "id": layer.layerid,
+        "tempid":layer.mlid,
         "text": layer.layername,
         "checked": layer.state,
-        "type": "layer",
-        "layertype":layer.type
+        "type": layer.type,
+        "nodetype":"layer"
     };
 
     //如果是echarts图层
-    if (newLayer.layertype >= 0) {
+    if (newLayer.type >= 0) {
         //假如图层树尚空，创建子节点数组容器
         if (layerTreeJson[0]["children"] == null) {
             layerTreeJson[0]["children"] = new Array();
@@ -154,7 +157,7 @@ function addTreeNode(layer) {
         layerTreeJson[0]["children"].unshift(newLayer);
     }
 
-    else if (newLayer.layertype < 0) {
+    else if (newLayer.type < 0) {
         if (layerTreeJson.length < 2) {
             var newFather = {
                 "id": "layerFather",
@@ -230,7 +233,7 @@ function onLayerCheck(node, checked) {
     //获取图层类型('mapv' OR 'echarts')，并更新layerSilo
     var layerType;
     for (var i = myMapMana.maplayerlist.length - 1; i >= 0; i--) {
-        if (myMapMana.maplayerlist[i].layerid == node.id) {
+        if ((node.id!=0&&myMapMana.maplayerlist[i].layerid == node.id)) {
             layerType = myMapMana.maplayerlist[i].type;
             myMapMana.maplayerlist[i].state = checked;
             break;
