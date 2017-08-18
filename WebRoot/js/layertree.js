@@ -16,6 +16,10 @@ function changeName() {
     myMapMana.mapaccess = $('#changeName').find('input[name="accessType"]:checked').val();
     
     layerTreeJson[0].text=myMapMana.mapname;
+    $("#layerTree").tree({
+        dataType: "json",
+        data: layerTreeJson
+    });
     echartsoption.title.text = $('#changeName').find('#nameForChange').val();
     $('.accordion').find('.panel-header').find('.panel-title').html(myMapMana.mapname);
     redraw();
@@ -41,7 +45,11 @@ function initLayertree(mapid,mapname) {
     	layerTreeJson[0].text=mapname;
     }
     else
+    {
     	layerTreeJson = myMapMana.layertree;
+    	layerTreeJson[0].id=mapid;
+    	layerTreeJson[0].text=mapname;
+    }
     $("#layerTree").tree({
         dataType: "json",
         data: layerTreeJson,
@@ -118,9 +126,6 @@ function initLayertree(mapid,mapname) {
             });
         }
     });
-    for (var i = 0; i < myMapMana.maplayerlist.length; i++) {
-        addTreeNode(myMapMana.maplayerlist[i]);
-    }
 }
 //======================== 图层树节点操作 ========================//
 function addsubtree(subtree){
@@ -228,18 +233,48 @@ function removeLayer() {
     redraw();
 };
 
+//TODO layertreejson的遍历（这里姑且用 children这个默认的成员标签来写一个深度搜索的递归。
+//这里直接也兼容了easyui里面内建的树的遍历
+function travelTree(treejson,nodeupdate)
+{
+	if(has(treejson.length))
+	for(var i=0;i<treejson.length;i++)
+		{
+			if(has(treejson[i].children))
+				{
+					travelTree(treejson[i],nodeupdate);
+				}
+			else
+				nodeupdate(treejson[i]);
+		}
+	else
+	{
+		if(has(treejson.children))
+		{
+			travelTree(treejson.children,nodeupdate);
+		}
+		else
+		nodeupdate(treejson);
+	}
+}
+
 //DONE 图层树复选框控制图层显隐
 function onLayerCheck(node, checked) {
-    //获取图层类型('mapv' OR 'echarts')，并更新layerSilo
-    var layerType;
+function update(node){
+	function updateTreeJson(treejson)
+	{
+		if(node.id==treejson.id) treejson.checked=node.checked;
+	}
     for (var i = myMapMana.maplayerlist.length - 1; i >= 0; i--) {
         if ((node.id!=0&&myMapMana.maplayerlist[i].layerid == node.id)) {
-            layerType = myMapMana.maplayerlist[i].type;
-            myMapMana.maplayerlist[i].state = checked;
+
+            myMapMana.maplayerlist[i].state = node.checked;
+            travelTree(layerTreeJson,updateTreeJson);
             break;
         }
     };
-
+}
+	travelTree(node,update);
     //去除部分代码为已经整合到yukimap的redraw里面了 (逻辑不太一样 所以用不上)
     redraw();
 
