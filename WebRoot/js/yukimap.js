@@ -123,6 +123,7 @@ function Ykmap(mapjson) {
 	this.mapmode = mapstyle.mapmode;//百度地图初始化地图类型
 	//TODO 增加百度地图的样式配置
 	this.maplayerlist = layeranaly(mapjson.maplayer);//地图图层列表
+	this.layertree = $.parseJSON(mapjson.layertree);
 }
 
 
@@ -145,7 +146,7 @@ var mySearchMarker;
 function myinit() {
 	maxz = 0;
 	myMapMana = new Ykmap(mapdata);
-	initLayertree(myMapMana.mapname);
+	initLayertree(myMapMana.mapid,myMapMana.mapname);
 	display();
 }
 
@@ -767,6 +768,7 @@ function Icemap(YKmap) {
 	this.mapname = YKmap.mapname;
 	this.accessibility = YKmap.mapaccess;
 	this.mapstyle = JSON.stringify(mapstyle);
+	this.layertree = JSON.stringify(layerTreeJson);
 }
 
 function savemap() {

@@ -85,8 +85,44 @@ function showMapPanel() {
 
 function getMap(varmapid) {
 	//TODO 改成ajax的重定向
-	location.href = "http://localhost:8080/AncientMap/main.action?mapid=" + varmapid;
+	//location.href = "http://localhost:8080/AncientMap/main.action?mapid=" + varmapid;
+	//不如先直接在这里测试addMapToMap
+	addMapToMap(varmapid);
 }
+
+function addMapToMap(varmapid)
+{
+	var newlayerlist;
+	var submaptree;
+	$.ajax({
+		url: "./getMapLayerList.action",
+		async: false,
+		type: "POST",
+		dataType: "text",
+		data: {
+			mapid:varmapid
+		},success: function (result) {
+			newlayerlist = layeranaly(result); 
+		}});
+	$.ajax({
+		url: "./getMapInfo.action",
+		async: false,
+		type: "POST",
+		dataType: "text",
+		data: {
+			mapid:varmapid
+		},success: function (result) {
+			var submap = $.parseJSON(result);
+			submaptree = $.parseJSON(submap.layertree);
+		}});
+	for(var i=0;i<newlayerlist.length;i++)
+		{
+			myMapMana.maplayerlist.push(newlayerlist[i]);
+		}
+	submaptree[0].type="submap";
+	addsubtree(submaptree);
+}
+
 function showSavePanel() {
 	$('#savePanel').window('open');
 	savemap();

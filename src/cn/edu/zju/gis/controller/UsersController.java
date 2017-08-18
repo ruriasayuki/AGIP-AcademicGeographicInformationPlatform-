@@ -67,7 +67,14 @@ public class UsersController {
 			nowuser = usersService.findUserByName(username);
 		MapsCustom map=null;//地图初始化为空
 		if(mapid==null)
-			map= new MapsCustom(0,"new map",nowuser.getId(),1,0,"{\"centerx\":110,\"centery\":40,\"zoomlevel\":5,\"mapmode\":0}");
+			map= new MapsCustom(0,
+					"new map",
+					nowuser.getId(),
+					1,
+					0,
+					"{\"centerx\":110,\"centery\":40,\"zoomlevel\":5,\"mapmode\":0}",
+					1,
+					"[{\"id\": 0,\"text\": \"new map\",\"type\":\"map\"}]");
 		else
 		{
 			Maps mapa = mapsService.findMapById(mapid);

@@ -53,6 +53,25 @@ public class MapsController
 		return gson.toJson(result);
 	}
 	
+	@RequestMapping(value = "/getMapLayerList", method = RequestMethod.POST,   
+	        produces = "text/html;charset=UTF-8")
+	@ResponseBody
+	public String getMapLayerList(int mapid) throws Exception
+	{
+		List<MapLayer> layerlist = mapsService.findMapLayerByMapId(mapid);
+		Gson gson = new Gson();
+		return gson.toJson(layerlist);
+	}
+	
+	@RequestMapping(value = "/getMapInfo", method = RequestMethod.POST,   
+	        produces = "text/html;charset=UTF-8")
+	@ResponseBody
+	public String getMapInfo(int mapid) throws Exception
+	{
+		Maps map = mapsService.findMapById(mapid);
+		Gson gson = new Gson();
+		return gson.toJson(map);
+	}
 	
 	@RequestMapping(value = "/savemap", method = RequestMethod.POST,   
 	        produces = "text/html;charset=UTF-8")
@@ -76,12 +95,23 @@ public class MapsController
         		mapObj.getUserid(),
         		mapObj.getAccessibility(),
         		0,
-        		mapObj.getMapstyle()
+        		mapObj.getMapstyle(),
+        		1,
+        		mapObj.getLayertree()
         		);
         List<MapLayer> oldLayerlist = new ArrayList<MapLayer>();
         if(mapForSave.getId()==0)
         {
         	int insertMap = mapsService.insertMap(mapForSave);
+        	
+        	int mapid = mapForSave.getId();
+            for (MapLayer layer : maplayerArr)
+            {
+            	layer.setMapid(mapid);
+                int insertmaplayer = mapsService.insertMapLayer(layer);
+                //TODO 利用此时layer里面的信息 去更新传入的layertree信息
+            }
+            return "success";
         }
         else
         {

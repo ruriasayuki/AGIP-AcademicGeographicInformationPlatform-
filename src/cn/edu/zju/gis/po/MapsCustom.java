@@ -14,6 +14,11 @@ public class MapsCustom extends Maps {
 		super(id,mapname, userid, accessibility, basemapid,mapstyle);
 
 	}
+	public MapsCustom(int id,String mapname, int userid, int accessibility,
+			int basemapid,String mapstyle,int addable,String layertree) {
+		super(id,mapname, userid, accessibility, basemapid,mapstyle,addable,layertree);
+
+	}
 	public List<MapLayer> getMaplayer() {
 		return maplayer;
 	}

@@ -3,7 +3,7 @@
 <mapper namespace="cn.edu.zju.gis.mapper.MapsMapper">
 
 <select id="findMapById" parameterType="int" resultType="cn.edu.zju.gis.po.Maps">
-	select id,mapname,userid,accessibility,basemapid,mapstyle from maps where id=#{value}
+	select * from maps where id=#{value}
 </select>
 
 <update id="updateMap" parameterType="cn.edu.zju.gis.po.Maps">

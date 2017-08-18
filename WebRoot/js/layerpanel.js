@@ -163,6 +163,7 @@ function addLayerToMap()
 		{
 			if(nothave(temp[i]))
 			{
+				temp[i].mlid=0;
 				myMapMana.maplayerlist.push(temp[i]);
 				addTreeNode(temp[i]);
 			}

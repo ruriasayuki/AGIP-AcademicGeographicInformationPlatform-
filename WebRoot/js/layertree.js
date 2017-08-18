@@ -18,7 +18,7 @@ function changeName() {
     redraw();
 }
 
-function initLayertree(mapname) {
+function initLayertree(mapid,mapname) {
     //
     $('.accordion').find('.panel-header').find('.panel-title').html(myMapMana.mapname);//not save TODO find a save way to change title name.
     // 
@@ -32,19 +32,26 @@ function initLayertree(mapname) {
             ;
         }
     });
-    layerTreeJson[0].text=mapname;
+    if(!has(myMapMana.layertree))
+    {
+    	layerTreeJson[0].id=mapid;
+    	layerTreeJson[0].text=mapname;
+    }
+    else
+    	layerTreeJson = myMapMana.layertree;
     $("#layerTree").tree({
         dataType: "json",
         data: layerTreeJson,
         //是否显示复选框
         checkbox: function (node) {
+            //这里要修改成允许显示 然后是搞一个级联的check
             if (node.type == "map") {
                 return false;
             } else {
                 return true;
             }
         },
-        //DONE 一些情况下不允许拖动
+        //这是拖动前的检查事件 如果returnfalse 则会停止拖动事件
         onBeforeDrop: function (target, source, point) {
             //Father不能被拖动
             if (source.type === 'map') {
@@ -57,30 +64,36 @@ function initLayertree(mapname) {
                 if (targetNode.type === 'layer') {
                     return false;
                 };
+                /*
                 //图层不能移动到别的父节点下
                 var parentNode = $(this).tree('getParent', source.target);
                 if (parentNode.id != targetNode.id) {
                     return false;
                 };
+                */
             }
             //point == 'top' OR 'bottom'：移动到目标节点的上/下方
             else {
+                /*
                 //Father中的节点不能被拖出去
                 var targetNode = $(this).tree('getNode', target);
                 if (targetNode.id === 'layerFather' || targetNode.id === 'intensityFather') {
                     return false;
                 };
+                
                 //图层不能移动到别的父节点下
                 var parentNodeS = $(this).tree('getParent', source.target);
                 var parentNodeT = $(this).tree('getParent', target);
                 if (parentNodeS.id != parentNodeT.id) {
                     return false;
                 };
+                */
             }
         },
         //选中复选框后触发
         onCheck: function (node, checked) {
             onLayerCheck(node, checked);
+            //修改为级联勾选之后 还需要写一个函数来判断树的父节点们的勾选情况 只要不是全选 就应该判断为未勾选
         },
         //DONE 拖动结束放置好节点后触发
         onDrop: function (target, source, point) {
@@ -89,10 +102,11 @@ function initLayertree(mapname) {
             getOrders(roots);
             setLayerOverlay(nodeOrders);
         },
-        //右键节点弹出菜单，用于删除图层
+        //右键节点弹出菜单，用于各种操作
         onContextMenu: function (e, node) {
             e.preventDefault();
             // select the node
+            //这里要根据右键点击的是图层节点还是地图根节点还是说子地图(submap)也就是layergroup 这样三类
             $('#layerTree').tree('select', node.target);
             // display context menu
             $('#mm').menu('show', {
@@ -106,11 +120,24 @@ function initLayertree(mapname) {
     }
 }
 //======================== 图层树节点操作 ========================//
+function addsubtree(subtree){
+    if (layerTreeJson[0]["children"] == null) {
+        layerTreeJson[0]["children"] = new Array();
+    };
+    for(var i=0;i<subtree.length;i++) layerTreeJson[0]["children"].unshift(subtree[i]);
+	//刷新图层树
+    $("#layerTree").tree({
+        dataType: "json",
+        data: layerTreeJson
+    });
+}
 //DONE 在图层树中添加新节点
 function addTreeNode(layer) {
     //创建新节点
+	//对于新添加的图层的渲染后id……即mlid 加载的时候来更新
     var newLayer = {
-        "id": layer.layerid,
+        "id": layer.mlid,
+        "tempid":layer.layerid,
         "text": layer.layername,
         "checked": layer.state,
         "type": "layer",

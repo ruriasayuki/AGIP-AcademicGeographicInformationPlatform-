@@ -307,6 +307,12 @@
 </table>
 </div>
 
+<!-- ============== 插入地图对话框  ============== -->
+<div id="insertMapPanel" class="easyui-window" title="打开/插入地图" style="width:600px;height:400px" data-options="closed:true">
+<button id="openMapBtn" class="btn" onclick="addLayerToMap()">打开地图</button>
+<button id="insertMapBtn" class="btn" onclick="addLayerToMap()">插入地图</button>
+</div>
+
 <!-- ============== 点选查询结果返回框  ============== -->
 <table id="QueryBoard" class="easyui-window" title="查询结果" style="width:500px;height:100px" data-options="closed:true">
 <thead>
