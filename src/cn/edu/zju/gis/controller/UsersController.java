@@ -31,20 +31,7 @@ public class UsersController {
 	@Autowired
 	private MapsService mapsService;
 	
-	@RequestMapping("/findUser")
-	public ModelAndView find() throws Exception {
-		Users usersResult = usersService.findUserById(1);
-
-		//杩斿洖ModelAndView
-		ModelAndView modelAndView =  new ModelAndView();
-		//鐩稿綋 浜巖equest鐨剆etAttribut锛屽湪jsp椤甸潰涓�氳繃itemsList鍙栨暟鎹�
-		modelAndView.addObject("user", usersResult);
-		
-		//鎸囧畾瑙嗗浘
-		modelAndView.setViewName("user");
-		
-		return modelAndView;
-	}
+	
 	@RequestMapping("/index")
 	public ModelAndView index() throws Exception{
 		int loginflag = 1;

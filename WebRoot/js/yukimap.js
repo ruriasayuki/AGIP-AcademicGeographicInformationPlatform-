@@ -50,7 +50,7 @@ function getAverageDistance(pointArray)
 	var dy = (maxY-minY)/k;
 	return {dx:dx,dy:dy};
 }
-//自制的判定用工具
+//自制的判定地图中是否包含某个图层的工具
 function nothave(yklayer) {
 	var templist = myMapMana.maplayerlist;
 	for (var i = 0; i < templist.length; i++) {
@@ -76,7 +76,7 @@ function Yklayer(layerjson) {
 			return zdata;
 		}
 	}
-	function dataanaly(datajson) {//等着重构的图层层叠管理,保证了一张地图创建的时候图层是从0开始的序列,新加载图层会排在后面
+	function dataanaly(datajson) {//数据的读入，仅当读取未进行过渲染的图层数据时才包含此类数据
 		if (datajson == null) {
 			return null;
 		}
@@ -142,11 +142,12 @@ var myseries = new Array();//echartseries管理变量
 var bmapoverlay;//bmap的覆盖物管理变量
 var myinit;//初始化函数
 var mySearchMarker;
+
 //***//////////---程序入口---//////////***//
-function myinit() {
+function yukiInit() {
 	maxz = 0;
 	myMapMana = new Ykmap(mapdata);
-	initLayertree(myMapMana.mapid,myMapMana.mapname);
+	initLayertree(myMapMana.mapid,myMapMana.mapname);//修改其代码在layertree.js
 	display();
 }
 
@@ -818,7 +819,6 @@ function savemap() {
 			maplayer: JSON.stringify(layerForSave)
 		},
 		success: function (result) {
-
 			console.log(result)
 		}
 	})

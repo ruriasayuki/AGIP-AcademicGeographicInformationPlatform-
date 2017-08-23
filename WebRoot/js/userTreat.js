@@ -1,7 +1,6 @@
-function closeLogWindow() {
-    $("#account").textbox('setValue', "");
-    $("#pwd").textbox('setValue', "");
-    $("#userwin").window('close');
+function initLogWindow() {
+    $("#account").attr('value', "");
+    $("#pwd").attr('value', "");
 }
 
 function showMessage() {
@@ -47,10 +46,10 @@ function do_autologin(){
     var cookie_bautologin = getCookie("bautologin");
     alert(cookie_bautologin);
 	if(cookie_bautologin!="t"){
-		//alert(22222);
+		
 		return;
 	}
-	//alert(111111);
+	
 	$.ajax({
 		url:"./login.action",
 		async:true,
@@ -76,33 +75,24 @@ function do_autologin(){
 
 
 $(document).ready(function() {
-    $("#userwin").window('close');
-    $("#cancelbtn").bind('click', closeLogWindow);
-    
     $("#loginwinbtn").click(function() {
-        $("#userwin").window('open');
+    	initLogWindow();
+        $("#userwin").modal('show');
       //获取cookie，如果有，则填充textbox
         var cookie_username = getCookie("username");
         var cookie_password = getCookie("password");
         var cookie_bremember = getCookie("bremember");
         var cookie_bautologin = getCookie("bautologin");
-        var cookie_bautologin=getCookie("bautologin");
-		//alert(cookie_bautologin);
-/*        alert(cookie_username);
-        alert(cookie_password);*/
-        //if(cookie_username!=""&&cookie_password!=""){
         if(cookie_bremember=="t"){
-        	$("#account").textbox('setValue',cookie_username);
-        	$("#pwd").textbox('setValue',cookie_password);
-        	$("#pwd").passwordbox('hidePassword');
+        	$("#account").attr('value',cookie_username);
+        	$("#pwd").attr('value',cookie_password);
         	$("#checkpwd").attr("checked",true);     
         }
         else{
         	//"f"或者""
-        	$("#account").textbox('setValue',"");
-        	$("#pwd").textbox('setValue',"");
-        	$("#pwd").passwordbox('hidePassword');
-        	$("#checkpwd").attr("checked",false);
+        	$("#account").attr('value',cookie_username);
+        	$("#pwd").attr('value',cookie_password);
+        	$("#checkpwd").attr("checked",false);     
         }
         
         if(cookie_bautologin=="t"){
@@ -110,17 +100,11 @@ $(document).ready(function() {
         }
         else{
         	//"f"或者""
-        	$("#checklogin").attr("checked",false);//妈卖批这东西不能加引号！！！！！！！
-        	//alert(1111);
+        	$("#checklogin").attr("checked",false);
         }
         
     });
 
-//    $('#loginbtn').bind('click', showMessage);
-/*    var setData={
-    		username:$('#account').textbox('getValue'),
-    		password:$('#pwd').textbox('getValue')
-    	};*/
     $("#loginbtn").bind('click',function(){    	
     	var	rememberMe = $("#checkpwd").is(':checked');    
     	var	bautologin = $("#checklogin").is(':checked');
@@ -132,8 +116,8 @@ $(document).ready(function() {
     		type:"POST",
     		dataType:"text",
     		data:{
-        		username:$('#account').textbox('getValue').trim(),	
-        		password:hex_md5($('#pwd').textbox('getValue').trim()),
+        		username:$('#account').val().trim(),	
+        		password:hex_md5($('#pwd').val().trim()),
         	},
     		//contentType:"application/json",
     		success: function(result){
@@ -143,16 +127,12 @@ $(document).ready(function() {
     				if(rememberMe){    					
     					
     					setCookie("bremember","t",expiredays);
+    					setCookie("username",$('#account').val(),expiredays);
+    					setCookie("password",$('#pwd').val(),expiredays);
     					if(bautologin){
-    						setCookie("username",$('#account').textbox('getValue'),expiredays);
-        					setCookie("password",$('#pwd').textbox('getValue'),expiredays);
-        					
     						setCookie("bautologin","t",expiredays);
         				}
         				else{
-        					setCookie("username",$('#account').textbox('getValue'),expiredays);
-        					setCookie("password",$('#pwd').textbox('getValue'),expiredays);
-        					
         					setCookie("bautologin","f",expiredays);
         				}
     				}
@@ -160,8 +140,8 @@ $(document).ready(function() {
     					
     					setCookie("bremember","f",expiredays);
     					if(bautologin){
-    						setCookie("username",$('#account').textbox('getValue'),expiredays);
-        					setCookie("password",$('#pwd').textbox('getValue'),expiredays);//也是要set不然可能之前的状态并不是记住密码所以没保存用户名密码
+    						setCookie("username",$('#account').val(),expiredays);
+        					setCookie("password",$('#pwd').val(),expiredays);//也是要set不然可能之前的状态并不是记住密码所以没保存用户名密码
         					
     						setCookie("bautologin","t",expiredays);//不记住密码但自动登录
         				}
@@ -173,7 +153,7 @@ $(document).ready(function() {
         				}
     				}
     				
-    				$('#userwin').window('close');
+    				$('#userwin').modal('hide');
     				window.location.reload();
     			}
     			else if(result=="fail"){
@@ -198,10 +178,10 @@ $(document).ready(function() {
     				var expiredays = 7; 
     				setCookie("bautologin","f",expiredays);//退出登录当然就是取消下次打开页面会自动登录
     				//$("#checklogin").attr("checked",'false');//这个也要改才怪   				
-    				alert("注销成功");    				
+    				    				
     			}
     			else{
-    				alert("注销不成功");			
+    				//do sth with error
     			}
     		},
     		error:function(){

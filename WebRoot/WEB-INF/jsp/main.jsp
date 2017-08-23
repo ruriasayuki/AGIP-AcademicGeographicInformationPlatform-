@@ -22,32 +22,41 @@
                 <script type="text/javascript" src="${pageContext.request.contextPath}/js/md5.js"></script>
                 <script type="text/javascript" src="${pageContext.request.contextPath}/js/userTreat.js"></script>
                 <script type="text/javascript" src="${pageContext.request.contextPath}/js/styleChange.js"></script>
-                <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=grbYXcBhXlgv0QpFK3HHzVgLTInbTWjg"></script>
+                <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=YDtu4NPHGvo6qNIIbaEt2mNkeyVzP7ek"></script>
                 <script type="text/javascript" src="http://api.map.baidu.com/library/CurveLine/1.5/src/CurveLine.min.js"></script>
                 <script type="text/javascript" src="${pageContext.request.contextPath}/js/mapv.js"></script>
+                <!--可视化模块-->
                 <script type="text/javascript" src="${pageContext.request.contextPath}/js/yukimap.js"></script>
+
                 <script type="text/javascript" src="${pageContext.request.contextPath}/js/DistanceTool.js"></script>
-                <!--胡泽豪整合重构的地图展示模块-->
-                <script type="text/javascript" src="${pageContext.request.contextPath}/js/layerpanel.js"></script>
-                <!--主要由胡毅荣提供代码 属于图层添加模块-->
-                <script type="text/javascript" src="${pageContext.request.contextPath}/js/layertree.js"></script>
                 <!--主要由孟林昊提供代码 属于图层树模块 为地图展示子模块-->
-                <script type="text/javascript" src="${pageContext.request.contextPath}/js/mydemo.js"></script>
-				<!-- 梁旭坚组的带有自动补完功能的查询模块 -->
+                <script type="text/javascript" src="${pageContext.request.contextPath}/js/layertree.js"></script>
+                
+                <!-- 梁旭坚组的带有自动补完功能的查询模块 -->
                 <script type="text/javascript" src="${pageContext.request.contextPath}/js/AttrSearch.js"></script>
+
+                <script type="text/javascript" src="${pageContext.request.contextPath}/js/main.js"></script>
                 <link href="css/publicstyle.css" rel="stylesheet">
                 <link href="css/whitestyle.css" rel="stylesheet">
                 <link href="css/searchLayer.css" rel="stylesheet">
 				<link href="css/autocomplete.css" rel="stylesheet">
 				<link href="css/legend.css" rel="stylesheet">
                 <script>
-            var mapdata = ${map};//获取后台返回的map数据
+            var mapdata = ${map};//获取后台返回的map数据 这里也要修改……顺便可以一起改掉后台的逻辑
         </script>
 </head>
 <body>
     <c:set var="pagename" value="main" />
     <nav class="navbar navbar-default navbar-fixed-top">
         <div id="nav" class="container">
+        <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar0" aria-expanded="false">
+                  <span class="sr-only">Toggle navigation</span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+              </button>
+          </div>
             <div class="collapse navbar-collapse topnavi" role="navigation" id="navbar0" style="font-size: 16px;">
 <ul class="nav navbar-nav" id="nav">
     <li><a href="index.action">学术地图发布平台Beta</a> </li>
@@ -167,22 +176,7 @@
 
 <!-- 自定义tooltip -->
 <div id="mytooltip" style="position:absolute;display:none;padding:5px;background:rgba(220,220,220,0.7);top:50%;left:50%;border-radius:5px">test tooltip </div>
-<script> 
-                                                       function mouseMove(ev) {
-                                                           Ev = ev || window.event;
-                                                           mousePos = mouseCoords(ev);
-                                                       }
-                                                       function mouseCoords(ev) {
-                                                           if (ev.pageX || ev.pageY) {
-                                                               return { x: ev.pageX, y: ev.pageY };
-                                                           }
-                                                           return {
-                                                               x: ev.clientX + document.body.scrollLeft - document.body.clientLeft,
-                                                               y: ev.clientY + document.body.scrollTop - document.body.clientTop
-                                                           };
-                                                       }
-                                                       document.onmousemove = mouseMove; 
-</script>
+
 
 <div id="mapPanel" style="position:absolute;display:none;padding:5px;opacity:0.9;background:#EEEEEE;top:90px;left:30px;border-radius:5px">
     <form>
@@ -333,25 +327,41 @@
 </tbody>
 </table>
 <!-- ============== 登录框  ============== -->
-<div id="userwin" class="easyui-window" title="用户登录" style="width:420px; height:300px;border:solid 1px #AAAAAA;" data-options="iconCls:'icon-man', modal:true, maximizable:false">
-    	<div style="padding:15px 30px;margin:2px;border:solid 1px #AAAAAA">
-            <label style="display:inline-block;width:50px">帐号</label><input id="account" class="easyui-textbox" style="width:280px" data-options="iconCls:'icon-man', required:true, prompt:'enter your name'"/><br/><br/>
-            <label style="display:inline-block;width:50px">密码</label><input id="pwd" class="easyui-passwordbox" style="width:280px"  data-options="required:true, prompt:'enter your password'"/><br/><br/>
-            <input id="checkpwd" name="checkpwd" type="checkbox"/>记住密码<br/><br/>
-            <input id="checklogin" name="checklogin" type="checkbox"/>自动登录<br/>
-        </div>
-        <div style="padding-left: 230px;margin-top: 10px">
-            <input id="loginbtn" class="easyui-linkbutton" value="登录" style="width:70px; height: 20px" />
-            <input id="cancelbtn" class="easyui-linkbutton" value="取消" style="width:70px; height:20px" />
-        </div>
-        <div style="position:relative">
-        	<a href="./ForgetPassword.jsp" style="position:absolute;left:40px;top:18px">忘记密码？</a>
-        </div>
-        <div style="position:relative">
-        	<a href="./registerPanel.action" style="position:absolute;left:320px;top:18px">立即注册</a>
-        </div>
-    </div>
-        
+<div class="modal fade" id="userwin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">  
+    <div class="modal-dialog modal-sm" role="document">  
+        <div class="modal-content">  
+            <div class="modal-header">  
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">  
+                    <span aria-hidden="true">×</span>  
+                </button>  
+                <h4 class="modal-title" id="myModalLabel">用户登录</h4>  
+            </div>  
+            <div class="modal-body" align="center">   
+                <div>
+               
+                	<input type="text" class="form-control" placeholder="用户名" id="account">
+         		
+            	<br/>
+            	
+            		<input type="password" class="form-control" placeholder="密&emsp;码" id="pwd">
+            	
+            	<br/>
+            	
+            	<input id="checkpwd" name="checkpwd" type="checkbox"/>记住密码&emsp;&emsp;&emsp;&emsp;&emsp;
+            	<input id="checklogin" name="checklogin" type="checkbox"/>自动登录
+            	<br/><br/>
+            	<a href="./ForgetPassword.jsp">忘记密码？</a>&emsp;&emsp;&emsp;&emsp;&emsp;
+        		<a href="./registerPanel.action">立即注册</a>
+				<br>        
+        		</div>
+        	</div>
+            <div class="modal-footer">  
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>  
+                <button id="loginbtn" type="button" class="btn btn-primary">登录</button>  
+            </div>  
+        </div>  
+    </div>  
+</div>        
 </body>
 
 </html>
