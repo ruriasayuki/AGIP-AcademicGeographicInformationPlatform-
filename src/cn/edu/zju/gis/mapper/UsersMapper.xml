@@ -25,15 +25,12 @@
 		SELECT * FROM USERS WHERE username = #{value}
 	</select>
 	
-	 <select id="checklogin" resultType="int">
-		SELECT userid FROM sitemanager limit 1;
-	</select>
 	<select id="login" parameterType="cn.edu.zju.gis.po.Users" resultType="cn.edu.zju.gis.po.Users">
 		SELECT * FROM USERS WHERE username=#{username} AND password=#{password}
 	</select>	
 	<insert id="register" parameterType="cn.edu.zju.gis.po.Users">
-		INSERT INTO USERS(username,password,email)
-		VALUES(#{username},#{password},#{email})
+		INSERT INTO USERS(username,password,email,realname,comp,cretificate,cretifitype,authority)
+		VALUES(#{username},#{password},#{email},#{realname},#{comp},#{cretificate},#{cretifitype},0)
 	</insert>
 	<select id="userExists" parameterType="cn.edu.zju.gis.po.Users" resultType="cn.edu.zju.gis.po.Users">
 		SELECT * FROM USERS WHERE username=#{username}

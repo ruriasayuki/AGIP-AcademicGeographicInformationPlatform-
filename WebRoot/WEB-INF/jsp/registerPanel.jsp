@@ -27,6 +27,15 @@
     <input id="password" name="password" class="easyui-passwordbox" data-options="required:true,validType:'length[6,20]'"  style="width:200px;height:30px" /><span id="pinfo" class="info"></span><br/><br/>
     <label class="mylabel">确认密码</label>
     <input id="passwordagain" name="passwordagain" class="easyui-passwordbox"  required="required" style="width:200px;height:30px" /><span id="painfo" class="info"></span><br/><br/>
+    <label class="mylabel">真实姓名</label>
+    <input id="realname" name="realname" class="easyui-textbox" data-options="required:true,missingMessage:'真实姓名不可为空'" style="width:200px;height:30px" /><span id="rninfo" class="info"></span><br/><br/>
+    <label class="mylabel">所在单位</label>
+    <input id="comp" name="comp" class="easyui-textbox" data-options="required:true,missingMessage:'所在单位不可为空'" style="width:200px;height:30px" /><span id="cpinfo" class="info"></span><br/><br/>
+    <label class="mylabel">证件类型</label>
+    <input id="credifitype" name="credifitype" style="width:200px;height:30px" /><span id="uinfo" class="info"></span><br/><br/>
+    <label class="mylabel">证件号码</label>
+    <input id="cretificate" name="cretificate" class="easyui-textbox" data-options="required:true,missingMessage:'证件号码不可为空'" style="width:200px;height:30px" /><span id="creinfo" class="info"></span><br/><br/>
+    
     <label class="mylabel">邮箱</label>
     <input id="email" name="email" class="easyui-textbox" data-options="required:true"  style="width:200px;height:30px" /><span id="einfo" class="info"></span><br/><br/> 
     <input id="sendcode2email" readonly="readonly" class="easyui-linkbutton" value="邮箱验证码" style="height:30px;width:90px" />

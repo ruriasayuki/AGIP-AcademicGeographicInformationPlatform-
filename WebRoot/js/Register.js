@@ -4,7 +4,8 @@ $(document).ready(function () {
 	var state1 = false;
 	$("#username").textbox('textbox').blur(function () {
 		if ($(this).val() == '') {
-			$("#uinfo").text("用户名不能为空");			    
+			$("#uinfo").text("用户名不能为空");
+			state1 = false;    
 		} else {
 			$.ajax({
 				url: "./userExists.action",
@@ -17,6 +18,7 @@ $(document).ready(function () {
 				success: function (flag) {
 					if (flag == "true") {
 						$("#uinfo").text("该用户名已存在，请重新填写");
+						state1 = false;
 					} else if (flag == "false") {
 						$("#uinfo").text('');
 						$("#uinfo").append("<img src='./img/3_ok.png' />");
@@ -32,14 +34,14 @@ $(document).ready(function () {
 	$("#password").textbox('textbox').blur(function () {
 		if ($(this).val() == '') {
 			$("#pinfo").text("密码不能为空");
-			    
+			state2 = false;    
 		} else {
 			if ($(this).val().length < 6) {
 				$("#pinfo").text("密码必须大于等于6位，请重新填写");
-				        
+				state2 = false;        
 			} else if ($(this).val().length > 20) {
 				$("#pinfo").text("密码必须小于等于20位，请重新填写");
-				        
+				state2 = false;        
 			} else {
 	            $("#pinfo").text('');
 	            $("#pinfo").append("<img src='./img/3_ok.png' />");
@@ -52,9 +54,11 @@ $(document).ready(function () {
 	$("#passwordagain").textbox('textbox').blur(function () {
 		if ($(this).val() == '') {
 			$("#painfo").text("密码不能为空");	    
+			state3 = false;
 		} else {
 			if ($("#passwordagain").textbox('getValue') != $("#password").val()) {
 				$("#painfo").text("两次输入的密码不一致，请重新填写");     
+				state3 = false;
 			} else {
 	            $("#painfo").text('');
 	            $("#painfo").append("<img src='./img/3_ok.png' />");
@@ -67,10 +71,11 @@ $(document).ready(function () {
 	$("#email").textbox('textbox').blur(function () {
 		if ($(this).val() == '') {
 			$("#einfo").text("邮箱不能为空");			    
+			state4 = false;
 		} else {
 			if (/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test($(this).val()) == false) {
 				$("#einfo").text("邮箱格式不正确，请重新填写");
-				        
+				state4 = false;        
 			} else {
 				$.ajax({
 					url: "./emailExists.action",
@@ -83,6 +88,7 @@ $(document).ready(function () {
 					success: function (flag) {
 						if (flag == "true") {
 							$("#einfo").text("该邮箱已被占用，请重新填写");
+							state4 = false;
 						} else if (flag == "false") {
 							$("#einfo").text('');
 							$("#einfo").append("<img src='./img/3_ok.png' />");
@@ -95,7 +101,68 @@ $(document).ready(function () {
 		}
 	});
 	
+	var state5 = false;
+	$("#realname").textbox('textbox').blur(function () {
+		if ($(this).val() == '') {
+			$("#rninfo").text("姓名不能为空");			    
+			state5 = false;
+		} 			 
+		else{
+			$("#rninfo").text('');
+			$("#rninfo").append("<img src='./img/3_ok.png' />");
+			state5 = true;
+		}
+	});			       
+			
 	
+	var state6 = false;
+	$("#comp").textbox('textbox').blur(function () {
+		if ($(this).val() == '') {
+			$("#cpinfo").text("所在单位不能为空");
+			state6 = false;			    
+		} 			 
+		else{
+			$("#cpinfo").text('');
+			$("#cpinfo").append("<img src='./img/3_ok.png' />");
+			state6 = true;
+		}
+	});	
+	
+	var state7 = false;
+	$("#cretificate").textbox('textbox').blur(function () {
+		if ($(this).val() == '') {
+			$("#creinfo").text("证件号码不能为空");			    
+			state7 = false;
+		} 			 
+		else{
+			$("#creinfo").text('');
+			$("#creinfo").append("<img src='./img/3_ok.png' />");
+			state7 = true;
+		}
+	});
+	
+
+	$("#credifitype").combobox(
+		{
+    		valueField:'id',
+    		textField:'text',
+			data:[
+				{
+					id:0,
+					text:"身份证"
+				},
+				{
+					id:1,
+					text:"护照"
+				},
+				{
+					id:2,
+					text:"学生证"
+				}
+				]
+			
+		}
+	);
 	
 	//发邮件	
 	$("#sendcode2email").click(function () {
@@ -122,10 +189,9 @@ $(document).ready(function () {
 	});
 
 	//注册
-	$("#registerbtn").click(function () {	    
-		//alert($('#email_code').val());    	       
-		//         	$('#registerform').submit();
-		if (state1 && state2 && state3 && state4) {
+	$("#registerbtn").click(function () {
+		if (state1 && state2 && state3 && state4
+				   && state5 && state6 && state7) {
 			$.ajax({
 				url: "./register.action",
 				type: "POST",
@@ -134,7 +200,11 @@ $(document).ready(function () {
 					username: $('#username').val().trim(),
 					password: hex_md5($('#password').val().trim()),
 					email: $('#email').val().trim(),
-					checkcode: $('#email_code').val().trim()
+					checkcode: $('#email_code').val().trim(),
+					cretificate:$('#cretificate').val().trim(),
+					realname:$('#realname').val().trim(),
+					comp:$('#comp').val().trim(),
+					credifitype:$('#credifitype').val().trim(),
 				},
 				success: function (row) {
 					if (row == 1) {
