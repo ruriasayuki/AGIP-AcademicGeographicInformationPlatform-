@@ -109,10 +109,10 @@ function glInitialize() {
         if (dis < d2.max) {
 
           // 如果是鼠标，则让粒子向鼠标的位置移动
-          if (d2 === warea && dis > (d2.max / 2)) {
+          /*if (d2 === warea && dis > (d2.max / 2)) {
             dot.x -= xc * 0.03;
             dot.y -= yc * 0.03;
-          }
+          }*/
 
           // 计算距离比
           ratio = (d2.max - dis) / d2.max;

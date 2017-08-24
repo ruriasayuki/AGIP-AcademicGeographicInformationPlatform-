@@ -21,7 +21,7 @@ function checkAuthority()
 				if(flag==="true"){
 				//TODO 弹窗提示管理员权限开启
 				var oldhtml = $('#usermenu').html();
-				var newhtml = '<li><a href="${pageContext.request.contextPath}/admin.action">审核管理</a></li>';
+				var newhtml = '<li><a href="./admin.action">审核管理</a></li>';
 				$('#usermenu').html(oldhtml+newhtml);
 				}
 			}
