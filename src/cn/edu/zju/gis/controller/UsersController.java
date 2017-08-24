@@ -213,4 +213,22 @@ public class UsersController {
 		userjson = "{\"username\":\""+username+"\",\"userid\":"+userid+"}";
 		return userjson;
 	}
+
+	@RequestMapping("/getActiveAuthority")
+	@ResponseBody
+	public boolean getActiveAuthority(HttpSession session)
+	{
+		Integer userid = (Integer)session.getAttribute("userid");
+		if(userid==null) return false;
+		int a = userid;
+		Users res;
+		try {
+			res = usersService.findUserById(a);
+			int authority = res.getAuthority();
+			if(authority==0) return false;
+			else return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
 }

@@ -60,23 +60,6 @@
             <div class="collapse navbar-collapse topnavi" role="navigation" id="navbar0" style="font-size: 16px;">
 <ul class="nav navbar-nav" id="nav">
     <li><a href="index.action">学术地图发布平台Beta</a> </li>
-    <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-			               	 主题
-			            <b class="caret"></b>
-		            </a>
-        <ul class="dropdown-menu" id="usermenu">
-            <li>
-                <a a href="javascript:void(0);" onclick="changetheme('gray')">gray</a>
-</li>
-<li>
-    <a a href="javascript:void(0);" onclick="changetheme('metro')">metro</a>
-</li>
-<li>
-    <a a href="javascript:void(0);" onclick="changetheme('blue')">blue</a>
-</li>
-</ul>
-</li>
 </ul>
 
 <c:choose>
@@ -107,6 +90,7 @@
                     <li><a href="${pageContext.request.contextPath}/searchMaps2.html">查看地图</a></li>
                     <li><a href="${pageContext.request.contextPath}/map.jsp">上传图层</a></li>
                     <li><a href="ModifyPwd.action">修改密码</a></li>
+                    
                 </ul>
             </li>
             <li><a id="logoutbtn" href="#">注销</a></li>
