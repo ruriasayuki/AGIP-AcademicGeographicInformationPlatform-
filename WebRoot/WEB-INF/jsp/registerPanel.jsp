@@ -12,10 +12,12 @@
 <script type="text/javascript" src="./plugin/jquery-easyui-1.5.2/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="./plugin/jquery-easyui-1.5.2/locale/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript" src="./js/md5.js"></script>
+
 <script type="text/javascript" src="./js/Register.js"></script>
  
 </head>
 <body>
+
 <div id="head"><br/>
 <span style="font-weight: bold; font-size: xx-large;">学术地图发布平台</span><span style="font-size: x-large;">|立即注册</span>
 </div>
@@ -43,5 +45,10 @@
     <input id="registerbtn" readonly="readonly"  class="easyui-linkbutton" value="注册" data-options="height:30,width:295"/>
     </form>
 </div>
+<div id="bganimate" >
+<canvas id="canvas" style="width:100%;height:100%;">
+</canvas>
+</div>
+<script type="text/javascript" src="./js/glbg.js"></script>
 </body>
 </html>

@@ -1,5 +1,6 @@
 $(document).ready(function () {
-
+	//背景动画
+	//glInitialize();
 	//用户名验证
 	var state1 = false;
 	$("#username").textbox('textbox').blur(function () {

@@ -14,9 +14,19 @@
 #head {
 	text-align: center;
 }
-
+#bganimate {
+	position: absolute;
+	z-index: -1;
+	width:99%;
+	height:100%;
+	top:0px;
+}
 #myform {
 	position: relative;
 	padding-left: 39%;
 	padding-top: 50px;
 }
+canvas{
+	display:block;
+}
+

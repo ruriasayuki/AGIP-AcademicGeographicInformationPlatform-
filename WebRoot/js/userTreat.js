@@ -1,14 +1,6 @@
 function initLogWindow() {
-    $("#account").attr('value', "");
-    $("#pwd").attr('value', "");
-}
-
-function showMessage() {
-    if ($.trim($("#account").textbox('getValue')) == "" || $.trim($("#pwd").textbox('getValue')) == "") {
-        $.messager.alert("错误", "必须输入账号密码！");
-    } else {
-        $.messager.alert("确认", "账号：" + $("#account").textbox('getValue') + ",密码：" + $("#pwd").textbox('getValue'));
-    }
+    $("#account").val("");
+    $("#pwd").val("");
 }
 
 function setCookie(c_name,value,expiredays)
@@ -84,14 +76,13 @@ $(document).ready(function() {
         var cookie_bremember = getCookie("bremember");
         var cookie_bautologin = getCookie("bautologin");
         if(cookie_bremember=="t"){
-        	$("#account").attr('value',cookie_username);
-        	$("#pwd").attr('value',cookie_password);
+        	$("#account").val(cookie_username);
+        	$("#pwd").val(cookie_password);
         	$("#checkpwd").attr("checked",true);     
         }
         else{
         	//"f"或者""
-        	$("#account").attr('value',cookie_username);
-        	$("#pwd").attr('value',cookie_password);
+        	$("#account").val(cookie_username);
         	$("#checkpwd").attr("checked",false);     
         }
         
@@ -177,11 +168,10 @@ $(document).ready(function() {
     				window.location.reload();
     				var expiredays = 7; 
     				setCookie("bautologin","f",expiredays);//退出登录当然就是取消下次打开页面会自动登录
-    				//$("#checklogin").attr("checked",'false');//这个也要改才怪   				
-    				    				
+    				   				
     			}
     			else{
-    				//do sth with error
+    				window.location.reload();
     			}
     		},
     		error:function(){
@@ -189,6 +179,6 @@ $(document).ready(function() {
     		}    			
     	})    	
     	var cookie_bautologin=getCookie("bautologin");
-		//alert(cookie_bautologin);   	
+		   	
     });
 });

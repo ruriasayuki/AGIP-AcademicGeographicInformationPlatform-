@@ -28,5 +28,6 @@
     <input id="pwdNewAgain" name="pwdNewAgain" class="easyui-passwordbox" required="required" validType="equals['#password']" style="width:200px;height:30px" /><span id="painfo"></span><br/><br/>
     <input id="modifyOk" class="easyui-linkbutton" value="确认" data-options="height:30,width:60"/>
 </div>
+
 </body>
 </html>

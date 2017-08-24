@@ -4,14 +4,15 @@ $(document).ready(function() {
 	$("#pwdNew").textbox('textbox').blur(function () {
 		if ($(this).val() == '') {
 			$("#newinfo").text("密码不能为空");
+			state2 = false;
 			    
 		} else {
 			if ($(this).val().length < 6) {
 				$("#newinfo").text("密码必须大于等于6位，请重新填写");
-				        
+				state2 = false;        
 			} else if ($(this).val().length > 20) {
 				$("#newinfo").text("密码必须小于等于20位，请重新填写");
-				        
+				state2 = false;        
 			} else {
 	            $("#newinfo").text('');
 	            $("#newinfo").append("<img src='./img/3_ok.png' />");
@@ -24,9 +25,11 @@ $(document).ready(function() {
 	$("#pwdNewAgain").textbox('textbox').blur(function () {
 		if ($(this).val() == '') {
 			$("#painfo").text("密码不能为空");	    
+			state3 = false;
 		} else {
 			if ($("#pwdNewAgain").textbox('getValue') != $("#pwdNew").val()) {
 				$("#painfo").text("两次输入的密码不一致，请重新填写");     
+				state3 = false;
 			} else {
 	            $("#painfo").text('');
 	            $("#painfo").append("<img src='./img/3_ok.png' />");
@@ -80,4 +83,5 @@ $(document).ready(function() {
 		}
 
 	});
-})
+});
+
