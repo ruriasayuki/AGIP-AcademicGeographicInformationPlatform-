@@ -236,5 +236,9 @@ $(document).ready(function () {
 		}
 
 	});
+	
+	$("#cancelbtn").click(function (){
+		location.href = "http://localhost:8080/AncientMap/index.action";
+	});
 
 })

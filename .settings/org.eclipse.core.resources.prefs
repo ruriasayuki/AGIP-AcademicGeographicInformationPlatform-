@@ -1,5 +1,5 @@
 eclipse.preferences.version=1
-encoding//WebRoot/map.jsp=UTF-8
+encoding//WebRoot/WEB-INF/jsp/uplayer.jsp=UTF-8
 encoding//src/cn/edu/zju/gis/controller/LayersController.java=UTF-8
 encoding//src/cn/edu/zju/gis/controller/UsersController.java=UTF-8
 encoding/<project>=UTF-8

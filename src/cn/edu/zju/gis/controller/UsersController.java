@@ -34,11 +34,11 @@ public class UsersController {
 	
 	@RequestMapping("/index")
 	public ModelAndView index() throws Exception{
-		int loginflag = 1;
+	
 		
 		ModelAndView modelAndView =  new ModelAndView();
 		
-		modelAndView.addObject("loginflag", loginflag);
+	
 		
 		modelAndView.setViewName("index");
 		

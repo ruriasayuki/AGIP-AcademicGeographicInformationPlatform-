@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title></title>
+    <title>还未找到文案的关于界面</title>
     <meta charset="UTF-8">
      <script type="text/javascript" src="js/load.js"></script> 
     <link rel="stylesheet" href="bootstrap-3.3.7/css/bootstrap.min.css">

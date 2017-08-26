@@ -9,7 +9,7 @@
 
 .mylabel {
 	display: inline-block;
-	width: 90px;
+	width:90px;
 }
 
 #head {
@@ -24,10 +24,26 @@
 }
 #myform {
 	position: relative;
-	padding-left: 39%;
 	padding-top: 50px;
+	padding-left: 38%;
 }
 canvas{
 	display:block;
 }
 
+#registerbtn{
+	background:#2573f0;
+	color:#ffffff;
+}
+#registerbtn:hover{
+	cursor:pointer;
+	background:#0000ff;
+}
+#cancelbtn{
+	background:#f22424;
+	color:#ffffff;
+}
+#cancelbtn:hover{
+	cursor:pointer;
+	background:#ff0000;
+}

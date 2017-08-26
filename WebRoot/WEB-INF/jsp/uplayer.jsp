@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -10,9 +12,9 @@
     <title>学术地图发布平台 图层上传</title>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <link href="plugin/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/animate.css" rel="stylesheet">
-    <link href="css/zzsc.css" rel="stylesheet">
-    <link href="css/map.css" rel="stylesheet">
+    <link href="css/uplayerAnimate.css" rel="stylesheet">
+    <link href="css/uplayerPagePlug.css" rel="stylesheet">
+    <link href="css/uplayerPage.css" rel="stylesheet">
 </head>
 <body>
     <div id="head">
@@ -28,28 +30,9 @@
                 <input type="text" name="layername" id="layername">
             </div>
         </div>
-        <div class="dataEach" style="margin-top: 5px;">
-            <div style="margin-top: 7px;">
-                <span class="dataEach_name">是否公开:</span>
-                <input type="radio" name="accessibility" value="T">是
-                &nbsp;&nbsp;
-                <input type="radio" name="accessibility" value="F">否
-            </div>
-        </div>
-        <!-- 需要隐藏 -->
-		<div class="dataEach" style="margin-top: 5px;display:none">
-		   <div style="margin-top: 7px;">
-		        <span class="dataEach_name">userid:</span>
-		        <input type="text" id="userid" name="userid" value='${session.getAttribute("userid").toString()}'>
-		    </div>
-		</div>
         
-        <div class="dataEach" style="margin-top: 5px;">
-            <div style="margin-top: 7px;">
-                <span class="dataEach_name">图层类型:</span>
-                <input type="radio" class="layertype" name="type" value="0" checked=checked>分层设色图&nbsp;&nbsp;
-                </div>
-        </div>
+        
+        
         <div class="dataEach" style="margin-top: 5px;display:block" id="dynastyChoose0">
             <div style="margin-top: 7px;">
                 <span class="dataEach_name">选择底图:</span>
@@ -88,30 +71,9 @@
                 <input type="text" name="layername" id="layername1">
             </div>
         </div>
-        <div class="dataEach" style="margin-top: 5px;">
-            <div style="margin-top: 7px;">
-                <span class="dataEach_name">是否公开:</span>
-                <input type="radio" name="accessibility1" value="T">是
-                &nbsp;&nbsp;
-                <input type="radio" name="accessibility1" value="F">否
-            </div>
-        </div>
-        <!-- 需要隐藏 -->
-		<div class="dataEach" style="margin-top: 5px;display:none">
-		   <div style="margin-top: 7px;">
-		        <span class="dataEach_name">userid:</span>
-		        <input type="text" id="userid" name="userid" value='${session.getAttribute("userid").toString()}'>
-		    </div>
-		</div>
         
-        <div class="dataEach" style="margin-top: 5px;">
-            <div style="margin-top: 7px;">
-                <span class="dataEach_name">图层类型:</span>
-                <input type="radio" class="layertype" name="type1" value="1" >等级符号图&nbsp;&nbsp;
-                <input type="radio" class="layertype" name="type1" value="2" >点图&nbsp;&nbsp;
-                <input type="radio" class="layertype" name="type1" value="3" >轨迹图&nbsp;&nbsp;
-            </div>
-        </div>
+        
+        
         <div class="dataEach" style="margin-top: 5px;display:block" id="dynastyChoose1">
             <div style="margin-top: 7px;">
                 <span class="dataEach_name">选择坐标表:</span>
@@ -411,8 +373,7 @@
         </form>
     </div>
     <div id="last1">
-        <h3>Do you like this Ancient Map?</h3>
-        <a class="btn btn-default slider-btn animated fadeIn" href="index.action">Join us</a>
+        <a class="btn btn-default slider-btn animated fadeIn" href="index.action">返回首页</a>
     </div>
     <div id="last2">
             <div class="tail1">
@@ -424,7 +385,7 @@
                     </li>
                     <li class="item">
                         <div class="inner">
-                            <img src="img/gis.png" alt="icon2" width="60px" height="60px"><p class="text">地信倾力之作</p>
+                            <img src="img/gis.png" alt="icon2" width="60px" height="60px"><p class="text">&ensp;GIS倾力之作</p>
                         </div>
                     </li>
                     <li class="item">
@@ -445,8 +406,8 @@
     <script src="js/jquery.easing.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="bootstrap-3.3.7/js/bootstrap.min.js"></script>
-    <script src="js/zzsc.js"></script>
-    <script src="js/myjs.js"></script>
-    <script src="js/map_1.js"></script>
+    <script src="js/uplayerPage.js"></script>
+    <script src="js/uplayerAnime.js"></script>
+    <script src="js/uplayer.js"></script>
 </body>
 </html>

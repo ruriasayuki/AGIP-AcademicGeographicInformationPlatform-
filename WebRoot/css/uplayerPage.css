@@ -70,22 +70,24 @@
         #dataDiv0{
             position: fixed;
             width: 500px;
-            height: 320px;
-            background-color: #9bbb32;
+            height: auto;
+            background-color: #cddeff;
             z-index:1;
             top:25%;
             left:35%;
             border-radius: 10px;
+            padding-bottom: 10px;
         }
         #dataDiv{
             position: fixed;
             width: 500px;
-            height: 320px;
-            background-color: #9bbb32;
+            height: auto;
+            background-color: #cddeff;
             z-index:1;
             top:25%;
             left:35%;
             border-radius: 10px;
+        	padding-bottom: 10px;
         }
         #dataTitle{
             font-size: 18px;
@@ -96,7 +98,7 @@
             border: 1px solid white;
             width: 86%;
             margin-left: 7%;
-            background-color: #bad06b;
+            background-color: #cdeef0;
             height: 40px;
             border-radius: 5px;
         }
@@ -109,24 +111,26 @@
         #submitBtn{
             width: 100px;
             height: 35px;
-            background-color: #8fd64f;
-            border: 1px solid #71b90f;
+            background-color: #2343f0;
+            border: 1px solid #3253ff;
             border-radius: 5px;
+            color:#ffffff;
         }
         #submitBtn:hover{
             cursor: pointer;
-            background-color: #69d120;
+            background-color: #0000ff;
         }
         #closeBtn{
             width: 100px;
             height: 35px;
-            background-color: #d2d93c;
-            border: 1px solid #b99b05;
+            background-color: #f01232;
+            border: 1px solid #ff2443;
             border-radius: 5px;
+        	color:#ffffff;
         }
         #closeBtn:hover{
             cursor: pointer;
-            background-color: #d1be05;
+            background-color: #ff0000;
         }
 
         #last1{

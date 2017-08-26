@@ -8,12 +8,12 @@
     <title>首页</title>
     <meta charset="UTF-8">
     <script type="text/javascript" src="js/load.js"></script>  
-    <link rel="stylesheet" href="bootstrap-3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" id="easyuiTheme" type="text/css" href="jquery-easyui-1.5.2/themes/gray/easyui.css">
-    <link rel="stylesheet" type="text/css" href="jquery-easyui-1.5.2/themes/icon.css">
-    <script type="text/javascript" src="jquery-easyui-1.5.2/jquery.min.js"></script>
-    <script type="text/javascript" src="bootstrap-3.3.7/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="jquery-easyui-1.5.2/jquery.easyui.min.js"></script>
+    <link rel="stylesheet" href="plugin/bootstrap-3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" id="easyuiTheme" type="text/css" href="plugin/jquery-easyui-1.5.2/themes/gray/easyui.css">
+    <link rel="stylesheet" type="text/css" href="plugin/jquery-easyui-1.5.2/themes/icon.css">
+    <script type="text/javascript" src="plugin/jquery-easyui-1.5.2/jquery.min.js"></script>
+    <script type="text/javascript" src="plugin/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="plugin/jquery-easyui-1.5.2/jquery.easyui.min.js"></script>
     <script type="text/javascript" src="js/index.js"></script>
     <script type="text/javascript" src="js/md5.js"></script>
     <script type="text/javascript" src="js/userTreat.js"></script>
@@ -46,7 +46,7 @@
 			            <b class="caret"></b>
 		            </a>
 		                <ul class="dropdown-menu" id="usermenu">
-			                <li><a href="${pageContext.request.contextPath}/searchMaps2.html">查看地图</a></li>
+			                <li><a href="openSearchMapPage.action">查看地图</a></li>
 			                <li><a href="registerPanel.action">注册</a></li>
 		                </ul>
 	                </li>
@@ -63,8 +63,8 @@
 		            </a>
 		                <ul class="dropdown-menu" id="usermenu">
 			                <li><a href="${pageContext.request.contextPath}/main.action">新建地图</a></li>
-			                <li><a href="${pageContext.request.contextPath}/searchMaps2.html">查看地图</a></li>
-			                <li><a href="${pageContext.request.contextPath}/map.html">上传图层</a></li>
+			                <li><a href="openSearchMapPage.action">查看地图</a></li>
+			                <li><a href="${pageContext.request.contextPath}/openUpLayerPage.action">上传图层</a></li>
 			                
 			                <li><a href="ModifyPwd.action">修改密码</a></li>
 		                </ul>
@@ -211,7 +211,7 @@
         <br>
          @ZJUGIS 2014级
         <br>
-        2017.7.11
+        2017.8.24
         <br>
         <br>
 </footer>

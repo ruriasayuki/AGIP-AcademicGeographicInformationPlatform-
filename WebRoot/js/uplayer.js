@@ -88,10 +88,7 @@
             var formData = new FormData();
             formData.append('file',$("#file")[0].files[0]);
             formData.append('layername',$("#layername").val());
-            formData.append('userid',$("#userid").val());
-            formData.append('type',$("input[name='type']:checked").val());
             formData.append('appendDataSrc',$(".appendDataSrc:selected").attr('name'));
-            formData.append('accessibility',$("input[name='accessibility']:checked").val());
             $.ajax({
                 url:"./addLayers.action",
                 async:true,
