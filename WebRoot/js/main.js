@@ -140,9 +140,11 @@ function addMapToMap(varmapid)
 
 //打开保存框
 function showSavePanel() {
+	//TODO 1 重写保存框为bootstrap风格
 	$('#savePanel').window('open');
+
+	//改变触发save的方法
 	savemap();
-	$('#savePanel').window('close');
 }
 
 //打开查询结果框
@@ -439,4 +441,5 @@ $(document).ready(function () {
 	getLayerData();//获取图层数据（这里要重写（这里的具体代码见layerpanel.js
 	yukiInit();//初始化（这里的代码见yukimap）
 	createAutoComplete();//建立查询数据组（这里的代码见AttrSearch
+	
 });

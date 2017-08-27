@@ -6,6 +6,11 @@
 	select * from maps where id=#{value}
 </select>
 
+<delete id="deleteMapById" parameterType="int">
+	delete from maps where id=#{value}
+</delete>
+
+
 <update id="updateMap" parameterType="cn.edu.zju.gis.po.Maps">
 	update maps 
 	set 
@@ -15,12 +20,13 @@
 		addable = #{addable},
 		layertree = #{layertree},
 		basemapid = #{basemapid},
-		mapstyle = #{mapstyle}
+		mapstyle = #{mapstyle},
+		maptype = #{maptype}
 	where id = #{id}
 </update>
 <insert id="insertMap" parameterType="cn.edu.zju.gis.po.Maps" useGeneratedKeys="true" keyProperty="id">
-	insert into maps(mapname,userid,accessibility,addable,layertree,basemapid,mapstyle)
-	values (#{mapname},#{userid},#{accessibility},#{addable},#{layertree},#{basemapid},#{mapstyle})
+	insert into maps(mapname,userid,accessibility,addable,layertree,basemapid,mapstyle,maptype)
+	values (#{mapname},#{userid},#{accessibility},#{addable},#{layertree},#{basemapid},#{mapstyle},#{maptype})
 </insert>
 <insert id="insertMapLayer" parameterType="cn.edu.zju.gis.po.MapLayer" useGeneratedKeys="true" keyProperty="mlid">
 	insert into maplayer(mapid,layerid,state,style,zIndex)

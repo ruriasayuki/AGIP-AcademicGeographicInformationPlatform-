@@ -7,6 +7,19 @@ function openChangeName(name,acces) {
     $('#changeName').find('#nameForChange').val(name);
     $('#changeName').find('input[name="accessType"]').removeAttr("checked");
     $('#changeName').find('input[name="accessType"][value="'+acces+'"]').prop("checked", true);
+    $('#changeName').find('#maptype').combobox(
+    {
+        valueField:'id',
+        textField:'text',
+        data:[
+            {id:0,text:"综合"},
+            {id:1,text:"人文"},
+            {id:2,text:"历史"},
+            {id:3,text:"经济"},
+            {id:4,text:"政治"}
+        ]
+    }
+    );
     $('#changeName').window('open');
 }
 function changeName() {
@@ -22,6 +35,7 @@ function changeName() {
     });
     echartsoption.title.text = $('#changeName').find('#nameForChange').val();
     $('.accordion').find('.panel-header').find('.panel-title').html(myMapMana.mapname);
+    myMapMana.maptype= $('#changeName').find('#maptype').val();
     redraw();
 }
 

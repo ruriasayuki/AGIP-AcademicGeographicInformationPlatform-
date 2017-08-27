@@ -36,7 +36,7 @@
                 <script type="text/javascript" src="${pageContext.request.contextPath}/js/AttrSearch.js"></script>
 
                 <script type="text/javascript" src="${pageContext.request.contextPath}/js/main.js"></script>
-                <link href="css/publicstyle.css" rel="stylesheet">
+                <link href="css/main.css" rel="stylesheet">
                 <link href="css/whitestyle.css" rel="stylesheet">
                 <link href="css/searchLayer.css" rel="stylesheet">
 				<link href="css/autocomplete.css" rel="stylesheet">
@@ -103,6 +103,7 @@
         </div>
     </nav>
 <div id="headInterval"></div>
+
 <div class="easyui-layout" style="width:100%;height:90%">
 <div data-options="region:'north',split:false" style="width:100%;height:40px;">
 <div style="padding:5px;background:#fafafa;width:100%">
@@ -117,6 +118,8 @@
 <a href="#" onclick="showSearchPanel()" class="easyui-linkbutton" plain="true" iconCls="icon-search"></a>
 </div>
 </div>
+
+<!-- 怪不得我没有动这个结构 有点意思的 上面是west面板的容器 下面作为风琴控件的标题被我换成了地图名……emmm 好好想想怎么改呗 要不干脆支持双地图支援算了-->
 <div id="maplayerTree" data-options="region:'west',split:true" title="图层" style="width:200px;">
 <div class="easyui-accordion" data-options="fit:true,border:false">
     <div title="图层" style="padding:10px;">
@@ -173,14 +176,18 @@
 </form>
 </div>
 
-<div id="changeName" class="easyui-window" title="修改名称" style="width:280px;height:100px;" align:'center' data-options="modal:true,resizable:false,closed:true">
+<!--TODO 都说了准备一下bootstrap化页面啊喂-->
+
+<div id="changeName" class="easyui-window" title="编辑地图属性" style="width:280px;height:130px;" align:'center' data-options="modal:true,resizable:false,closed:true">
 <div>
-    新名称:<input id='nameForChange'></input>
+    <span>地图名称:</span><input id='nameForChange'></input>
     <input id="OKBtn" class="btn btn-primary btn-mini " type="submit" value="确定" onclick="changeName()">
     </br>
     <span>地图权限:</span>
     <input type="radio"  name="accessType" value="1" >公开&nbsp;&nbsp;
     <input type="radio"  name="accessType" value="0" >私有&nbsp;&nbsp;
+    </br>
+    <span>地图类型:</span><input id="maptype" name="maptype">
 </div>
 </div>
 
@@ -241,14 +248,12 @@
 <div onclick="changstyle()" data-options="iconCls:'icon-edit'">更改样式</div>
 <div onclick="removeLayer()" data-options="iconCls:'icon-no'">移除</div>
 </div>
+
+<!--保存框-->
 <div id="savePanel" class="easyui-window" title="提示框" style="width:200px;height:150px" data-options="modal:true,resizable:false,closed:true">
-<div id="saveStep1">保存中...</div>
-<!-- TODO a two step window of saving 
-	 <div id="saveStep2" style="display:none">
-		保存完毕
-		<br>
-		</div>
-	-->
+
+
+
 </div>
 
 <!-- 样式选择弹窗 -->
@@ -346,7 +351,7 @@
             </div>  
         </div>  
     </div>  
-</div>        
+</div> 
 </body>
 
 </html>

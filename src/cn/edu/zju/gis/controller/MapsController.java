@@ -97,7 +97,8 @@ public class MapsController
         		0,
         		mapObj.getMapstyle(),
         		1,
-        		mapObj.getLayertree()
+        		mapObj.getLayertree(),
+        		mapObj.getMaptype()
         		);
         List<MapLayer> oldLayerlist = new ArrayList<MapLayer>();
         if(mapForSave.getId()==0)

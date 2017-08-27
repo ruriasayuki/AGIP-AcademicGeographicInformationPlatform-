@@ -7,8 +7,17 @@ public class Maps {
 	int accessibility;
 	int basemapid;
 	String mapstyle;
-	int addable;
+	int addable;//审核用变量
 	String layertree;
+	int maptype;
+	/* maptype
+	 * 测试阶段
+	 * 0   综合
+	 * 1  文学
+	 * 2  历史
+	 * 3  经济
+	 * 4  政治
+	 */
 	
 	public Maps()
 	{
@@ -25,8 +34,10 @@ public class Maps {
 		this.mapstyle = map.mapstyle;
 		this.addable = map.addable;
 		this.layertree = map.layertree;
+		this.maptype = map.maptype;
 	}
 	
+	//突然有点蒙 这个函数是啥？
 	public Maps(int id,
 			String mapname,
 			int userid,
@@ -49,7 +60,8 @@ public class Maps {
 			int basemapid,
 			String mapstyle,
 			int addable,
-			String layertree)
+			String layertree,
+			int maptype)
 	{
 		this.id=id;
 		this.mapname=mapname;
@@ -59,8 +71,15 @@ public class Maps {
 		this.mapstyle =mapstyle;
 		this.addable =addable;
 		this.layertree = layertree;
+		this.maptype = maptype;
 	}
 
+	public int getMaptype() {
+		return maptype;
+	}
+	public void setMaptype(int maptype) {
+		this.maptype = maptype;
+	}
 	public String getMapstyle() {
 		return mapstyle;
 	}

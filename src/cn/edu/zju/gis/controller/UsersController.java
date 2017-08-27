@@ -54,14 +54,15 @@ public class UsersController {
 			nowuser = usersService.findUserByName(username);
 		MapsCustom map=null;//地图初始化为空
 		if(mapid==null)
-			map= new MapsCustom(0,
-					"new map",
-					nowuser.getId(),
-					1,
-					0,
-					"{\"centerx\":110,\"centery\":40,\"zoomlevel\":5,\"mapmode\":0}",
-					1,
-					"[{\"id\": 0,\"text\": \"new map\",\"type\":\"map\"}]");
+			map= new MapsCustom(0,//默认id 0
+					"new map",//默认地图名
+					nowuser.getId(),//当前用户id
+					1,//用户自定的地图可见性
+					0,//暂时还没有basemap机制 有也打算整合到图层里面 basemap作为底图服务存在即可
+					"{\"centerx\":110,\"centery\":40,\"zoomlevel\":5,\"mapmode\":0}",//初始化地图显示状态（bmap接口）
+					0,//addable 审核属性（相当于是管理员认定的地图可见性） 只有通过审核之后才有（总觉得这个变量一开始不是用来干这个的
+					"[{\"id\": 0,\"text\": \"new map\",\"type\":\"map\"}]",//初始化的地图图层树
+					0);//初始化的地图类型 综合
 		else
 		{
 			Maps mapa = mapsService.findMapById(mapid);

@@ -14,9 +14,10 @@ public class MapsCustom extends Maps {
 		super(id,mapname, userid, accessibility, basemapid,mapstyle);
 
 	}
+	//现在才注意到一堆非驼峰变量……emmm
 	public MapsCustom(int id,String mapname, int userid, int accessibility,
-			int basemapid,String mapstyle,int addable,String layertree) {
-		super(id,mapname, userid, accessibility, basemapid,mapstyle,addable,layertree);
+			int basemapid,String mapstyle,int addable,String layertree,int maptype) {
+		super(id,mapname, userid, accessibility, basemapid,mapstyle,addable,layertree,maptype);
 
 	}
 	public List<MapLayer> getMaplayer() {

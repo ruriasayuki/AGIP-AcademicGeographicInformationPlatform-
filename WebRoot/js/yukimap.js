@@ -124,6 +124,7 @@ function Ykmap(mapjson) {
 	//TODO 增加百度地图的样式配置
 	this.maplayerlist = layeranaly(mapjson.maplayer);//地图图层列表
 	this.layertree = $.parseJSON(mapjson.layertree);
+	this.maptype = mapjson.maptype;
 }
 
 
@@ -770,6 +771,7 @@ function Icemap(YKmap) {
 	this.accessibility = YKmap.mapaccess;
 	this.mapstyle = JSON.stringify(mapstyle);
 	this.layertree = JSON.stringify(layerTreeJson);
+	this.maptype = YKmap.maptype;
 }
 
 function savemap() {
@@ -783,7 +785,10 @@ function savemap() {
 		},success: function (result) {
 			userid = $.parseJSON(result).userid;
 		}});
-	if(userid==0) {alert("请先登录或注册再保存地图");return;}
+	if(userid==0) {
+			//TODO 换成好看的样式的弹窗
+		alert("请先登录或注册再保存地图");return;
+	}
 	if(userid!=myMapMana.mapuserid) 
 		{
 		myMapMana.mapid=0;

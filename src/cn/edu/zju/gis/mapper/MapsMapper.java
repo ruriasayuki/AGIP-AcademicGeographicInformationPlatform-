@@ -6,9 +6,9 @@ import cn.edu.zju.gis.po.MapLayer;
 import cn.edu.zju.gis.po.Maps;
 
 public interface MapsMapper {
-	public void createNewMap(Maps map);
-	
 	public Maps findMapById(int id);
+	
+	public int deleteMapById(int id);
 	
 	public int insertMap(Maps map);
 	
@@ -22,5 +22,5 @@ public interface MapsMapper {
 	
 	public List<Maps> findMaps();
 	
-	public int deleteMaps(MapLayer layer);
+	public int deleteMaps(MapLayer layer);//这个是在地图的图层更新的时候删除地图里面已经没有了的图层
 }

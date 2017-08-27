@@ -17,7 +17,6 @@
     <script type="text/javascript" src="js/index.js"></script>
     <script type="text/javascript" src="js/md5.js"></script>
     <script type="text/javascript" src="js/userTreat.js"></script>
-    <link href="css/publicstyle.css" rel="stylesheet">
 	<link href="css/index.css" rel="stylesheet">
 	<link rel="stylesheet" href="css/scroll.css">
 </head>
