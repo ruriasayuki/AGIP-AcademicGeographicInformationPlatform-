@@ -141,10 +141,11 @@ function addMapToMap(varmapid)
 //打开保存框
 function showSavePanel() {
 	//TODO 1 重写保存框为bootstrap风格
-	$('#savePanel').window('open');
 
 	//改变触发save的方法
 	savemap();
+	$('#savePanel').window('open');
+
 }
 
 //打开查询结果框

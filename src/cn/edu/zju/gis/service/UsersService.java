@@ -1,5 +1,7 @@
 package cn.edu.zju.gis.service;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -10,6 +12,11 @@ public interface UsersService {
 	public Users findUserById(int id) throws Exception;
 	public Users findUser(Users user) throws Exception;
 	public Users findUserByName(String user) throws Exception;
+	
+	public List<Users> findUsers() throws Exception;
+	public List<Users> findUsersByStr(String key) throws Exception;
+	
+	public boolean checkAdmin(HttpSession session) throws Exception;
 	
 	public String login(Users user,HttpSession session) throws Exception;
 	public String logout(HttpSession session);

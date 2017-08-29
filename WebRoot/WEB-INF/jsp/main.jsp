@@ -36,7 +36,7 @@
                 <script type="text/javascript" src="${pageContext.request.contextPath}/js/AttrSearch.js"></script>
 
                 <script type="text/javascript" src="${pageContext.request.contextPath}/js/main.js"></script>
-                <link href="css/main.css" rel="stylesheet">
+                <link href="css/public.css" rel="stylesheet">
                 <link href="css/whitestyle.css" rel="stylesheet">
                 <link href="css/searchLayer.css" rel="stylesheet">
 				<link href="css/autocomplete.css" rel="stylesheet">
@@ -252,7 +252,7 @@
 <!--保存框-->
 <div id="savePanel" class="easyui-window" title="提示框" style="width:200px;height:150px" data-options="modal:true,resizable:false,closed:true">
 
-
+保存成功！
 
 </div>
 

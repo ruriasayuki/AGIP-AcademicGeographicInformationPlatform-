@@ -21,31 +21,15 @@ public class PagesController {
 	@RequestMapping("/admin")
 	public ModelAndView openAdminPanel(HttpSession session) throws Exception{
 		ModelAndView modelAndView =  new ModelAndView();
-		Integer userid = (Integer)session.getAttribute("userid");
-		if(userid==null)
-			{
-				modelAndView.setViewName("blank");
-				return modelAndView;
-			}
-		int a = userid;
-		Users res;
-		try {
-			res = usersService.findUserById(a);
-			int authority = res.getAuthority();
-			if(authority==0) {
-				modelAndView.setViewName("blank");
-				return modelAndView;
-			}
-			else {		
-				modelAndView.setViewName("adminPanel");
-				
-				return modelAndView;
-			}
-		} catch (Exception e) {
-			{
-				modelAndView.setViewName("blank");
-				return modelAndView;
-			}
+		if(usersService.checkAdmin(session))
+		{
+			modelAndView.setViewName("adminPanel");
+			return modelAndView;
+		}
+		else
+		{
+			modelAndView.setViewName("blank");
+			return modelAndView;
 		}
 	}
 	@RequestMapping("/openUpLayerPage")

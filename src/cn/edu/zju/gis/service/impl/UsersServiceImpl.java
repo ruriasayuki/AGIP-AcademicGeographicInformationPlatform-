@@ -2,6 +2,7 @@ package cn.edu.zju.gis.service.impl;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 import java.sql.Timestamp;
 import java.util.Random;
 
@@ -233,5 +234,29 @@ public class UsersServiceImpl implements UsersService{
 	public Users findUserByName(String name) throws Exception {
 		Users user = usersMapper.findUserByName(name);
 		return user;
+	}
+
+	@Override
+	public boolean checkAdmin(HttpSession session) throws Exception {
+		
+		Integer userid = (Integer)session.getAttribute("userid");
+		
+		if(null==userid) return false;
+		else 
+		{
+			Users user = usersMapper.findUsersById(userid);
+			if (1==user.getAuthority()) return true;
+			else return false;
+		}
+	}
+
+	@Override
+	public List<Users> findUsers() throws Exception {
+		return usersMapper.findUsers("");
+	}
+
+	@Override
+	public List<Users> findUsersByStr(String key) throws Exception {
+		return usersMapper.findUsers(key);
 	}
 }

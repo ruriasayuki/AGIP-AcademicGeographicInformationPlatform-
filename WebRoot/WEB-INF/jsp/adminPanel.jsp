@@ -7,7 +7,7 @@
 <head>
     <title>审核管理</title>
 	<link rel="stylesheet" href="plugin/bootstrap-3.3.7/css/bootstrap.min.css">
-	<link rel="stylesheet" href="css/publicstyle.css">
+	<link rel="stylesheet" href="css/public.css">
 	<script type="text/javascript" src="plugin/jquery-3.2.1.min.js"></script>           
     <script type="text/javascript" src="plugin/bootstrap-3.3.7/js/bootstrap.min.js"></script>            
 </head>
