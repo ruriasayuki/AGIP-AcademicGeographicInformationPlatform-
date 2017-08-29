@@ -14,10 +14,7 @@ public class MapsServiceImpl implements MapsService{
 	@Autowired
 	private MapsMapper mapsMapper;
 	
-	@Override
-	public void createnewmap(Maps map) throws Exception {
-		mapsMapper.createNewMap(map);
-	}
+
 
 	@Override
 	public Maps findMapById(int id) throws Exception {
@@ -25,10 +22,6 @@ public class MapsServiceImpl implements MapsService{
 		return map;
 	}
 
-	@Override
-	public void addLayerToMap(MapLayer twoid) throws Exception {
-		mapsMapper.addLayerToMap(twoid);
-	}
 
 	@Override
 	public int insertMap(Maps map) throws Exception {
