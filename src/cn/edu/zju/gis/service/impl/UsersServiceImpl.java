@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import cn.edu.zju.gis.mapper.UsersMapper;
 import cn.edu.zju.gis.po.Users;
+import cn.edu.zju.gis.po.UsersVo;
 import cn.edu.zju.gis.po.email_checkcode;
 import cn.edu.zju.gis.service.UsersService;
 import cn.edu.zju.gis.util.EmailSender;
@@ -251,12 +252,21 @@ public class UsersServiceImpl implements UsersService{
 	}
 
 	@Override
-	public List<Users> findUsers() throws Exception {
-		return usersMapper.findUsers("");
+	public List<Users> findUsers(UsersVo queryuser) throws Exception {
+		
+		return usersMapper.findUsers(queryuser);
 	}
 
 	@Override
 	public List<Users> findUsersByStr(String key) throws Exception {
-		return usersMapper.findUsers(key);
+		UsersVo queryuser = new UsersVo();
+		queryuser.setUsername(key);
+		return usersMapper.findUsers(queryuser);
+	}
+	
+	@Override
+	public int countUsers() throws Exception {
+		int count = usersMapper.countUsers();
+		return count;
 	}
 }

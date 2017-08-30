@@ -25,8 +25,25 @@
 		SELECT * FROM USERS WHERE username = #{value}
 	</select>
 	
-	<select id="findUsers" parameterType="java.lang.String" resultType="cn.edu.zju.gis.po.Users">
-		SELECT * FROM USERS WHERE username like '%#{value}%'
+	<select id="findUsers" parameterType="cn.edu.zju.gis.po.UsersVo" resultType="cn.edu.zju.gis.po.Users">
+		SELECT id,username,email,realname,comp,cretificate,cretifitype,authority FROM USERS 
+		<where>
+		<if test="username !=null and username !='' ">
+			username like '%${username}%'
+		</if>
+		</where>
+		order by id
+		limit #{limit}
+		offset #{limit}*(#{offset})
+		
+	</select>
+	<select id="countUsers" resultType="int">
+		SELECT count(*) from users 
+		<where>
+		<if test="username !=null and username !='' ">
+			#username like '%#{username}%'
+		</if>
+		</where>
 	</select>
 	
 	<select id="login" parameterType="cn.edu.zju.gis.po.Users" resultType="cn.edu.zju.gis.po.Users">

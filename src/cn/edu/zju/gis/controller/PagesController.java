@@ -32,6 +32,16 @@ public class PagesController {
 			return modelAndView;
 		}
 	}
+	
+	@RequestMapping("/user")
+	public ModelAndView openUserCenter(HttpSession session) throws Exception{
+		ModelAndView modelAndView =  new ModelAndView();
+		Integer userid = (Integer)session.getAttribute("userid");
+		modelAndView.addObject(userid);
+		modelAndView.setViewName("userCenter");
+		return modelAndView;
+	}
+	
 	@RequestMapping("/openUpLayerPage")
 	public ModelAndView openUpLayerPage() throws Exception{
 		ModelAndView modelAndView =  new ModelAndView();

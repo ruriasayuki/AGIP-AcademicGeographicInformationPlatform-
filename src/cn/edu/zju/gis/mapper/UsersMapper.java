@@ -3,6 +3,7 @@ package cn.edu.zju.gis.mapper;
 import java.util.List;
 
 import cn.edu.zju.gis.po.Users;
+import cn.edu.zju.gis.po.UsersVo;
 import cn.edu.zju.gis.po.email_checkcode;
 
 public interface UsersMapper {
@@ -13,7 +14,8 @@ public interface UsersMapper {
 	
 	public Users findUserByName(String name) throws Exception;
 	
-	public List<Users>findUsers(String str) throws Exception;
+	public List<Users> findUsers(UsersVo queryuser) throws Exception;
+	public int countUsers() throws Exception;
 	
 	public int checklogin() throws Exception;
 	public Users login(Users user) throws Exception;

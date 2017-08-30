@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import cn.edu.zju.gis.mapper.MapsMapper;
 import cn.edu.zju.gis.po.MapLayer;
 import cn.edu.zju.gis.po.Maps;
+import cn.edu.zju.gis.po.MapsVo;
 import cn.edu.zju.gis.service.MapsService;
 
 public class MapsServiceImpl implements MapsService{
@@ -60,5 +61,17 @@ public class MapsServiceImpl implements MapsService{
 	public int deleteMapLayer(MapLayer layer) throws Exception {
 		int i = mapsMapper.deleteMaps(layer);
 		return i;
+	}
+
+	@Override
+	public List<Maps> getMapList2(MapsVo querymap) throws Exception {
+		List<Maps> result = mapsMapper.findMaps2(querymap);
+		return result;
+	}
+
+	@Override
+	public int countMaps() throws Exception {
+		int count = mapsMapper.countMaps();
+		return count;
 	}
 }

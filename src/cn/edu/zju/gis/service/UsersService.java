@@ -7,14 +7,16 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import cn.edu.zju.gis.po.Users;
+import cn.edu.zju.gis.po.UsersVo;
 
 public interface UsersService {
 	public Users findUserById(int id) throws Exception;
 	public Users findUser(Users user) throws Exception;
 	public Users findUserByName(String user) throws Exception;
 	
-	public List<Users> findUsers() throws Exception;
+	public List<Users> findUsers(UsersVo users) throws Exception;
 	public List<Users> findUsersByStr(String key) throws Exception;
+	public int countUsers() throws Exception;
 	
 	public boolean checkAdmin(HttpSession session) throws Exception;
 	

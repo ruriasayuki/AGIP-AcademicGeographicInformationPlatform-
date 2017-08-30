@@ -9,7 +9,13 @@
 	<link rel="stylesheet" href="plugin/bootstrap-3.3.7/css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/public.css">
 	<script type="text/javascript" src="plugin/jquery-3.2.1.min.js"></script>           
-    <script type="text/javascript" src="plugin/bootstrap-3.3.7/js/bootstrap.min.js"></script>            
+    <script type="text/javascript" src="plugin/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+
+    <script src="plugin/bootstrap-table-1.11.1/bootstrap-table.js"></script>
+    <link href="plugin/bootstrap-table-1.11.1/bootstrap-table.css" rel="stylesheet" />
+    <script src="plugin/bootstrap-table-1.11.1/locale/bootstrap-table-zh-CN.js"></script>
+
+    <script type="text/javascript" src="js/AdminPanel.js"></script>            
 </head>
 
 <body>
@@ -48,26 +54,62 @@
     </nav>
 <div id="headInterval"></div>
 <ul class="nav nav-tabs" role="tablist">
-  <li role="presentation" class="active"><a href="#UserMana" aria-controls="UserMana" role="tab" data-toggle="tab">用户管理</a></li>
+  <li role="presentation" class="active"><a href="#UserMana" onclick="getUserList()" aria-controls="UserMana" role="tab" data-toggle="tab">用户管理</a></li>
   <li role="presentation"><a href="#MapMana" aria-controls="MapMana" role="tab" data-toggle="tab">地图管理</a></li>
   <li role="presentation"><a href="#EditInfo" aria-controls="EditInfo" role="tab" data-toggle="tab">管理员信息修改</a></li>
 </ul>
 <div class="tab-content">
     <div role="tabpanel" class="tab-pane active" id="UserMana">
-    用户列表的查阅和账户的停用处罚
+    
+    <div class="panel panel-default">
+            <div class="panel-heading">查询条件</div>
+            <div class="panel-body">
+                <form id="formSearch" class="form-horizontal">
+                    <div class="form-group" style="margin-top:15px">
+                        <label class="control-label col-sm-1" for="user_txt_username">用户名</label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" id="user_txt_username">
+                        </div>
+                
+                        <div class="col-sm-4" style="text-align:left;">
+                            <button type="button" style="margin-left:50px" id="user_btn_query" class="btn btn-primary">查询</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    
+    <table class="table" id="tb_users">
+    </table>
     </div>
+    
     <div role="tabpanel" class="tab-pane" id="MapMana">
- 地图列表的查阅和地图的审核 禁止公开 等
+<div class="panel panel-default">
+            <div class="panel-heading">查询条件</div>
+            <div class="panel-body">
+                <form id="formSearch" class="form-horizontal">
+                    <div class="form-group" style="margin-top:15px">
+                        <label class="control-label col-sm-1" for="map_txt_mapname">地图名</label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" id="map_txt_mapname">
+                        </div>
+                
+                        <div class="col-sm-4" style="text-align:left;">
+                            <button type="button" style="margin-left:50px" id="map_btn_query" class="btn btn-primary">查询</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    
+    <table class="table" id="tb_maps">
+    </table>
     </div>
     <div role="tabpanel" class="tab-pane" id="EditInfo">
-管理员自己的个人信息修改
+		管理员自己的个人信息修改
     </div>
     
   </div>
-
-其中信息浏览界面的均是新开窗口<br>
-需要新写一个用户信息的小弹窗 用模态框即可<br>
-
 <footer>
 	GIS@ZJU
 </footer>

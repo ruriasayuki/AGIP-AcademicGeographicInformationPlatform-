@@ -35,6 +35,19 @@
 <select id="findMaps" resultType="cn.edu.zju.gis.po.Maps">
 	select * from maps;
 </select>
+
+<select id="findMaps2" parameterType="cn.edu.zju.gis.po.MapsVo" resultType="cn.edu.zju.gis.po.Maps">
+	select * from maps
+	<where>
+		<if test="mapname !=null and mapname !='' ">
+			mapname like '%${mapname}%'
+		</if>
+		</where>
+	order by id
+	limit #{limit}
+	offset #{limit}*#{offset}
+</select>
+
 <update id="updateMapLayer" parameterType="cn.edu.zju.gis.po.MapLayer" useGeneratedKeys="true" keyProperty="mlid">
 	update maplayer
 	set
@@ -60,4 +73,8 @@
 <delete id="deleteMaps" parameterType="cn.edu.zju.gis.po.MapLayer" >
 	delete from maplayer where mlid=#{mlid}
 </delete>
+
+<select id="countMaps" resultType="int">
+	select count(*) from maps
+</select>
 </mapper>
