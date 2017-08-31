@@ -77,4 +77,12 @@
 <select id="countMaps" resultType="int">
 	select count(*) from maps
 </select>
+
+<update id="changeAddable" parameterType="cn.edu.zju.gis.po.MapsVo">
+	update maps
+	set
+		addable = #{addable}
+	where id = #{id}	
+</update>
+
 </mapper>

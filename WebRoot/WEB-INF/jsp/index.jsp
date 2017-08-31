@@ -61,11 +61,11 @@
 			            <b class="caret"></b>
 		            </a>
 		                <ul class="dropdown-menu" id="usermenu">
-			                <li><a href="${pageContext.request.contextPath}/main.action">新建地图</a></li>
+			                <li><a href="main.action">新建地图</a></li>
 			                <li><a href="openSearchMapPage.action">查看地图</a></li>
-			                <li><a href="${pageContext.request.contextPath}/openUpLayerPage.action">上传图层</a></li>
+			                <li><a href="openUpLayerPage.action">上传图层</a></li>
 			                
-			                <li><a href="ModifyPwd.action">修改密码</a></li>
+			                <li><a href="user.action">用户服务</a></li>
 		                </ul>
 	                </li>
                     <li><a id="logoutbtn" href="#">注销</a></li>

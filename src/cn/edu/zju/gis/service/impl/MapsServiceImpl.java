@@ -74,4 +74,24 @@ public class MapsServiceImpl implements MapsService{
 		int count = mapsMapper.countMaps();
 		return count;
 	}
+
+
+	@Override
+	public int banMap(int id) throws Exception {
+		MapsVo querymap = new MapsVo();
+		querymap.setId(id);
+		querymap.setAddable(0);
+		mapsMapper.changeAddable(querymap);
+		return 0;
+	}
+
+
+	@Override
+	public int passMap(int id) throws Exception {
+		MapsVo querymap = new MapsVo();
+		querymap.setId(id);
+		querymap.setAddable(1);
+		mapsMapper.changeAddable(querymap);
+		return 0;
+	}
 }

@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.reflect.TypeToken;
 
 import cn.edu.zju.gis.po.Maps;
 import cn.edu.zju.gis.po.MapsVo;
@@ -56,6 +58,38 @@ public class AdminController {
 			String rows = gson.toJson(maps);
 			int count = mapsService.countMaps();
 			return "{\"total\":"+count+",\"rows\":"+rows+"}";
+		}
+		else return "fail";
+	}
+	@RequestMapping(value = "/passMap", method = RequestMethod.POST,   
+	        produces = "text/html;charset=UTF-8")
+	@ResponseBody
+	public String passMap(String mapList,HttpSession session) throws Exception
+	{
+		if(usersService.checkAdmin(session)){
+			Gson gson = new Gson();
+			ArrayList<Integer> idList= gson.fromJson(mapList,new TypeToken<ArrayList<Integer>>(){}.getType());
+			for(Integer id : idList)
+			{
+				mapsService.passMap(id);
+			}
+			return "success";
+		}
+		else return "fail";
+	}
+	@RequestMapping(value = "/banMap", method = RequestMethod.POST,   
+	        produces = "text/html;charset=UTF-8")
+	@ResponseBody
+	public String banMap(String mapList,HttpSession session) throws Exception
+	{
+		if(usersService.checkAdmin(session)){
+			Gson gson = new Gson();
+			ArrayList<Integer> idList= gson.fromJson(mapList,new TypeToken<ArrayList<Integer>>(){}.getType());
+			for(Integer id : idList)
+			{
+				mapsService.banMap(id);
+			}
+			return "success";
 		}
 		else return "fail";
 	}

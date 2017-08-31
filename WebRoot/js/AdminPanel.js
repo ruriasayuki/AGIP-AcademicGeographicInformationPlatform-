@@ -126,7 +126,7 @@ var TableInit = function () {
         var temp = {   
             limit: params.limit,   //页面大小
             offset: params.offset,  //页码
-            username: $("#user_txt_username").val()
+            username: $("#user_txt_username").val().trim()
         };
         return temp;
     };
@@ -135,7 +135,7 @@ var TableInit = function () {
         var temp = {   
             limit: params.limit,   //页面大小
             offset: params.offset,  //页码
-            mapname: $("#map_txt_mapname").val()
+            mapname: $("#map_txt_mapname").val().trim()
         };
         return temp;
     };
@@ -156,7 +156,52 @@ var ButtonInit = function () {
         		function(){
         			$('#tb_maps').bootstrapTable('refresh');
         		});
+        $('#map_btn_pass').click(
+        		function(){
+        			var mapList = getSelectMapIdList();
+        			$.ajax({
+        				url: "./passMap.action",
+        				async: true,
+        				type: "POST",
+        				dataType: "text",
+        				data: {
+        					mapList: JSON.stringify(mapList)
+        				},
+        				success: function (result) {
+        					$('#tb_maps').bootstrapTable('refresh');
+        				}
+        			})
+        			
+        		});
+        $('#map_btn_ban').click(
+        		function(){
+        			var mapList = getSelectMapIdList();
+        			$.ajax({
+        				url: "./banMap.action",
+        				async: true,
+        				type: "POST",
+        				dataType: "text",
+        				data: {
+        					mapList: JSON.stringify(mapList)
+        				},
+        				success: function (result) {
+        					$('#tb_maps').bootstrapTable('refresh');
+        				}
+        			})
+        			
+        		});
     };
 
     return oInit;
 };
+
+function getSelectMapIdList()
+{
+	var selections = $('#tb_maps').bootstrapTable('getSelections');
+	var mapList = new Array();
+	for (var i=0;i<selections.length;i++)
+	{
+		mapList.push(selections[i].id);
+	}
+	return mapList;
+}

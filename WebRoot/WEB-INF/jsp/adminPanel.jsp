@@ -19,7 +19,7 @@
 </head>
 
 <body>
-<c:set var="pagename" value="main"/>
+<c:set var="pagename" value="adminCenter"/>
     <nav class="navbar navbar-default navbar-fixed-top">
         <div id="nav" class="container opacity50">
         <div class="navbar-header">
@@ -54,9 +54,8 @@
     </nav>
 <div id="headInterval"></div>
 <ul class="nav nav-tabs" role="tablist">
-  <li role="presentation" class="active"><a href="#UserMana" onclick="getUserList()" aria-controls="UserMana" role="tab" data-toggle="tab">用户管理</a></li>
+  <li role="presentation" class="active"><a href="#UserMana" aria-controls="UserMana" role="tab" data-toggle="tab">用户管理</a></li>
   <li role="presentation"><a href="#MapMana" aria-controls="MapMana" role="tab" data-toggle="tab">地图管理</a></li>
-  <li role="presentation"><a href="#EditInfo" aria-controls="EditInfo" role="tab" data-toggle="tab">管理员信息修改</a></li>
 </ul>
 <div class="tab-content">
     <div role="tabpanel" class="tab-pane active" id="UserMana">
@@ -94,8 +93,14 @@
                             <input type="text" class="form-control" id="map_txt_mapname">
                         </div>
                 
-                        <div class="col-sm-4" style="text-align:left;">
+                        <div class="col-sm-2" style="text-align:left;">
                             <button type="button" style="margin-left:50px" id="map_btn_query" class="btn btn-primary">查询</button>
+                        </div>
+                        <div class="col-sm-1" style="text-align:left;">
+                            <button type="button" style="margin-left:50px" id="map_btn_pass" class="btn btn-primary">通过审核</button>
+                        </div>
+                        <div class="col-sm-1" style="text-align:left;">
+                            <button type="button" style="margin-left:50px" id="map_btn_ban" class="btn btn-primary">禁止发布</button>
                         </div>
                     </div>
                 </form>
@@ -104,9 +109,6 @@
     
     <table class="table" id="tb_maps">
     </table>
-    </div>
-    <div role="tabpanel" class="tab-pane" id="EditInfo">
-		管理员自己的个人信息修改
     </div>
     
   </div>

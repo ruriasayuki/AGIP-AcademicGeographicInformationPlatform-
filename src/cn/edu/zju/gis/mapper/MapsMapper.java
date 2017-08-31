@@ -28,4 +28,6 @@ public interface MapsMapper {
 	public int deleteMaps(MapLayer layer);//这个是在地图的图层更新的时候删除地图里面已经没有了的图层
 
 	public int countMaps();
+	
+	public int changeAddable(MapsVo querymap);
 }
