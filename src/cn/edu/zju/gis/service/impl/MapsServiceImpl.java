@@ -70,8 +70,8 @@ public class MapsServiceImpl implements MapsService{
 	}
 
 	@Override
-	public int countMaps() throws Exception {
-		int count = mapsMapper.countMaps();
+	public int countMaps(MapsVo querymap) throws Exception {
+		int count = mapsMapper.countMaps(querymap);
 		return count;
 	}
 
@@ -92,6 +92,25 @@ public class MapsServiceImpl implements MapsService{
 		querymap.setId(id);
 		querymap.setAddable(1);
 		mapsMapper.changeAddable(querymap);
+		return 0;
+	}
+	
+	@Override
+	public int openMap(int id) throws Exception {
+		MapsVo querymap = new MapsVo();
+		querymap.setId(id);
+		querymap.setAccessibility(1);
+		mapsMapper.changeAccessibility(querymap);
+		return 0;
+	}
+
+
+	@Override
+	public int closeMap(int id) throws Exception {
+		MapsVo querymap = new MapsVo();
+		querymap.setId(id);
+		querymap.setAccessibility(0);
+		mapsMapper.changeAccessibility(querymap);
 		return 0;
 	}
 }

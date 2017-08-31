@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import cn.edu.zju.gis.mapper.LayersMapper;
 import cn.edu.zju.gis.po.Layers;
 import cn.edu.zju.gis.po.LayersExample;
+import cn.edu.zju.gis.po.LayersVo;
 import cn.edu.zju.gis.service.LayersService;
 
 public class LayersServiceImpl implements LayersService {
@@ -45,4 +46,15 @@ public class LayersServiceImpl implements LayersService {
 		return list;
 	}
 
+	@Override
+	public List<Layers> getLayerList(LayersVo queryLayer) throws Exception{
+		
+		return layersMapper.findLayers(queryLayer);
+	}
+
+	@Override
+	public int countLayers(LayersVo queryLayer) throws Exception{
+		
+		return layersMapper.countLayers(queryLayer);
+	}
 }

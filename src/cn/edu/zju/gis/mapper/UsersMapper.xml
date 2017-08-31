@@ -34,10 +34,10 @@
 		</where>
 		order by id
 		limit #{limit}
-		offset #{limit}*(#{offset})
+		offset #{offset}
 		
 	</select>
-	<select id="countUsers" resultType="int">
+	<select id="countUsers" parameterType="cn.edu.zju.gis.po.UsersVo" resultType="int">
 		SELECT count(*) from users 
 		<where>
 		<if test="username !=null and username !='' ">

@@ -56,7 +56,7 @@ public class AdminController {
 			List<Maps> maps = mapsService.getMapList2(querymap);
 			Gson gson = new Gson();
 			String rows = gson.toJson(maps);
-			int count = mapsService.countMaps();
+			int count = mapsService.countMaps(querymap);
 			return "{\"total\":"+count+",\"rows\":"+rows+"}";
 		}
 		else return "fail";

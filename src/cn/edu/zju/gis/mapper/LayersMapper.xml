@@ -11,6 +11,32 @@
     <result column="datacontent" property="datacontent" jdbcType="VARCHAR" />
     <result column="appendDataSrc" property="appendDataSrc" jdbcType="VARCHAR" />
   </resultMap>
+  <select id="findLayers" parameterType="cn.edu.zju.gis.po.LayersVo" resultType="cn.edu.zju.gis.po.Layers">
+	select id,layername,userid,storelocation,accessibility,type,appenddatasrc from layers
+	<where>
+		<if test="layername !=null and layername !='' ">
+			layername like '%${layername}%'
+		</if>
+		<if test="userid !=null and userid !=0 ">
+			userid = #{userid}
+		</if>
+		</where>
+	order by id
+	limit #{limit}
+	offset #{offset}
+    </select>
+  <select id="countLayers" parameterType="cn.edu.zju.gis.po.LayersVo" resultType="int">
+	select count(*) from layers
+	<where>
+		<if test="layername !=null and layername !='' ">
+			layername like '%${layername}%'
+		</if>
+		<if test="userid !=null and userid !=0 ">
+			userid = #{userid}
+		</if>
+		</where>
+    </select>
+  
   <sql id="Example_Where_Clause" >
     <where >
       <foreach collection="oredCriteria" item="criteria" separator="or" >

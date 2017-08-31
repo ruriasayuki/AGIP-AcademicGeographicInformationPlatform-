@@ -16,11 +16,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import cn.edu.zju.gis.po.Layers;
+import cn.edu.zju.gis.po.LayersVo;
 import cn.edu.zju.gis.po.MapLayer;
 import cn.edu.zju.gis.po.Maps;
 import cn.edu.zju.gis.po.MapsCustom;
+import cn.edu.zju.gis.po.MapsVo;
 import cn.edu.zju.gis.po.Users;
+import cn.edu.zju.gis.service.LayersService;
 import cn.edu.zju.gis.service.MapsService;
 import cn.edu.zju.gis.service.UsersService;
 
@@ -30,6 +35,8 @@ public class UsersController {
 	private UsersService usersService;
 	@Autowired
 	private MapsService mapsService;
+	@Autowired
+	private LayersService layersService;
 	
 	
 	
@@ -187,5 +194,64 @@ public class UsersController {
 		} catch (Exception e) {
 			return false;
 		}
+	}
+	
+	@RequestMapping(value = "/openMap", method = RequestMethod.POST,   
+	        produces = "text/html;charset=UTF-8")
+	@ResponseBody
+	public String passMap(String mapList,HttpSession session) throws Exception
+	{
+		if(usersService.checkAdmin(session)){
+			Gson gson = new Gson();
+			ArrayList<Integer> idList= gson.fromJson(mapList,new TypeToken<ArrayList<Integer>>(){}.getType());
+			for(Integer id : idList)
+			{
+				mapsService.openMap(id);
+			}
+			return "success";
+		}
+		else return "fail";
+	}
+	@RequestMapping(value = "/closeMap", method = RequestMethod.POST,   
+	        produces = "text/html;charset=UTF-8")
+	@ResponseBody
+	public String banMap(String mapList,HttpSession session) throws Exception
+	{
+		if(usersService.checkAdmin(session)){
+			Gson gson = new Gson();
+			ArrayList<Integer> idList= gson.fromJson(mapList,new TypeToken<ArrayList<Integer>>(){}.getType());
+			for(Integer id : idList)
+			{
+				mapsService.closeMap(id);
+			}
+			return "success";
+		}
+		else return "fail";
+	}
+	@RequestMapping(value = "/getMapList3", method = RequestMethod.GET,   
+	        produces = "text/html;charset=UTF-8")
+	@ResponseBody
+	public String getMapList3(MapsVo querymap,HttpSession session) throws Exception
+	{
+		Integer userid = (Integer)session.getAttribute("userid");
+		querymap.setUserid(userid);
+		List<Maps> maps = mapsService.getMapList2(querymap);
+		Gson gson = new Gson();
+		String rows = gson.toJson(maps);
+		int count = mapsService.countMaps(querymap);
+		return "{\"total\":"+count+",\"rows\":"+rows+"}";	
+	}
+	@RequestMapping(value = "/getLayerList", method = RequestMethod.GET,   
+	        produces = "text/html;charset=UTF-8")
+	@ResponseBody
+	public String getLayerList(LayersVo queryLayer,HttpSession session) throws Exception
+	{
+		Integer userid = (Integer)session.getAttribute("userid");
+		queryLayer.setUserid(userid);
+		List<Layers> layers = layersService.getLayerList(queryLayer);
+		Gson gson = new Gson();
+		String rows = gson.toJson(layers);
+		int count = layersService.countLayers(queryLayer);
+		return "{\"total\":"+count+",\"rows\":"+rows+"}";	
 	}
 }

@@ -42,10 +42,13 @@
 		<if test="mapname !=null and mapname !='' ">
 			mapname like '%${mapname}%'
 		</if>
+		<if test="userid !=null and userid !=0 ">
+			userid = #{userid}
+		</if>
 		</where>
 	order by id
 	limit #{limit}
-	offset #{limit}*#{offset}
+	offset #{offset}
 </select>
 
 <update id="updateMapLayer" parameterType="cn.edu.zju.gis.po.MapLayer" useGeneratedKeys="true" keyProperty="mlid">
@@ -74,14 +77,29 @@
 	delete from maplayer where mlid=#{mlid}
 </delete>
 
-<select id="countMaps" resultType="int">
+<select id="countMaps"  parameterType="cn.edu.zju.gis.po.MapsVo" resultType="int">
 	select count(*) from maps
+	<where>
+		<if test="mapname !=null and mapname !='' ">
+			mapname like '%${mapname}%'
+		</if>
+		<if test="userid !=null and userid !=0 ">
+			userid = #{userid}
+		</if>
+		</where>
 </select>
 
 <update id="changeAddable" parameterType="cn.edu.zju.gis.po.MapsVo">
 	update maps
 	set
 		addable = #{addable}
+	where id = #{id}	
+</update>
+
+<update id="changeAccessibility" parameterType="cn.edu.zju.gis.po.MapsVo">
+	update maps
+	set
+		accessibility = #{accessibility}
 	where id = #{id}	
 </update>
 

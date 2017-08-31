@@ -25,9 +25,13 @@ public interface MapsService {
 	
 	public int deleteMapLayer(MapLayer layer) throws Exception;
 	
-	public int countMaps() throws Exception;
+	public int countMaps(MapsVo quertmap) throws Exception;
 	
 	public int banMap(int id) throws Exception;
 	
 	public int passMap(int id) throws Exception;
+	
+	public int openMap(int id) throws Exception;
+	
+	public int closeMap(int id) throws Exception;
 }

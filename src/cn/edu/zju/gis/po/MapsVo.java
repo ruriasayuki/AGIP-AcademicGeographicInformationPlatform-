@@ -20,8 +20,8 @@ public class MapsVo
 	 * 4  政治
 	 */
 	
-	int limit;
-	int offset;
+	private int limit;
+	private int offset;
 
 	public int getLimit() {
 		return limit;
