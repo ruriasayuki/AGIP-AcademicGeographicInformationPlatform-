@@ -9,13 +9,27 @@
 	<link rel="stylesheet" href="plugin/bootstrap-3.3.7/css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/public.css">
 	<script type="text/javascript" src="plugin/jquery-3.2.1.min.js"></script>           
+  
+  
+	<script type="text/javascript" src="./plugin/jquery-easyui-1.5.2/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="./plugin/jquery-easyui-1.5.2/locale/easyui-lang-zh_CN.js"></script>
+	<link rel="stylesheet" id="easyuiTheme" type="text/css" href="./plugin/jquery-easyui-1.5.2/themes/gray/easyui.css">
+	
+	<link rel="stylesheet" type="text/css" href="./plugin/jquery-easyui-1.5.2/themes/icon.css">
+	<link rel="stylesheet" type="text/css" href="./css/userCenter.css">
+	
     <script type="text/javascript" src="plugin/bootstrap-3.3.7/js/bootstrap.min.js"></script>
 
     <script src="plugin/bootstrap-table-1.11.1/bootstrap-table.js"></script>
     <link href="plugin/bootstrap-table-1.11.1/bootstrap-table.css" rel="stylesheet" />
     <script src="plugin/bootstrap-table-1.11.1/locale/bootstrap-table-zh-CN.js"></script>
 
-    <script type="text/javascript" src="js/userCenter.js"></script>            
+    <script type="text/javascript" src="js/userCenter.js"></script>
+    <script type="text/javascript" src="./js/md5.js"></script>
+  	
+	<script type="text/javascript" src="./js/ModifyPwd.js"></script>   
+	
+	       
 </head>
 
 <body>
@@ -61,9 +75,9 @@
 <div class="tab-content">
     <div role="tabpanel" class="tab-pane active" id="LayerMana">
     
-    <div class="panel panel-default">
-            <div class="panel-heading">查询条件</div>
-            <div class="panel-body">
+    <div class="panel panel-default" >
+            <div class="panel-heading" >查询条件</div>
+            <div class="panel-body" id="LayerPanel">
                 <form id="formSearch" class="form-horizontal">
                     <div class="form-group" style="margin-top:15px">
                         <label class="control-label col-sm-1" for="layer_txt_layername">图层名</label>
@@ -76,17 +90,15 @@
                         </div>
                     </div>
                 </form>
+                <table class="table" id="tb_layers"></table>
             </div>
-        </div>
-    
-    <table class="table" id="tb_layers">
-    </table>
+      </div>
     </div>
     
     <div role="tabpanel" class="tab-pane" id="MapMana">
-<div class="panel panel-default">
-            <div class="panel-heading">查询条件</div>
-            <div class="panel-body">
+<div class="panel panel-default" >
+            <div class="panel-heading" >查询条件</div>
+            <div class="panel-body" id="MapPanel">
                 <form id="formSearch" class="form-horizontal">
                     <div class="form-group" style="margin-top:15px">
                         <label class="control-label col-sm-1" for="map_txt_mapname">地图名</label>
@@ -105,14 +117,23 @@
                         </div>
                     </div>
                 </form>
+                <table class="table" id="tb_maps"></table>
             </div>
         </div>
     
-    <table class="table" id="tb_maps">
-    </table>
+    
     </div>
     <div role="tabpanel" class="tab-pane" id="EditInfo">
-		个人信息修改
+    <div id="modifyDiv">
+    <label class="mylabel">原密码</label>
+    <input id="pwdOld" name="pwdOld" class="easyui-passwordbox" data-options="required:true,validType:'length[0,20]'"  style="width:200px;height:30px" /><span id="oldinfo"></span><br/><br/>
+    <label class="mylabel">新密码</label>
+    <input id="pwdNew" name="pwdNew" class="easyui-passwordbox" data-options="required:true,validType:'length[0,20]'"  style="width:200px;height:30px" /><span id="newinfo"></span><br/><br/>
+    <label class="mylabel">确认密码</label>
+    <input id="pwdNewAgain" name="pwdNewAgain" class="easyui-passwordbox" required="required" validType="equals['#password']" style="width:200px;height:30px" /><span id="painfo"></span><br/><br/>
+    <input id="modifyOk" class="easyui-linkbutton" value="确认" data-options="height:30,width:60"/>
+</div>
+
     </div>
     
   </div>
