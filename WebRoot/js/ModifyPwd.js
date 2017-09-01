@@ -1,7 +1,7 @@
 $(document).ready(function() {
 	//密码验证
 	var state2 = false;
-	$("#pwdNew").textbox('textbox').blur(function () {
+	$("#pwdNew").blur(function () {
 		if ($(this).val() == '') {
 			$("#newinfo").text("密码不能为空");
 			state2 = false;
@@ -22,12 +22,12 @@ $(document).ready(function() {
 	});
 	//确认密码
 	var state3 = false;
-	$("#pwdNewAgain").textbox('textbox').blur(function () {
+	$("#pwdNewAgain").blur(function () {
 		if ($(this).val() == '') {
 			$("#painfo").text("密码不能为空");	    
 			state3 = false;
 		} else {
-			if ($("#pwdNewAgain").textbox('getValue') != $("#pwdNew").val()) {
+			if ($("#pwdNewAgain").val() != $("#pwdNew").val()) {
 				$("#painfo").text("两次输入的密码不一致，请重新填写");     
 				state3 = false;
 			} else {
@@ -79,7 +79,7 @@ $(document).ready(function() {
 				}
 			})
 		}else{
-			$.messager.alert('修改失败', '信息不正确！');
+			alert('修改失败', '信息不正确！');
 		}
 
 	});

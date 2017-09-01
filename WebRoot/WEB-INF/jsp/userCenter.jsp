@@ -10,14 +10,11 @@
 	<link rel="stylesheet" href="css/public.css">
 	<script type="text/javascript" src="plugin/jquery-3.2.1.min.js"></script>           
   
-  
+ <!--  
 	<script type="text/javascript" src="./plugin/jquery-easyui-1.5.2/jquery.easyui.min.js"></script>
-	<script type="text/javascript" src="./plugin/jquery-easyui-1.5.2/locale/easyui-lang-zh_CN.js"></script>
-	<link rel="stylesheet" id="easyuiTheme" type="text/css" href="./plugin/jquery-easyui-1.5.2/themes/gray/easyui.css">
-	
 	<link rel="stylesheet" type="text/css" href="./plugin/jquery-easyui-1.5.2/themes/icon.css">
 	<link rel="stylesheet" type="text/css" href="./css/userCenter.css">
-	
+	-->
     <script type="text/javascript" src="plugin/bootstrap-3.3.7/js/bootstrap.min.js"></script>
 
     <script src="plugin/bootstrap-table-1.11.1/bootstrap-table.js"></script>
@@ -124,14 +121,26 @@
     
     </div>
     <div role="tabpanel" class="tab-pane" id="EditInfo">
-    <div id="modifyDiv">
-    <label class="mylabel">原密码</label>
-    <input id="pwdOld" name="pwdOld" class="easyui-passwordbox" data-options="required:true,validType:'length[0,20]'"  style="width:200px;height:30px" /><span id="oldinfo"></span><br/><br/>
-    <label class="mylabel">新密码</label>
-    <input id="pwdNew" name="pwdNew" class="easyui-passwordbox" data-options="required:true,validType:'length[0,20]'"  style="width:200px;height:30px" /><span id="newinfo"></span><br/><br/>
-    <label class="mylabel">确认密码</label>
-    <input id="pwdNewAgain" name="pwdNewAgain" class="easyui-passwordbox" required="required" validType="equals['#password']" style="width:200px;height:30px" /><span id="painfo"></span><br/><br/>
-    <input id="modifyOk" class="easyui-linkbutton" value="确认" data-options="height:30,width:60"/>
+    <form id="formchange" class="form-horizontal">
+                    <div class="form-group" style="margin-top:15px">
+                        <label class="control-label" for="pwdOld">旧密码</label>
+                        <div class="col-sm-3">
+                            <input type="password" class="form-control" id="pwdOld">
+                        <span id="oldinfo"></span>
+                        </div>
+                		<label class="control-label" for="pwdNew">新密码</label>
+                        <div class="col-sm-3">
+                            <input type="password" class="form-control" id="pwdNew">
+                        <span id="newinfo"></span>
+                        </div>
+                        <label class="control-label" for="pwdNewAgain">确认密码</label>
+                        <div class="col-sm-3">
+                            <input type="password" class="form-control" id="pwdNewAgain">
+                        <span id="painfo"></span>
+                        </div>
+                            <button type="button" style="margin-left:50px" id="modifyOk" class="btn btn-primary">确认</button>
+                    </div>
+                </form>
 </div>
 
     </div>
@@ -141,6 +150,7 @@
 <footer>
 	GIS@ZJU
 </footer>
+<!-- TODO 写几个用来弹窗的模态框 -->
 </body>
 
 </html>
