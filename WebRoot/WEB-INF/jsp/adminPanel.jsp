@@ -70,8 +70,14 @@
                             <input type="text" class="form-control" id="user_txt_username">
                         </div>
                 
-                        <div class="col-sm-4" style="text-align:left;">
+                        <div class="col-sm-2" style="text-align:left;">
                             <button type="button" style="margin-left:50px" id="user_btn_query" class="btn btn-primary">查询</button>
+                        </div>
+                        <div class="col-sm-1" style="text-align:left;">
+                            <button type="button" style="margin-left:50px" id="user_btn_ban" class="btn btn-primary">用户封禁</button>
+                        </div>
+                        <div class="col-sm-1" style="text-align:left;">
+                            <button type="button" style="margin-left:50px" id="user_btn_pass" class="btn btn-primary">用户解封</button>
                         </div>
                     </div>
                 </form>

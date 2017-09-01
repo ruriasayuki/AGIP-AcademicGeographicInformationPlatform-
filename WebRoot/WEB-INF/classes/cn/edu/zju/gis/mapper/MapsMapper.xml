@@ -43,7 +43,7 @@
 			mapname like '%${mapname}%'
 		</if>
 		<if test="userid !=null and userid !=0 ">
-			userid = #{userid}
+			and userid = #{userid}
 		</if>
 		</where>
 	order by id
@@ -84,7 +84,7 @@
 			mapname like '%${mapname}%'
 		</if>
 		<if test="userid !=null and userid !=0 ">
-			userid = #{userid}
+			and userid = #{userid}
 		</if>
 		</where>
 </select>

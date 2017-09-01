@@ -15,6 +15,9 @@ public interface UsersMapper {
 	public Users findUserByName(String name) throws Exception;
 	
 	public List<Users> findUsers(UsersVo queryuser) throws Exception;
+	
+	public int changeAuthority(UsersVo queryuser) throws Exception;
+	
 	public int countUsers() throws Exception;
 	
 	public int checklogin() throws Exception;

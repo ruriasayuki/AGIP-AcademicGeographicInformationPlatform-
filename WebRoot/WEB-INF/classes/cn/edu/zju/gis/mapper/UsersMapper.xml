@@ -28,8 +28,11 @@
 	<select id="findUsers" parameterType="cn.edu.zju.gis.po.UsersVo" resultType="cn.edu.zju.gis.po.Users">
 		SELECT id,username,email,realname,comp,cretificate,cretifitype,authority FROM USERS 
 		<where>
+		<if test="true">
+			authority!=1
+		</if>
 		<if test="username !=null and username !='' ">
-			username like '%${username}%'
+			and username like '%${username}%'
 		</if>
 		</where>
 		order by id
@@ -40,8 +43,11 @@
 	<select id="countUsers" parameterType="cn.edu.zju.gis.po.UsersVo" resultType="int">
 		SELECT count(*) from users 
 		<where>
+		<if test="true">
+			authority!=1
+		</if>
 		<if test="username !=null and username !='' ">
-			#username like '%#{username}%'
+			and username like '%#{username}%'
 		</if>
 		</where>
 	</select>
@@ -83,5 +89,9 @@
 	
 	<update id="UpdatePasswordByEmail" parameterType="cn.edu.zju.gis.po.Users">
 		UPDATE USERS SET password=#{pwdNew} WHERE email=#{email}
+	</update>
+	
+	<update id="changeAuthority" parameterType="cn.edu.zju.gis.po.UsersVo" >
+		UPDATE USERS SET authority = #{authority} WHERE id=#{id}
 	</update>
 </mapper>

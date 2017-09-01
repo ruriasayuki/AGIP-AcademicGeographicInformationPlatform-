@@ -18,7 +18,14 @@ public interface UsersService {
 	public List<Users> findUsersByStr(String key) throws Exception;
 	public int countUsers() throws Exception;
 	
+	public int banUser(int id) throws Exception;
+	
+	public int passUser(int id) throws Exception;
+	
 	public boolean checkAdmin(HttpSession session) throws Exception;
+	
+	public boolean checkUserAuthority(int userid) throws Exception;
+	
 	
 	public String login(Users user,HttpSession session) throws Exception;
 	public String logout(HttpSession session);

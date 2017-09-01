@@ -93,4 +93,38 @@ public class AdminController {
 		}
 		else return "fail";
 	}
+	
+	@RequestMapping(value = "/passUser", method = RequestMethod.POST,   
+	        produces = "text/html;charset=UTF-8")
+	@ResponseBody
+	public String passUser(String userList,HttpSession session) throws Exception
+	{
+		if(usersService.checkAdmin(session)){
+			Gson gson = new Gson();
+			ArrayList<Integer> idList= gson.fromJson(userList,new TypeToken<ArrayList<Integer>>(){}.getType());
+			for(Integer id : idList)
+			{
+				usersService.passUser(id);
+			}
+			return "success";
+		}
+		else return "fail";
+	}
+	
+	@RequestMapping(value = "/banUser", method = RequestMethod.POST,   
+	        produces = "text/html;charset=UTF-8")
+	@ResponseBody
+	public String banUser(String userList,HttpSession session) throws Exception
+	{
+		if(usersService.checkAdmin(session)){
+			Gson gson = new Gson();
+			ArrayList<Integer> idList= gson.fromJson(userList,new TypeToken<ArrayList<Integer>>(){}.getType());
+			for(Integer id : idList)
+			{
+				usersService.banUser(id);
+			}
+			return "success";
+		}
+		else return "fail";
+	}
 }	

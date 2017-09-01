@@ -71,7 +71,7 @@
                             <input type="text" class="form-control" id="layer_txt_layername">
                         </div>
                 
-                        <div class="col-sm-4" style="text-align:left;">
+                        <div class="col-sm-2" style="text-align:left;">
                             <button type="button" style="margin-left:50px" id="layer_btn_query" class="btn btn-primary">查询</button>
                         </div>
                     </div>

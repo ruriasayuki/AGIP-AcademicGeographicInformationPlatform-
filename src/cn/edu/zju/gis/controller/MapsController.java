@@ -3,6 +3,8 @@ package cn.edu.zju.gis.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,6 +30,9 @@ public class MapsController
 {
 	@Autowired
 	private MapsService mapsService;
+	
+	@Autowired
+	private UsersService usersService;
 	
 	@RequestMapping("/addLayerToMap")
 	public ModelAndView addLayerToMap(int mapid,int layerid) throws Exception
@@ -78,8 +83,11 @@ public class MapsController
 	@RequestMapping(value = "/savemap", method = RequestMethod.POST,   
 	        produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public String savemap(String map,String maplayer) throws Exception
+	public String savemap(String map,String maplayer,HttpSession session) throws Exception
 	{
+		Integer userid = (Integer)session.getAttribute("userid");
+		if(null==userid) return "nouser";
+		else if (usersService.checkUserAuthority(userid)==false) return "bebanned";
 		Gson gson = new Gson();
 		Maps mapObj = gson.fromJson(map, Maps.class);
 		

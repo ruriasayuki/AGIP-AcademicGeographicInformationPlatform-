@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import cn.edu.zju.gis.mapper.UsersMapper;
+import cn.edu.zju.gis.po.MapsVo;
 import cn.edu.zju.gis.po.Users;
 import cn.edu.zju.gis.po.UsersVo;
 import cn.edu.zju.gis.po.email_checkcode;
@@ -268,5 +269,31 @@ public class UsersServiceImpl implements UsersService{
 	public int countUsers() throws Exception {
 		int count = usersMapper.countUsers();
 		return count;
+	}
+	
+	@Override
+	public int banUser(int id) throws Exception {
+		UsersVo queryuser = new UsersVo();
+		queryuser.setId(id);
+		queryuser.setAuthority(-1);
+		usersMapper.changeAuthority(queryuser);
+		return 0;
+	}
+
+
+	@Override
+	public int passUser(int id) throws Exception {
+		UsersVo queryuser = new UsersVo();
+		queryuser.setId(id);
+		queryuser.setAuthority(0);
+		usersMapper.changeAuthority(queryuser);
+		return 0;
+	}
+
+	@Override
+	public boolean checkUserAuthority(int userid) throws Exception {
+		Users res = usersMapper.findUsersById(userid);
+		if(res.getAuthority()<0) return false;
+		else return true;
 	}
 }

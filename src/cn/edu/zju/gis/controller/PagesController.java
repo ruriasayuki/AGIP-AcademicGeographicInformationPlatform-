@@ -76,15 +76,7 @@ public class PagesController {
 	
 	@RequestMapping(value = "/main")
 	public ModelAndView openmain(Integer mapid,HttpSession session) throws Exception{
-		//这里要加很多东西
-		//有以下验证逻辑需要实现
-		//1.管理员有权查看所有审核未审核通过的公开地图
-		//2.作者有权查看自己创作的所有地图
-		//3.用户有权查看所有审核通过的公开地图、
-		//所以需要先写一个验证权限的服务。
-		//1.if checkAdmin && accessible
-		//2.if user.userid(session)==map.userid
-		//3.if accessible && addable 
+		boolean flag = false;
 		String username =(String) session.getAttribute("username");
 		Users nowuser = null;
 		if(username==null) nowuser = new Users();
@@ -102,8 +94,21 @@ public class PagesController {
 					"[{\"id\": 0,\"text\": \"new map\",\"type\":\"map\"}]",//初始化的地图图层树
 					0);//初始化的地图类型 综合
 		else
-		{
+		{	
 			Maps mapa = mapsService.findMapById(mapid);
+			//开始进行权限验证
+			//1.管理员
+			if(usersService.checkAdmin(session)&&mapa.getAccessibility()==1) flag=true;
+			//2.地图作者
+			else if((Integer)session.getAttribute("userid")==mapa.getUserid()) flag=true;
+			//3.普通用户
+			else if(mapa.getAddable()==1&&mapa.getAccessibility()==1&&usersService.checkUserAuthority(mapa.getUserid())) flag=true;
+			if(flag==false)
+			{
+				ModelAndView modelAndView =  new ModelAndView();//构造model
+				modelAndView.setViewName("blank");
+				return modelAndView;
+			}
 			map = new MapsCustom(mapa);
 			List<MapLayer> maplayerlist = mapsService.findMapLayerByMapId(mapid);
 			map.setMaplayer(maplayerlist);

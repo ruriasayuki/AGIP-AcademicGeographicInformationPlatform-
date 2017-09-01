@@ -18,9 +18,9 @@
 			layername like '%${layername}%'
 		</if>
 		<if test="userid !=null and userid !=0 ">
-			userid = #{userid}
+			and userid = #{userid}
 		</if>
-		</where>
+	</where>
 	order by id
 	limit #{limit}
 	offset #{offset}
@@ -32,7 +32,7 @@
 			layername like '%${layername}%'
 		</if>
 		<if test="userid !=null and userid !=0 ">
-			userid = #{userid}
+			and userid = #{userid}
 		</if>
 		</where>
     </select>

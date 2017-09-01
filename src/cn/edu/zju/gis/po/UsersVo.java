@@ -1,6 +1,7 @@
 package cn.edu.zju.gis.po;
 
 public class UsersVo {
+	private int id;
 	private String username;// 用户姓名
 	private String email;//邮箱
 	private String realname;//真实姓名
@@ -11,6 +12,14 @@ public class UsersVo {
 	
 	private int limit;//分页大小
 	private int offset;//页码
+	
+	public int getId(){
+		return id;
+	}
+	
+	public void setId(int id){
+		this.id = id;
+	}
 	
 	public int getLimit() {
 		return limit;

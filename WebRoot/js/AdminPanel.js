@@ -190,6 +190,40 @@ var ButtonInit = function () {
         			})
         			
         		});
+        $('#user_btn_pass').click(
+        		function(){
+        			var userList = getSelectUserIdList();
+        			$.ajax({
+        				url: "./passUser.action",
+        				async: true,
+        				type: "POST",
+        				dataType: "text",
+        				data: {
+        					userList: JSON.stringify(userList)
+        				},
+        				success: function (result) {
+        					$('#tb_users').bootstrapTable('refresh');
+        				}
+        			})
+        			
+        		});
+        $('#user_btn_ban').click(
+        		function(){
+        			var userList = getSelectUserIdList();
+        			$.ajax({
+        				url: "./banUser.action",
+        				async: true,
+        				type: "POST",
+        				dataType: "text",
+        				data: {
+        					userList: JSON.stringify(userList)
+        				},
+        				success: function (result) {
+        					$('#tb_users').bootstrapTable('refresh');
+        				}
+        			})
+        			
+        		});
     };
 
     return oInit;
@@ -204,4 +238,14 @@ function getSelectMapIdList()
 		mapList.push(selections[i].id);
 	}
 	return mapList;
+}
+function getSelectUserIdList()
+{
+	var selections = $('#tb_users').bootstrapTable('getSelections');
+	var userList = new Array();
+	for (var i=0;i<selections.length;i++)
+	{
+		userList.push(selections[i].id);
+	}
+	return userList;
 }
