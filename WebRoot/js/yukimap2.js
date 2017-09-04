@@ -124,7 +124,7 @@ function Ykmap(mapjson) {
 	//TODO 增加百度地图的样式配置
 	this.maplayerlist = layeranaly(mapjson.maplayer);//地图图层列表
 	this.layertree = $.parseJSON(mapjson.layertree);
-	this.maptype = mapjson.maptype;
+	this.maptype = mapjson.maptype || "0";
 }
 
 
@@ -163,7 +163,7 @@ function redraw() {
 		if (layerjson.state) {
 			switch (layerjson.type) {
 				case 0:
-					var bool = drawL1(layerjson, i);
+					//var bool = drawL1(layerjson, i);
 					break;
 				case 1:
 					var levelscatter = drawL2(layerjson, i);
@@ -187,13 +187,11 @@ function redraw() {
 	refresh();
 }
 function refresh() {
-	var centerPoint = mybmap.getCenter();
-	myMapMana.centerx = centerPoint.lng;
-	myMapMana.centery = centerPoint.lat;
-	myMapMana.zoomlevel = mybmap.getZoom();
+	var centerPoint = mybmap.getView().getCenter();
+	myMapMana.centerx = centerPoint[0];
+	myMapMana.centery = centerPoint[1];
+	myMapMana.zoomlevel = mybmap.getView().getZoom();
 	echartsoption.series = myseries;
-	echartsoption.bmap.center = [myMapMana.centerx, myMapMana.centery];
-	echartsoption.bmap.zoom= myMapMana.zoomlevel;
 	myecharts.setOption(echartsoption);
 	for (var i = 0; i < myMapMana.maplayerlist.length; i++) {
 		if ((myMapMana.maplayerlist[i].state) && (has(myMapMana.maplayerlist[i].mapv))) {
@@ -395,7 +393,8 @@ function drawL2(layer, layerindex) {//等级符号图 （打算后面全用mapv�
 	for (var i = 0; i < data.length; i++) {
 		res.push({
 			name: data[i].name,
-			value: [Number(data[i].X), Number(data[i].Y), Number(data[i].value)]
+			lonlat:[Number(data[i].X), Number(data[i].Y)],
+			value: [0, 0, Number(data[i].value)]
 		});
 		if (res[i].value[2] > maxvalue) maxvalue = res[i].value[2];
 		if (res[i].value[2] < minvalue) minvalue = res[i].value[2];
@@ -403,7 +402,7 @@ function drawL2(layer, layerindex) {//等级符号图 （打算后面全用mapv�
 	var item = {
 		name: layer.layername,
 		type: 'scatter',
-		coordinateSystem: 'bmap',
+		coordinateSystem: 'geo',
 		data: res,
 		z: layer.zIndex,
 		symbol: 'circle',
@@ -476,13 +475,14 @@ function drawL3(layer, layerindex) {//点图 （打算后面全用mapv重构
 	for (var i = 0; i < data.length; i++) {
 		res.push({
 			name: data[i].name,
-			value: [Number(data[i].X), Number(data[i].Y), data[i].value]
+			lonlat:[Number(data[i].X), Number(data[i].Y)],
+			value: [0, 0, Number(data[i].value)]
 		});
 	}
 	var item = {
 		name: layer.layername,
 		type: 'scatter',
-		coordinateSystem: 'bmap',
+		coordinateSystem: 'geo',
 		data: res,
 		z: layer.zIndex,
 		symbol: 'circle',
@@ -529,11 +529,20 @@ function drawL4(layer, layerindex) {//轨迹图 （打算后面全用mapv重构
 		myMapMana.maplayerlist[layerindex].style.z = myMapMana.maplayerlist[layerindex].zIndex;
 		return myMapMana.maplayerlist[layerindex].style;
 	}
+	var data = layer.data;
+	var res = [];
+	for (var i = 0; i < data.length; i++) {
+		res.push({
+			ID: data[i].name,
+			lonlat:data[i].coords,
+			coords: [[0,0],[0,0]]
+		});
+	}
 	var item =
 		{
 			name: layer.layername,
 			type: 'lines',
-			coordinateSystem: 'bmap',
+			coordinateSystem: 'geo',
 			z: layer.zIndex,
 			large: true,
 			effect: {
@@ -552,7 +561,7 @@ function drawL4(layer, layerindex) {//轨迹图 （打算后面全用mapv重构
 					curveness: 0  //轨迹线弯曲度
 				}
 			},
-			data: layer.data
+			data: res
 		}
 	myMapMana.maplayerlist[layerindex].style = item;
 	return item;
@@ -616,9 +625,8 @@ var tooltipPub = {
 	nowIndex:0
 }
 function display() {
-	myecharts = echarts.init(document.getElementById('map'));
+	
 	echartsoption = {
-		backgroundColor: '#404a59',
 		title: {
 			text: myMapMana.mapname,
 			subtext: '',
@@ -631,60 +639,9 @@ function display() {
 		tooltip: {
 			trigger: 'none'
 		},
-		bmap: { //百度地图样式，可以再调整过
-			center: [myMapMana.centerx, myMapMana.centery],
-			zoom: myMapMana.zoomlevel,
-			roam: true,
-			mapStyle: {
-				styleJson: [
-					{
-						"featureType": "all",
-						"elementType": "geometry",
-						"stylers": {
-							"hue": "#007fff",
-							"saturation": 89
-						}
-					},
-					{
-						"featureType": "water",
-						"elementType": "all",
-						"stylers": {
-							"color": "#ffffff"
-						}
-					},
-					{
-						"featureType": "boundary",
-						"elementType": "all",
-						"stylers": {
-							"color": "#ffffff"
-						}
-					},
-					{
-						"featureType": "highway",
-						"elementType": "all",
-						"stylers": {
-							"color": "#00ffff",
-							"lightness": 84
-						}
-					},
-					{
-						"featureType": "railway",
-						"elementType": "geometry",
-						"stylers": {
-							"color": "#00ffff",
-							"lightness": 84
-						}
-					},
-					{
-						"featureType": "road",
-						"elementType": "labels.icon",
-						"stylers": {
-							"visibility": "off"
-						}
-					}
-				]
-			}
-		},
+		
+		geo:{}
+		,
 		//		    visualMap:{type: 'continuous',
 		//	            min: 0,
 		//	            max: 40,
@@ -699,55 +656,76 @@ function display() {
 		//	            }},
 		series: []
 	};
-	myecharts.setOption(echartsoption);
-	mybmap = myecharts.getModel().getComponent('bmap').getBMap();
-	mybmap.enableScrollWheelZoom(true);
-	var bmapScale = new BMap.ScaleControl({ anchor: BMAP_ANCHOR_BOTTOM_RIGHT });// 左上角，添加比例尺
-	var navigation = new BMap.NavigationControl({ anchor: BMAP_ANCHOR_TOP_LEFT });
-	var mapType = new BMap.MapTypeControl({ anchor: BMAP_ANCHOR_TOP_RIGHT, mapTypes: [BMAP_NORMAL_MAP, BMAP_SATELLITE_MAP] });
-	mydis = new BMapLib.DistanceTool(mybmap);
-	mybmap.addControl(bmapScale);
-	mybmap.addControl(navigation);
-	mybmap.addControl(mapType);
 	
-
-	
-	if (myMapMana.mapmode == 1) mybmap.setMapType(BMAP_SATELLITE_MAP);
-	myecharts.on('mouseover', function (params) {
-		tooltipPub.flag = 1;
-		var tooltipHtml="";
-		switch(params.seriesType){
-			case "lines":
-				tooltipHtml = params.seriesName+':'+params.data.ID;
-				break;
-			case "scatter":
-				tooltipHtml = params.seriesName+':'+params.name+','+params.data.value[2];
-		}
-		$("#mytooltip").html(tooltipHtml);
-		$("#mytooltip").css("top", (mousePos.y - 40) + "px");
-		$("#mytooltip").css("left", (mousePos.x + 10) + "px");
-		$("#mytooltip").css("display", "inline");
-	});
-	myecharts.on('mouseout', function (params) {
-		tooltipPub.flag = 0;
-		$("#mytooltip").css("display", "none");
-	});
-	myecharts.on('click', function (params) {
-		$('#QueryBoard').window('open');
-		$('#QueryBoard').window('expand');
-		$('#layerL0').text(params.seriesName);
-		if (params.seriesType == "lines") {
-			$('#nameL0').text(params.data.ID);
-			$('#countL0').text('source:' + params.data.coords[0] + ',end:' + params.data.coords[1]);
-			$('#typeL0').text('线');
-		}
-		else {
-			$('#nameL0').text(params.name);
-			$('#countL0').text(params.value[2]);
-			$('#typeL0').text('点');
-		}
-	});
-	redraw();
+	mybmap =  new ol.Map({
+        view: new ol.View({
+            center: [13376666, 3535165],
+            zoom:4
+            }),
+            target: 'map'
+        });
+	var tian_di_tu_road_layer = new ol.layer.Tile({
+        title: "天地图路网",
+        source: new ol.source.XYZ({
+            url: "http://t4.tianditu.com/DataServer?T=vec_w&x={x}&y={y}&l={z}"
+        })
+    });
+    var tian_di_tu_annotation = new ol.layer.Tile({
+        title: "天地图文字标注",
+        source: new ol.source.XYZ({
+        url: 'http://t3.tianditu.com/DataServer?T=cva_w&x={x}&y={y}&l={z}'
+        })
+    });
+    //map.addLayers([osm,layer]);
+    mybmap.addLayer(tian_di_tu_road_layer);
+    mybmap.addLayer(tian_di_tu_annotation);
+    
+    mybmap.once('postrender', function (e) {
+        console.log('aa');
+        if (myecharts !== undefined)
+            return;
+        myecharts = new OpenLayer3Ext(mybmap, echarts);
+        var container = myecharts.getEchartsContainer();
+        var mec = myecharts.initECharts(container);
+        window.onresize = myecharts.resize;
+        myecharts.setOption(echartsoption,true);
+		myecharts.bindEvent();
+		mec.on('mouseover', function (params) {
+			tooltipPub.flag = 1;
+			var tooltipHtml="";
+			switch(params.seriesType){
+				case "lines":
+					tooltipHtml = params.seriesName+':'+params.data.ID;
+					break;
+				case "scatter":
+					tooltipHtml = params.seriesName+':'+params.name+','+params.data.value[2];
+			}
+			$("#mytooltip").html(tooltipHtml);
+			$("#mytooltip").css("top", (mousePos.y - 40) + "px");
+			$("#mytooltip").css("left", (mousePos.x + 10) + "px");
+			$("#mytooltip").css("display", "inline");
+		});
+		mec.on('mouseout', function (params) {
+			tooltipPub.flag = 0;
+			$("#mytooltip").css("display", "none");
+		});
+		mec.on('click', function (params) {
+			$('#QueryBoard').window('open');
+			$('#QueryBoard').window('expand');
+			$('#layerL0').text(params.seriesName);
+			if (params.seriesType == "lines") {
+				$('#nameL0').text(params.data.ID);
+				$('#countL0').text('source:' + params.data.coords[0] + ',end:' + params.data.coords[1]);
+				$('#typeL0').text('线');
+			}
+			else {
+				$('#nameL0').text(params.name);
+				$('#countL0').text(params.value[2]);
+				$('#typeL0').text('点');
+			}
+		});
+		redraw();
+    });
 }
 //保存数据的结构 
 function Icelayer(YKlayer) {
@@ -798,15 +776,15 @@ function savemap() {
 			myMapMana.maplayerlist[i].mlid=0;
 			}
 		}
-	var centerPoint = mybmap.getCenter();
-	myMapMana.centerx = centerPoint.lng;
-	myMapMana.centery = centerPoint.lat;
-	var mapmodeString = mybmap.getMapType().getName();
-	myMapMana.zoomlevel = mybmap.getZoom();
-	if (mapmodeString == "地图")
+	var centerPoint = mybmap.getView().getCenter();
+	myMapMana.centerx = centerPoint[0];
+	myMapMana.centery = centerPoint[1];
+	//var mapmodeString = mybmap.getMapType().getName();
+	myMapMana.zoomlevel = mybmap.getView().getZoom();
+	//if (mapmodeString == "地图")
 		myMapMana.mapmode = 0;
-	else
-		myMapMana.mapmode = 1;
+	//else
+		//myMapMana.mapmode = 1;
 	var mapForSave = new Icemap(myMapMana);
 	var layerForSave = new Array();
 	layerForSave = [];

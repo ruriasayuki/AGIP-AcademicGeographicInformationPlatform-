@@ -13,23 +13,22 @@
                 <link rel="stylesheet" href="${pageContext.request.contextPath}/bootstrap-3.3.7/css/bootstrap.min.css">
                 <link rel="stylesheet" id="easyuiTheme" type="text/css" href="${pageContext.request.contextPath}/jquery-easyui-1.5.2/
 	themes/gray/easyui.css">
-				<link rel="stylesheet" type="text/css" href="plugin/ol4/ol.css">
                 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/jquery-easyui-1.5.2/themes/icon.css">
                 <script type="text/javascript" src="jquery-easyui-1.5.2/jquery.min.js"></script>
                 <script type="text/javascript" src="bootstrap-3.3.7/js/bootstrap.min.js"></script>
                 <script type="text/javascript" src="jquery-easyui-1.5.2/jquery.easyui.min.js"></script>
                 <script type="text/javascript" src="js/echarts.js"></script>
-                
+                <script type="text/javascript" src="js/bmap.js"></script>
                 <script type="text/javascript" src="js/md5.js"></script>
                 <script type="text/javascript" src="js/userTreat.js"></script>
                 <script type="text/javascript" src="js/styleChange.js"></script>
-                <script type="text/javascript" src="plugin/ol4/ol-debug.js"></script>
-                <script type="text/javascript" src="plugin/ol4/OpenLayer3Ext.js"></script>
-                
+                <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=YDtu4NPHGvo6qNIIbaEt2mNkeyVzP7ek"></script>
+                <script type="text/javascript" src="http://api.map.baidu.com/library/CurveLine/1.5/src/CurveLine.min.js"></script>
+                <script type="text/javascript" src="${pageContext.request.contextPath}/js/mapv.js"></script>
                 <!--可视化模块-->
-                <script type="text/javascript" src="${pageContext.request.contextPath}/js/yukimap2.js"></script>
+                <script type="text/javascript" src="${pageContext.request.contextPath}/js/yukimap.js"></script>
 
-       
+                <script type="text/javascript" src="${pageContext.request.contextPath}/js/DistanceTool.js"></script>
                 <!--主要由孟林昊提供代码 属于图层树模块 为地图展示子模块-->
                 <script type="text/javascript" src="${pageContext.request.contextPath}/js/layertree.js"></script>
                 

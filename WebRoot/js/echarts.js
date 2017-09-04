@@ -34906,7 +34906,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    if (true) {
 	        var mapNotExistsError = function (name) {
-	            console.error('Map ' + name + ' not exists. You can download map file on http://echarts.baidu.com/download-map.html');
+	            //console.error('Map ' + name + ' not exists. You can download map file on http://echarts.baidu.com/download-map.html');
 	        };
 	    }
 
