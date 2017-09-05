@@ -751,11 +751,8 @@ function savestyle() {
                 myMapMana.maplayerlist[i].style.options.splitNum = splitNum;
                 myMapMana.maplayerlist[i].style.options.splitType = splitType;
                 myMapMana.maplayerlist[i].style.options.highlight = $("#highcolor")[0].value;;
-                myMapMana.maplayerlist[i].mapv.update({
-                    options: {
-                        splitList: newSplitList
-                    }
-                });
+                myMapMana.maplayerlist[i].style.options.splitList= newSplitList;
+                myMapMana.maplayerlist[i].mapv.refresh();
             }
             redraw();
             break;

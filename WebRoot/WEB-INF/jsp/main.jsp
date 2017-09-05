@@ -26,6 +26,8 @@
                 <script type="text/javascript" src="plugin/ol4/ol-debug.js"></script>
                 <script type="text/javascript" src="plugin/ol4/OpenLayer3Ext.js"></script>
                 
+                <script type="text/javascript" src="js/olv.js"></script>
+                
                 <!--可视化模块-->
                 <script type="text/javascript" src="${pageContext.request.contextPath}/js/yukimap2.js"></script>
 

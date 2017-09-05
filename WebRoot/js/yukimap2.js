@@ -1,5 +1,6 @@
-//————————————————————————**yukimap.js**————————————————————————//
-//包含echarts&mapv整合结构
+//————————————————————————**yukimap2.js**————————————————————————//
+//包含echarts&自制面图层显示工具olv.js
+//yukimap2其实就是yukimapForOpenlayers
 //包含前端容器 YKmap 和YKlayer
 //包含保存地图用的结构Icemap和Icelayer
 //包含所有管理用全局变量
@@ -158,12 +159,12 @@ function redraw() {
 		var layerjson = myMapMana.maplayerlist[i]
 		if (has(layerjson.mapv))//这里也需要重新整合
 		{
-			layerjson.mapv.unbindEvent();
+			//layerjson.mapv.unbindEvent();
 		}
 		if (layerjson.state) {
 			switch (layerjson.type) {
 				case 0:
-					//var bool = drawL1(layerjson, i);
+					var bool = drawL1(layerjson, i);
 					break;
 				case 1:
 					var levelscatter = drawL2(layerjson, i);
@@ -181,7 +182,8 @@ function redraw() {
 		}
 		else
 			if (has(layerjson.mapv)) {
-				layerjson.mapv.destroy();
+				//layerjson.mapv.destroy();
+				layerjson.mapv.hide();
 			}
 	}
 	refresh();
@@ -195,7 +197,7 @@ function refresh() {
 	myecharts.setOption(echartsoption);
 	for (var i = 0; i < myMapMana.maplayerlist.length; i++) {
 		if ((myMapMana.maplayerlist[i].state) && (has(myMapMana.maplayerlist[i].mapv))) {
-			myMapMana.maplayerlist[i].mapv.bindEvent();
+			//myMapMana.maplayerlist[i].mapv.bindEvent();
 			myMapMana.maplayerlist[i].mapv.show();
 		}
 	}
@@ -215,14 +217,11 @@ function drawL1(layer, layerindex) {//分层设色图 使用mapv绘制
 	var splitType = "linear";
 	var highlight = "#edacbe";
 	if (has(myMapMana.maplayerlist[layerindex].mapv)) {
-		myMapMana.maplayerlist[layerindex].mapv.update({
-			options:{
-				zIndex:myMapMana.maplayerlist[layerindex].zIndex
-			}
-		});
-		return true;}//暂时用这个提高效率
+		//TODO update zIndex
+		return true;}
 	if (has(myMapMana.maplayerlist[layerindex].style)) {
-		dataSet = new mapv.DataSet(myMapMana.maplayerlist[layerindex].style.dataSet._data);
+		//这部分是根据储存的信息重构图层组件的代码...
+		dataSet = myMapMana.maplayerlist[layerindex].style.dataSet;
 		//gradient = myMapMana.maplayerlist[layerindex].style.options.gradient || gradient;
 		maxC = myMapMana.maplayerlist[layerindex].style.options.max;
 		minC = myMapMana.maplayerlist[layerindex].style.options.min;
@@ -232,53 +231,39 @@ function drawL1(layer, layerindex) {//分层设色图 使用mapv绘制
 		splitType = myMapMana.maplayerlist[layerindex].style.options.splitType;
 	}
 	else {
-		var gdata = layer.data;
-		$.ajaxSettings.async = false;
-		$.getJSON(layer.appendsrc, function (geojson) {//demo的geojson还是写死的
 
-			dataSet = mapv.geojson.getDataSet(geojson);
-			maxC = Number(gdata[0].value);
-			minC = Number(gdata[0].value);
-			var data = dataSet.get({
-				filter: function (item) {//数据字段和geojson的name匹配 这里特殊化了一下 因为清代省份图用了两个字段 分别表示拼音和中文的省份名
-					for (var i = 0; i < gdata.length; i++) {
-						if (gdata[i].name == item.name) {
-							item.count = Number(gdata[i].value);
-							item.bound = getBoundBox(item.geometry.coordinates);
-							if (item.count > maxC) {
-								maxC = item.count;
+			dataSet = layer.data;
+			minC = maxC = Number(dataSet[0].value);
+			
+			for (var i = 0; i < dataSet.length; i++) {
+							var count = Number(dataSet[i].value);
+							//item.bound = getBoundBox(item.geometry.coordinates);
+							if (count > maxC) {
+								maxC = count;
+								continue;
 							}
-							if (item.count < minC) {
-								minC = item.count;
+							if (count < minC) {
+								minC = count;
 							}
-							return true;
 						}
-					}
-
-					return false;
-				}
-			});
+					
 			maxC = maxC;
 			minC = minC;
 			splitList = yukiColorMapper(minC, maxC, '#ffddee', '#aa4466', splitNum, splitType);
-			dataSet = new mapv.DataSet(data);
-		});
-		$.ajaxSettings.async = true;
-	}
-	//下面开始设置
-	{
+
+	
 		var options = {
 			draw: 'choropleth',
 			max: maxC,
 			min: minC,
 			zIndex:myMapMana.maplayerlist[layerindex].zIndex,
-			highlight,highlight,
+			highlight:highlight,
 			splitNum: splitNum,
 			splitType: splitType,
 			splitList: splitList,
 			shadowColor: 'rgba(0, 0, 0, 0.5)', // 投影颜色
 			shadowBlur: 10,  // 投影模糊级数
-			methods: {
+			/*methods: {
 				click: function (item) {
 					if (tooltipPub.flag == 0) {
 					$('#QueryBoard').window('open');
@@ -314,14 +299,14 @@ function drawL1(layer, layerindex) {//分层设色图 使用mapv绘制
 					if (flag == 0) { $("#mytooltip").css("display", "none") };
 					dataSet.set(data);
 				}
-			},
+			},*/
 			globalAlpha: 0.9,
 			draw: 'choropleth'
 		}
 		//完成设定 进行绘图
 		myMapMana.maplayerlist[layerindex].style = { "options": options, "dataSet": dataSet };
-		myMapMana.maplayerlist[layerindex].mapv = new mapv.baiduMapLayer(mybmap, dataSet, options);
-		myMapMana.maplayerlist[layerindex].mapv.destroy();
+		myMapMana.maplayerlist[layerindex].mapv = new OlvLayer(mybmap, layer.appendsrc,dataSet, options,layerindex);
+		//myMapMana.maplayerlist[layerindex].mapv.destroy();
 	}
 	return true;
 }
@@ -681,7 +666,6 @@ function display() {
     mybmap.addLayer(tian_di_tu_annotation);
     
     mybmap.once('postrender', function (e) {
-        console.log('aa');
         if (myecharts !== undefined)
             return;
         myecharts = new OpenLayer3Ext(mybmap, echarts);
@@ -724,6 +708,52 @@ function display() {
 				$('#typeL0').text('点');
 			}
 		});
+		var featureOverlay = new ol.layer.Vector({
+	        source: new ol.source.Vector(),
+	        map: mybmap,
+	        style: new ol.style.Style({
+	          stroke: new ol.style.Stroke({
+	            color: '#f00',
+	            width: 1
+	          }),
+	          fill: new ol.style.Fill({
+	            color: 'rgba(255,0,0,0.1)'
+	          })
+	        })
+	      });
+
+	      var highlight;
+	      var displayFeatureInfo = function(pixel) {
+
+	        var feature = mybmap.forEachFeatureAtPixel(pixel, function(feature) {
+	          return feature;
+	        });
+
+	        console.log(feature);
+	        
+	        if (feature !== highlight) {
+	          if (highlight) {
+	            featureOverlay.getSource().removeFeature(highlight);
+	          }
+	          if (feature) {
+	            featureOverlay.getSource().addFeature(feature);
+	          }
+	          highlight = feature;
+	        }
+
+	      };
+
+	      mybmap.on('pointermove', function(evt) {
+	        if (evt.dragging) {
+	          return;
+	        }
+	        var pixel = mybmap.getEventPixel(evt.originalEvent);
+	        displayFeatureInfo(pixel);
+	      });
+
+	      mybmap.on('click', function(evt) {
+	        displayFeatureInfo(evt.pixel);
+	      });
 		redraw();
     });
 }

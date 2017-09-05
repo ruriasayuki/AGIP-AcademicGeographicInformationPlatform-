@@ -1,4 +1,3 @@
-//这份是配合openlayers的版本
 function bgsearch() {
     autoComplete.deleteDIV();
     if(has(autoComplete.select))
@@ -20,7 +19,7 @@ function match(info) {//查询所需要的信息匹配 并且返回结果选框
                 var type = myMapMana.maplayerlist[index].type;
                 switch (type) {
                     case 0:
-                        var data = myMapMana.maplayerlist[index].style.dataSet;
+                        var data = myMapMana.maplayerlist[index].style.dataSet._data;
                         for (var i = 0; i < data.length; i++) {
                             var temp = {
                                 layername: infoKey,
@@ -73,7 +72,7 @@ function match(info) {//查询所需要的信息匹配 并且返回结果选框
                     var layername = myMapMana.maplayerlist[j].layername;
                     switch (type) {
                         case 0:
-                            var data = myMapMana.maplayerlist[j].style.dataSet;
+                            var data = myMapMana.maplayerlist[j].style.dataSet._data;
                             for (var i = 0; i < data.length; i++) {
                                 if (reg.test(data[i].name)) {
                                     var temp = {
@@ -182,7 +181,7 @@ function getLayerStringDataArr() {
         switch (layer.type) {
             case 0:
                 {
-                    var data = layer.style.dataSet;
+                    var data = layer.style.dataSet._data;
                     for (var j = 0; j < data.length; j++) {
                         resultArr.push({ name: data[j].name, type: "地名" });
                     }
