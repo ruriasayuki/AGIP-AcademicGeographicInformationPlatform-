@@ -59,5 +59,9 @@
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/servlet-api.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/commons-email-1.2.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/javax.mail.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/commons-lang-2.5.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/commons-logging.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/geocoder-java-0.10.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/gson-2.2.4.jar"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>

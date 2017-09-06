@@ -5,9 +5,16 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.aspectj.weaver.Lint;
+
+import com.google.code.geocoder.Geocoder;
+import com.google.code.geocoder.GeocoderRequestBuilder;
+import com.google.code.geocoder.model.GeocodeResponse;
+import com.google.code.geocoder.model.GeocoderRequest;
+import com.google.code.geocoder.model.GeocoderResult;
 
 import cn.edu.zju.gis.po.Place;
 import javafx.scene.chart.XYChart;
@@ -15,8 +22,8 @@ import javafx.scene.chart.XYChart;
 public class Analyse {
 	public static String AnalyseCSV(BufferedReader bufferedReader,int type,boolean hasXY,String[] titles) throws IOException {
 		String content = null;
-		switch (type) {
-			case 0://�ֲ���ɫͼ
+		switch (type) {//根据图层选择处理方法
+			case 0://
 				content = AnalyseCSV0(bufferedReader, hasXY, titles);
 				break;
 			case 1://�ȼ�����ͼ
@@ -36,10 +43,10 @@ public class Analyse {
 		return content;
 	}
 	
-	//�����ֲ���ɫͼ
+	//解析CSV并且构造Gson字符串写入数据库，这里可以用Gson插件进行重构……emmm 这个代码好像也不是不能用（噗
 	public static String AnalyseCSV0(BufferedReader bufferedReader,boolean hasXY, String[] titles) throws NumberFormatException, FileNotFoundException, IOException {
 		String content = "[";
-		String line = null;//��ȡbufferedReader��ÿһ��
+		String line = null;//
 		int i;	
 		while((line=bufferedReader.readLine())!=null) {
 			i = 0;
@@ -47,8 +54,8 @@ public class Analyse {
 			if(line.length() > 0) {
 				String items[] = line.split(",");
 				content += "{";
-				if(hasXY) {//ӵ�о�γ��
-					for(String item : items) {//�˴���ȫ���ӽ�ȥ�û��ǽ���Ҫ����ֶΣ�
+				if(hasXY) {//判断是否有XY列
+					for(String item : items) {//直接开始解析
 		            	if(i != 0) {
 		            		content += ",";
 		            	}
@@ -57,28 +64,26 @@ public class Analyse {
 		            }
 		            content += "},";	
 				}
-				else {//û�о�γ��,ƥ�侭γ��
+				else {//没有XY坐标 则需要进行地理匹配
 					//��������ƥ�����γ��
-					Map<String, Place> places = new HashMap<String,Place>();
-					//��ȡ������csv��
-					BufferedReader bufferedReader2 = new BufferedReader(new FileReader("e:\\layers\\place.csv"));
-					String line2 = null;
-					line2 = bufferedReader2.readLine();
-					while((line2 = bufferedReader2.readLine())!=null) {
-						String items2[] = line2.split(",");
-						//������ƥ�����ݼ��ص�map��
-						places.put(items2[0], new Place(Float.parseFloat(items2[1]), Float.parseFloat(items2[2])));
-					}
+			        
+			        BgeoCoder bg = new BgeoCoder();  
+			        
 					for(i=0 ; i < items.length ; i++) {//�˴���ȫ���ӽ�ȥ�û��ǽ���Ҫ����ֶΣ�
 		            	if(i != 0) {
 		            		content += ",";
 		            	}
 		            	if(i == 1) {//���Ӿ�γ��
-		            		Place place = null;
-		            		place =	places.get(items[0]);
-		            		if(place!=null) {//ƥ�䵽�� ����뾭γ��
-		            			content += "\"X\":" + place.getLongitude() + 
-			            				"," + "\"Y\":" +place.getLatitude() + ",";
+		            		float[] latlng = null;
+		            		latlng = bg.getLatlng(items[0]);
+					        //获取地址经纬度信息  
+					        float lat = latlng[0];  
+					        float lng = latlng[1];  
+					        
+				
+		            		if(latlng!=null) {//ƥ�䵽�� ����뾭γ��
+		            			content += "\"X\":" + lng + 
+			            				"," + "\"Y\":" +lat + ",";
 		            		}else {//δƥ�䵽�� �����""
 		            			content += "\"X\":" + "\"\"" + 
 			            				"," + "\"Y\":" + "\"\"" + ",";
@@ -96,7 +101,7 @@ public class Analyse {
 		}
 		content = content.substring(0, content.length()-1);
 		content += "]";
-		System.out.println(content);
+		
 		return content;
 		
 	}

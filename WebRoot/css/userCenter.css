@@ -10,6 +10,15 @@
 	padding-top: 50px;
 }
 
+#formchange{
+	padding-left:20%;
+	padding-right:20%;
+	
+}
+
+#painfo,#newinfo,#oldinfo{
+	color: #ef2435;
+}
 .mylabel {
 	display: inline-block;
 	width: 80px;

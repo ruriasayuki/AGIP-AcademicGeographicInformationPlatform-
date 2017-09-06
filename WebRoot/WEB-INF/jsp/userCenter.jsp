@@ -9,7 +9,7 @@
 	<link rel="stylesheet" href="plugin/bootstrap-3.3.7/css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/public.css">
 	<script type="text/javascript" src="plugin/jquery-3.2.1.min.js"></script>           
-  
+  	<link rel="stylesheet" href="css/userCenter.css">
  <!--  
 	<script type="text/javascript" src="./plugin/jquery-easyui-1.5.2/jquery.easyui.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="./plugin/jquery-easyui-1.5.2/themes/icon.css">
@@ -121,31 +121,39 @@
     
     </div>
     <div role="tabpanel" class="tab-pane" id="EditInfo">
-    <form id="formchange" class="form-horizontal">
+    <form id="formchange">
                     <div class="form-group" style="margin-top:15px">
                         <label class="control-label" for="pwdOld">旧密码</label>
-                        <div class="col-sm-3">
+                        
                             <input type="password" class="form-control" id="pwdOld">
+                        
                         <span id="oldinfo"></span>
-                        </div>
-                		<label class="control-label" for="pwdNew">新密码</label>
-                        <div class="col-sm-3">
-                            <input type="password" class="form-control" id="pwdNew">
-                        <span id="newinfo"></span>
-                        </div>
-                        <label class="control-label" for="pwdNewAgain">确认密码</label>
-                        <div class="col-sm-3">
-                            <input type="password" class="form-control" id="pwdNewAgain">
-                        <span id="painfo"></span>
-                        </div>
-                            <button type="button" style="margin-left:50px" id="modifyOk" class="btn btn-primary">确认</button>
+                        
                     </div>
+                    <div class="form-group" style="margin-top:15px">
+                		<label class="control-label" for="pwdNew">新密码</label>
+                        
+                            <input type="password" class="form-control" id="pwdNew">
+                        
+                        <span id="newinfo"></span>
+                        
+                     </div>
+                     <div class="form-group" style="margin-top:15px">
+                        <label class="control-label" for="pwdNewAgain">确认密码</label>
+                       
+                            <input type="password" class="form-control" id="pwdNewAgain">
+                       
+                        <span id="painfo"></span>
+                        
+                       </div>
+                            <button type="button" style="margin-left:45%" id="modifyOk" class="btn btn-primary">确认</button>
+                    
                 </form>
 </div>
 
     </div>
     
-  </div>
+
 
 <footer>
 	GIS@ZJU

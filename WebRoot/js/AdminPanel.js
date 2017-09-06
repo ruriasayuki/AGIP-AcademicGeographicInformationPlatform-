@@ -7,9 +7,8 @@ $(function () {
     //2.初始化Button的点击事件
     var oButtonInit = new ButtonInit();
     oButtonInit.Init();
-
-
 });
+
 
 
 var TableInit = function () {
@@ -239,6 +238,7 @@ function getSelectMapIdList()
 	}
 	return mapList;
 }
+
 function getSelectUserIdList()
 {
 	var selections = $('#tb_users').bootstrapTable('getSelections');

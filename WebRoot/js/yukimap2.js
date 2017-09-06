@@ -835,5 +835,5 @@ function savemap() {
 			console.log(result)
 		}
 	})
-
+	
 }

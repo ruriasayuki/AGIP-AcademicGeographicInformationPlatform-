@@ -31,7 +31,7 @@ import cn.edu.zju.gis.po.Layers;
 import cn.edu.zju.gis.po.Place;
 import cn.edu.zju.gis.service.LayersService;
 import cn.edu.zju.gis.util.Analyse;
-import cn.edu.zju.gis.util.Json;
+
 
 @Controller
 public class LayersController {
@@ -61,6 +61,7 @@ public class LayersController {
 		//关闭输入流，释放资源 
 		inputStream.close();
 		//创建文件夹
+		//TODO 服务器的上传的文件的存放路径的设定 暂时还没处理
 		File file2 = new File("e:\\layers");
 		if(!file2.exists()) {
 			file2.mkdirs();
@@ -89,20 +90,23 @@ public class LayersController {
 		
 		String line = null;
 		String content = null;
-		line = bufferedReader.readLine();//��һ����Ϣ��Ϊ������Ϣ�����ã������Ҫ��ע�͵�
-		String title[] = line.split(",");
-		//��ȡ��һ�ж��ֶ����ͺ���Ŀ��Ҫ�����жϣ��Ƿ����Ҫ��
-		int count = title.length;//�õ��ֶ���
-		int hasXY = 0;//�Ƿ�ӵ�о�γ��  hasXY=2����ӵ�о�γ��
-		boolean  seniorCondition = false;//�߼��������ж��Ƿ�ӵ�С���ֵ���ֶ�
-		switch(type) {
-			case 0://�ֲ���ɫͼ
-				//�����ֶ�Ҫ��ӵ�е����ֶβ����ֶ�������Ϊ2
+		line = bufferedReader.readLine();//读取第一行文件
+		
+		String title[] = line.split(",");//读出文件头
+		
+		int count = title.length;//这个是列数
+		int hasXY = 0;//是否有XY字段
+		boolean  seniorCondition = false;//字段是否齐全的检查变量 = = 
+		switch(type)//按照图层类型解析文件 = = 其实我不觉得这样的结构好…… 应该构造好一个class之类的东西 by asayuki
+		{
+			case 0://分层设色图数据 标准 列名 "地名" "数值" "X" "Y" "附加信息"
+				//感觉可以直接构造个HashMap啊 = = 
 				if(!title[0].equals("地名") && count<2) {
 					bufferedReader.close();
-					//ɾ���洢��csv����
+					//TODO 删除服务器上的临时文件
 					File file3 = new File(storeLocation);
-					file3.delete();				
+					file3.delete();
+					//返回的东西可以再慎重点 最好改成数字编码
 					return "您上传的数据不符合规范";
 				}
 				else {
@@ -119,7 +123,7 @@ public class LayersController {
 							hasXY++;
 						}
 					}
-					//�߼��ֶ�Ҫ��ӵ�С���ֵ���ֶΣ������ж��Ƿ�ӵ�о�γ��
+					//如果满足条件则开始对后续文件进行解析
 					if(seniorCondition) {
 						if(hasXY == 2)
 							content = Analyse.AnalyseCSV(bufferedReader, 0 , true,title);
@@ -129,7 +133,7 @@ public class LayersController {
 					}
 					else {
 						bufferedReader.close();
-						//ɾ���洢��csv����
+						//TODO 删除服务器上的CSV文件
 						File file3 = new File(storeLocation);
 						file3.delete();				
 						return "您上传的数据不符合规范";
@@ -200,8 +204,8 @@ public class LayersController {
 						content = Analyse.AnalyseCSV(bufferedReader, 2 , false, title);
 					break;					
 				}
-			case 3://�켣ͼ
-				//�ֶ�Ҫ��ӵ�е����ֶβ����ֶ�������Ϊ2:��һ���ֶ�Ϊid���ڶ����ֶ�Ϊthe_geom
+			case 3://线图层
+				//这里牵扯到上传的数据的线的表现形式的问题 现在暂时还是标准的OGC的geometry的字符串表出
 				if(!title[0].equalsIgnoreCase("id") && !title[1].equals("the_geom") && count<2) {
 					bufferedReader.close();
 					//ɾ���洢��csv����
