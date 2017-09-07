@@ -147,6 +147,13 @@ function showSavePanel() {
 	$('#savePanel').window('open');
 
 }
+function screenShot(){
+	html2canvas($('#map'), {
+		  onrendered: function(canvas) {
+		    document.body.appendChild(canvas);
+		  };//TODO GG
+	});
+}
 
 //打开查询结果框
 function showResultPanel(resultSet) {

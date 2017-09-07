@@ -27,6 +27,7 @@
                 <script type="text/javascript" src="plugin/ol4/OpenLayer3Ext.js"></script>
                 
                 <script type="text/javascript" src="js/olv.js"></script>
+                <script type="text/javascript" src="plugin/html2canvas.js"></script>
                 
                 <!--可视化模块-->
                 <script type="text/javascript" src="${pageContext.request.contextPath}/js/yukimap2.js"></script>
@@ -112,7 +113,7 @@
 <div style="padding:5px;background:#fafafa;width:100%">
 <a href="#" onclick="showLayerPanel()" class="easyui-linkbutton" plain="true" iconCls="icon-add"></a>
 <a href="#" onclick="showMapPanel()"class="easyui-linkbutton" plain="true" iconCls="icon-map"></a>
-<a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-screenshot"></a>
+<a href="#" onclick="screenShot()" class="easyui-linkbutton" plain="true" iconCls="icon-screenshot"></a>
 <a href="#" onclick="myshareFunc()" class="easyui-linkbutton" plain="true" iconCls="icon-share"></a>
 <a href="#" onclick="mydisFunc()" class="easyui-linkbutton" plain="true" iconCls="icon-ruler"></a>
 <!--TODO 打开帮助说明窗口  <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-help"></a>
