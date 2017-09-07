@@ -10,9 +10,10 @@
     <result column="type" property="type" jdbcType="INTEGER" />
     <result column="datacontent" property="datacontent" jdbcType="VARCHAR" />
     <result column="appendDataSrc" property="appendDataSrc" jdbcType="VARCHAR" />
+  	<result column="course" property="course" jdbcType="VARCHAR" />
   </resultMap>
   <select id="findLayers" parameterType="cn.edu.zju.gis.po.LayersVo" resultType="cn.edu.zju.gis.po.Layers">
-	select id,layername,userid,storelocation,accessibility,type,appenddatasrc from layers
+	select id,layername,userid,storelocation,accessibility,type,appenddatasrc,course from layers
 	<where>
 		<if test="layername !=null and layername !='' ">
 			layername like '%${layername}%'
@@ -96,7 +97,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, layername, userid, storelocation, accessibility, type, datacontent ,appenddatasrc
+    id, layername, userid, storelocation, accessibility, type, datacontent ,appenddatasrc,course
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.edu.zju.gis.po.LayersExample" >
     select
@@ -131,18 +132,18 @@
   <insert id="insert" parameterType="cn.edu.zju.gis.po.Layers" >
     insert into layers (id, layername, userid, 
       storelocation, accessibility, type, 
-      datacontent, appendDataSrc)
+      datacontent, appendDataSrc,course)
     values (#{id,jdbcType=INTEGER}, #{layername,jdbcType=VARCHAR}, #{userid,jdbcType=INTEGER}, 
       #{storelocation,jdbcType=VARCHAR}, #{accessibility,jdbcType=BIT}, #{type,jdbcType=INTEGER}, 
-      #{datacontent,jdbcType=VARCHAR},#{appendDataSrc,jdbcType=VARCHAR})
+      #{datacontent,jdbcType=VARCHAR},#{appendDataSrc,jdbcType=VARCHAR},#{course,jdbcType=VARCHAR})
   </insert>
   <insert id="myinsert" parameterType="cn.edu.zju.gis.po.Layers" useGeneratedKeys="true" keyProperty="id" >
   insert into layers (layername, userid, 
       storelocation, accessibility, type, 
-      datacontent,appendDataSrc)
+      datacontent,appendDataSrc,course)
     values (#{layername,jdbcType=VARCHAR}, #{userid,jdbcType=INTEGER}, 
       #{storelocation,jdbcType=VARCHAR}, #{accessibility,jdbcType=BIT}, #{type,jdbcType=INTEGER}, 
-      #{datacontent,jdbcType=VARCHAR},#{appendDataSrc,jdbcType=VARCHAR})
+      #{datacontent,jdbcType=VARCHAR},#{appendDataSrc,jdbcType=VARCHAR},#{course,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="cn.edu.zju.gis.po.Layers" >
     insert into layers
@@ -168,6 +169,9 @@
       <if test="datacontent != null" >
         datacontent,
       </if>
+      <if test="course != null" >
+        course,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -190,6 +194,9 @@
       </if>
       <if test="datacontent != null" >
         #{datacontent,jdbcType=VARCHAR},
+      </if>
+      <if test="course != null" >
+        #{course,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -223,6 +230,9 @@
       <if test="record.datacontent != null" >
         datacontent = #{record.datacontent,jdbcType=VARCHAR},
       </if>
+      <if test="record.course != null" >
+        course = #{record.course,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -237,6 +247,7 @@
       accessibility = #{record.accessibility,jdbcType=BIT},
       type = #{record.type,jdbcType=INTEGER},
       datacontent = #{record.datacontent,jdbcType=VARCHAR}
+      course = #{record.course,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -262,6 +273,9 @@
       <if test="datacontent != null" >
         datacontent = #{datacontent,jdbcType=VARCHAR},
       </if>
+      <if test="course != null" >
+        course = #{course,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -273,6 +287,7 @@
       accessibility = #{accessibility,jdbcType=BIT},
       type = #{type,jdbcType=INTEGER},
       datacontent = #{datacontent,jdbcType=VARCHAR}
+      course = #{course,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

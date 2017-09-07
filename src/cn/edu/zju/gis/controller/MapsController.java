@@ -21,6 +21,7 @@ import com.google.gson.reflect.TypeToken;
 import cn.edu.zju.gis.po.MapLayer;
 import cn.edu.zju.gis.po.Maps;
 import cn.edu.zju.gis.po.MapsCustom;
+import cn.edu.zju.gis.po.MapsVo;
 import cn.edu.zju.gis.po.Users;
 import cn.edu.zju.gis.service.MapsService;
 import cn.edu.zju.gis.service.UsersService;
@@ -58,6 +59,19 @@ public class MapsController
 		return gson.toJson(result);
 	}
 	
+	@RequestMapping(value = "/getMapListForIndex", method = RequestMethod.POST,   
+	        produces = "text/html;charset=UTF-8")
+	@ResponseBody
+	public String getMapListForIndex(String type) throws Exception
+	{
+		MapsVo querymap = new MapsVo();
+		querymap.setLimit(6);
+		
+		List<Maps> maps = mapsService.getMapListForIndex(querymap);
+		
+		Gson gson = new Gson();
+		return gson.toJson(maps);
+	}
 	
 	
 	@RequestMapping(value = "/getMapLayerList", method = RequestMethod.POST,   

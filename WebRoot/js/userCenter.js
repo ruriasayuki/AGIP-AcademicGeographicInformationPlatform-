@@ -57,6 +57,10 @@ var TableInit = function () {
             {
                 field: 'storelocation',
                 title: '源文件'
+            },
+            {
+            	field:'course',
+            	title:'学科'
             }]
         });
         

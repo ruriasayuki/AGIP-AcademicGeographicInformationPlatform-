@@ -79,7 +79,9 @@ public class PagesController {
 		boolean flag = false;
 		String username =(String) session.getAttribute("username");
 		Users nowuser = null;
-		if(username==null) nowuser = new Users();
+		if(username==null) 
+			{nowuser = new Users();
+			nowuser.setId(0);}
 		else
 			nowuser = usersService.findUserByName(username);
 		MapsCustom map=null;//地图初始化为空
@@ -103,6 +105,8 @@ public class PagesController {
 			else if((Integer)session.getAttribute("userid")==mapa.getUserid()) flag=true;
 			//3.普通用户
 			else if(mapa.getAddable()==1&&mapa.getAccessibility()==1&&usersService.checkUserAuthority(mapa.getUserid())) flag=true;
+			//4.游客
+			else if(mapa.getAddable()==1&&mapa.getAccessibility()==1&&nowuser.getId()==0) flag=true;
 			if(flag==false)
 			{
 				ModelAndView modelAndView =  new ModelAndView();//构造model

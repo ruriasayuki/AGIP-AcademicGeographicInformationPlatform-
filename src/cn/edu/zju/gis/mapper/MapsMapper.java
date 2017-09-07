@@ -25,6 +25,8 @@ public interface MapsMapper {
 	
 	public List<Maps> findMaps2(MapsVo maps);
 	
+	public List<Maps> getShortList(MapsVo maps);
+	
 	public int deleteMaps(MapLayer layer);//这个是在地图的图层更新的时候删除地图里面已经没有了的图层
 
 	public int countMaps(MapsVo querymap);

@@ -553,6 +553,146 @@ public class LayersExample {
             addCriterion("datacontent not between", value1, value2, "datacontent");
             return (Criteria) this;
         }
+
+        public Criteria andAppenddatasrcIsNull() {
+            addCriterion("appenddatasrc is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppenddatasrcIsNotNull() {
+            addCriterion("appenddatasrc is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppenddatasrcEqualTo(String value) {
+            addCriterion("appenddatasrc =", value, "appenddatasrc");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppenddatasrcNotEqualTo(String value) {
+            addCriterion("appenddatasrc <>", value, "appenddatasrc");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppenddatasrcGreaterThan(String value) {
+            addCriterion("appenddatasrc >", value, "appenddatasrc");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppenddatasrcGreaterThanOrEqualTo(String value) {
+            addCriterion("appenddatasrc >=", value, "appenddatasrc");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppenddatasrcLessThan(String value) {
+            addCriterion("appenddatasrc <", value, "appenddatasrc");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppenddatasrcLessThanOrEqualTo(String value) {
+            addCriterion("appenddatasrc <=", value, "appenddatasrc");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppenddatasrcLike(String value) {
+            addCriterion("appenddatasrc like", value, "appenddatasrc");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppenddatasrcNotLike(String value) {
+            addCriterion("appenddatasrc not like", value, "appenddatasrc");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppenddatasrcIn(List<String> values) {
+            addCriterion("appenddatasrc in", values, "appenddatasrc");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppenddatasrcNotIn(List<String> values) {
+            addCriterion("appenddatasrc not in", values, "appenddatasrc");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppenddatasrcBetween(String value1, String value2) {
+            addCriterion("appenddatasrc between", value1, value2, "appenddatasrc");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppenddatasrcNotBetween(String value1, String value2) {
+            addCriterion("appenddatasrc not between", value1, value2, "appenddatasrc");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseIsNull() {
+            addCriterion("course is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseIsNotNull() {
+            addCriterion("course is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseEqualTo(String value) {
+            addCriterion("course =", value, "course");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseNotEqualTo(String value) {
+            addCriterion("course <>", value, "course");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseGreaterThan(String value) {
+            addCriterion("course >", value, "course");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseGreaterThanOrEqualTo(String value) {
+            addCriterion("course >=", value, "course");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseLessThan(String value) {
+            addCriterion("course <", value, "course");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseLessThanOrEqualTo(String value) {
+            addCriterion("course <=", value, "course");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseLike(String value) {
+            addCriterion("course like", value, "course");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseNotLike(String value) {
+            addCriterion("course not like", value, "course");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseIn(List<String> values) {
+            addCriterion("course in", values, "course");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseNotIn(List<String> values) {
+            addCriterion("course not in", values, "course");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseBetween(String value1, String value2) {
+            addCriterion("course between", value1, value2, "course");
+            return (Criteria) this;
+        }
+
+        public Criteria andCourseNotBetween(String value1, String value2) {
+            addCriterion("course not between", value1, value2, "course");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

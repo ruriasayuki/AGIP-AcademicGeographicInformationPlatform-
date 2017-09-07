@@ -34,4 +34,6 @@ public interface MapsService {
 	public int openMap(int id) throws Exception;
 	
 	public int closeMap(int id) throws Exception;
+	
+	public List<Maps> getMapListForIndex(MapsVo querymap) throws Exception;
 }

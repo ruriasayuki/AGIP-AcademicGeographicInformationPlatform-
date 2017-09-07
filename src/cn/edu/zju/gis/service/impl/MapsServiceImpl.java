@@ -113,4 +113,11 @@ public class MapsServiceImpl implements MapsService{
 		mapsMapper.changeAccessibility(querymap);
 		return 0;
 	}
+
+
+	@Override
+	public List<Maps> getMapListForIndex(MapsVo querymap) throws Exception {
+		return mapsMapper.getShortList(querymap);
+		
+	}
 }

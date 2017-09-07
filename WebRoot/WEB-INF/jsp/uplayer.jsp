@@ -12,9 +12,14 @@
     <title>学术地图发布平台 图层上传</title>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <link href="plugin/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    
     <link href="css/uplayerAnimate.css" rel="stylesheet">
     <link href="css/uplayerPagePlug.css" rel="stylesheet">
     <link href="css/uplayerPage.css" rel="stylesheet">
+    
+    <script src="plugin/jquery-3.2.1.min.js"></script>
+    <script src="plugin/bootstrap-3.3.7/js/bootstrap.min.js"></script>  
+    <script src="js/chooseDiscipline.js"></script>
 </head>
 <body>
     <div id="head">
@@ -47,6 +52,20 @@
 						世界地图
 					</option>
 				</select>
+            </div>
+        </div>
+                <div class="dataEach" style="margin-top: 5px;display:block">
+            <div style="margin-top: 7px;">
+				<div class="row">
+				  <div class="col-lg-10">
+				    <div class="input-group">
+				      <span class="input-group-btn">
+				        <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#myModal">Choose</button>
+				      </span>
+				      <input type="text" id="discipline" class="form-control" placeholder="Choose your discipline..." readonly/>
+				    </div><!-- /input-group -->
+				  </div><!-- /.col-lg-3 -->
+				</div><!-- /.row -->
             </div>
         </div>
         <div class="dataEach" style="margin-top: 5px;">
@@ -121,7 +140,8 @@
                     <div class="introduce">
                         <strong style="font-size:14px">概念释义</strong>
                         <p style="font-size:12px">
-                            将数据中的一列值，根据数值的大小，绘制不同等级的圆形符号（气泡），生成一幅专题地图。
+                         将数据中的一列值，按照某种方法，划分为多个范围段，并赋予不同的颜色，生成一幅专题地图。
+                            
                         </p>
                         <strong style="font-size:14px">支持地区</strong>
                         <p style="font-size:12px">
@@ -135,7 +155,7 @@
                     <div class="introduce">
                         <strong style="font-size:14px">概念释义</strong>
                         <p style="font-size:12px">
-                            将数据中的一列值，按照某种方法，划分为多个范围段，并赋予不同的颜色，生成一幅专题地图。
+                           将数据中的一列值，根据数值的大小，绘制不同等级的圆形符号（气泡），生成一幅专题地图。
                         </p>
                         <strong style="font-size:14px">支持地区</strong>
                         <p style="font-size:12px">
@@ -149,7 +169,7 @@
                     <div class="introduce">
                         <strong style="font-size:14px">概念释义</strong>
                         <p style="font-size:12px">
-                            将数据中的一列值，根据数值的大小，绘制不同等级的圆形符号（气泡），生成一幅专题地图。
+                            将地物按照地名或者坐标点绘制到地图上，并在标签中显示附加信息。
                         </p>
                         <strong style="font-size:14px">支持地区</strong>
                         <p style="font-size:12px">
@@ -163,14 +183,14 @@
                     <div class="introduce">
                         <strong style="font-size:14px">概念释义</strong>
                         <p style="font-size:12px">
-                            将数据中的一列值，根据数值的大小，绘制不同等级的圆形符号（气泡），生成一幅专题地图。
+                         将提供的数据中的点对链接起来，以线图的形式可视化的方法。   
                         </p>
                         <strong style="font-size:14px">支持地区</strong>
                         <p style="font-size:12px">
                             世界&nbsp;|&nbsp;中国&nbsp;|&nbsp;省市&nbsp;|&nbsp;区县
                         </p>
                     </div>
-                    <p class="mapName">轨迹图</p>
+                    <p class="mapName">线图</p>
                 </div>
                 <input type="button" name="next" class="next1 action-button" value="下一步" />
             </fieldset>
@@ -359,7 +379,7 @@
                     <div style="text-align: left;margin-top: 20px;margin-left: 1%">
                         <span class="span">1.ID列(必填)</span>，所填地区必须为同一行政级别<br>
                         <span class="span">2.the_geom列(必填)</span>，至少包含一组经纬度坐标(地名)，若为多组，中间以:分隔<br>
-                        <span class="span">3.自定义列</span>，可包含多列与地图相关的数值或描述信息<br><br>
+                        <span class="span">3.自定义列</span>，可包含多列与地图相关的数值或描述信息，如果希望数据对线的渲染有影响，请以value作为字段名并且确保字段内容为数值类型<br><br>
                         <a href="csv/轨迹图.csv" style="color: #ff8601;text-decoration: none">下载示例数据>></a>
                     </div>
                 </div>
@@ -401,11 +421,27 @@
             </div>
     </div>
 
+   	<!-- Modal -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title" id="myModalLabel">Choose your discipline</h4>
+	      </div>
+	      <div class="modal-body tree well">
+	      	<ul id="ul_tree"></ul>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+	        <button type="button" class="btn btn-primary" onclick="confirm()">确认</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>	
 
-    <script src="plugin/jquery-3.2.1.min.js"></script>
     <script src="js/jquery.easing.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="bootstrap-3.3.7/js/bootstrap.min.js"></script>
     <script src="js/uplayerPage.js"></script>
     <script src="js/uplayerAnime.js"></script>
     <script src="js/uplayer.js"></script>

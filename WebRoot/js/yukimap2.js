@@ -379,7 +379,7 @@ function drawL2(layer, layerindex) {//等级符号图 （打算后面全用mapv�
 		res.push({
 			name: data[i].name,
 			lonlat:[Number(data[i].X), Number(data[i].Y)],
-			value: [0, 0, Number(data[i].value)]
+			value: [0, 0, Number(data[i].value),data[i]]
 		});
 		if (res[i].value[2] > maxvalue) maxvalue = res[i].value[2];
 		if (res[i].value[2] < minvalue) minvalue = res[i].value[2];
@@ -461,7 +461,7 @@ function drawL3(layer, layerindex) {//点图 （打算后面全用mapv重构
 		res.push({
 			name: data[i].name,
 			lonlat:[Number(data[i].X), Number(data[i].Y)],
-			value: [0, 0, Number(data[i].value)]
+			value: [0, 0, data[i]]
 		});
 	}
 	var item = {
@@ -612,15 +612,7 @@ var tooltipPub = {
 function display() {
 	
 	echartsoption = {
-		title: {
-			text: myMapMana.mapname,
-			subtext: '',
-			sublink: '',
-			left: 'center',
-			textStyle: {
-				color: '#000'
-			}
-		},
+		
 		tooltip: {
 			trigger: 'none'
 		},

@@ -33,7 +33,6 @@ function changeName() {
         dataType: "json",
         data: layerTreeJson
     });
-    echartsoption.title.text = $('#changeName').find('#nameForChange').val();
     $('.accordion').find('.panel-header').find('.panel-title').html(myMapMana.mapname);
     myMapMana.maptype= $('#changeName').find('#maptype').val();
     redraw();

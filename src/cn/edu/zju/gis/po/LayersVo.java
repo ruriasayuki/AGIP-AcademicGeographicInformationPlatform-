@@ -16,10 +16,20 @@ public class LayersVo {
     private String datacontent;
     
     private String appendDataSrc;
-
+    
+    private String course;
+    
     private int limit;
 	private int offset;
 
+	public String getCourse(){
+		return course;
+	}
+	
+	public void setCourse(String course){
+		this.course = course;
+	}
+	
 	public int getLimit() {
 		return limit;
 	}

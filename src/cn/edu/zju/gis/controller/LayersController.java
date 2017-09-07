@@ -31,6 +31,7 @@ import cn.edu.zju.gis.po.Layers;
 import cn.edu.zju.gis.po.Place;
 import cn.edu.zju.gis.service.LayersService;
 import cn.edu.zju.gis.util.Analyse;
+import cn.edu.zju.gis.util.DeleteFile;
 
 
 @Controller
@@ -38,190 +39,220 @@ public class LayersController {
 	@Autowired
 	private LayersService layersService;
 	
+	
 	@RequestMapping(value = "/addLayers", method = RequestMethod.POST,   
 	        produces = "text/html;charset=UTF-8")
-	//如果将来想返回json，则produce="text/json'charset=UTF-8"
 	@ResponseBody
 	public String addLayers(
-			@RequestParam(value="layername") String layername,  	
-			@RequestParam(value="file") MultipartFile file,
-			@RequestParam(value="appendDataSrc") String appendDataSrc,
+			@RequestParam("layername") String layername,  
+			@RequestParam("appendDataSrc") String appendDataSrc,
+			@RequestParam("file") MultipartFile file,
+			@RequestParam("course") String course,
 			HttpSession session) throws Exception {
-		
-		int type = (Integer)session.getAttribute("LayerType");
+		//获取文件名
 		String filename = file.getOriginalFilename();
 		//获取文件的大小
 		int length = (int) file.getSize();
 		//获取文件的输入流
-		InputStream inputStream= file.getInputStream();
+		InputStream inputStream = file.getInputStream();
 		//构造合适的字节数组长度用于读取输入流中的字节
 		byte b[]=new byte[(int) file.getSize()];
 		//读取输入流中的字节到字节数组b中
 		inputStream.read(b);
-		//关闭输入流，释放资源 
+		//关闭输入流，释放资源
 		inputStream.close();
 		//创建文件夹
-		//TODO 服务器的上传的文件的存放路径的设定 暂时还没处理
-		File file2 = new File("e:\\layers");
+		//后面无需创造文件夹 在服务器上会配置好相关环境
+		//这样子的目录写法最终的绝对路径源于系统设置的工作目录 windows会在C盘的用户的文档文件夹内（你也可以看见 很多游戏存档也是放在那里的 说明很多程序的默认写法就是如此
+		File file2 = new File("layers/");
 		if(!file2.exists()) {
 			file2.mkdirs();
 		}
 		//构造文件的存储路径
-		String storeLocation = "e:\\layers\\" + filename;
+		String storeLocation = "layers/" + filename;
 		//构造输出流，流向该文件
 		FileOutputStream fileOutputStream = new FileOutputStream(storeLocation);
+		
 		//将字节数组中的数据写入到文件中
 		fileOutputStream.write(b);
 		//关闭输出流，释放资源
 		fileOutputStream.close();
+		
 		//解析编码格式
-		File filet = new File(storeLocation);
-        InputStream in= new java.io.FileInputStream(filet);
-        byte[] test = new byte[3];
-        in.read(test);
-        in.close();
-        String encode="gbk";
-        if (test[0] == -17 && b[1] == -69 && b[2] == -65) encode="utf-8";
-
+				File filet = new File(storeLocation);
+				System.out.println(filet.getAbsolutePath());
+		        InputStream in= new java.io.FileInputStream(filet);
+		        byte[] test = new byte[3];
+		        in.read(test);
+		        in.close();
+		        String encode="GBK";
+		        if (test[0] == -17 && b[1] == -69 && b[2] == -65) encode="UTF-8";
+		
 		//解析存储在服务器端的csv数据
-		
-        InputStreamReader isr = new InputStreamReader(new FileInputStream(filet),encode);
+		InputStreamReader isr = new InputStreamReader(new FileInputStream(filet),encode);
 		BufferedReader bufferedReader = new BufferedReader(isr);
-		
 		String line = null;
 		String content = null;
-		line = bufferedReader.readLine();//读取第一行文件
-		
-		String title[] = line.split(",");//读出文件头
-		
-		int count = title.length;//这个是列数
-		int hasXY = 0;//是否有XY字段
-		boolean  seniorCondition = false;//字段是否齐全的检查变量 = = 
-		switch(type)//按照图层类型解析文件 = = 其实我不觉得这样的结构好…… 应该构造好一个class之类的东西 by asayuki
-		{
-			case 0://分层设色图数据 标准 列名 "地名" "数值" "X" "Y" "附加信息"
-				//感觉可以直接构造个HashMap啊 = = 
-				if(!title[0].equals("地名") && count<2) {
-					bufferedReader.close();
-					//TODO 删除服务器上的临时文件
-					File file3 = new File(storeLocation);
-					file3.delete();
-					//返回的东西可以再慎重点 最好改成数字编码
-					return "您上传的数据不符合规范";
-				}
-				else {
-					title[0]="name";
-					for(int i = 1; i< count; i++) {
-						if(title[i].equals("数值")) {
-							title[1]="value";
-							seniorCondition = true;
-						}
-						if("x".equalsIgnoreCase(title[i])) {
-							hasXY++;
-						}
-						if("y".equalsIgnoreCase(title[i])) {
-							hasXY++;
-						}
+		line = bufferedReader.readLine();//第一行信息，为标题信息，不用，如果需要，注释掉
+		if(encode.equals("UTF-8")){
+			line = line.substring(1);
+		}
+		String title[] = line.split(",");
+		//读取第一行对字段类型和数目需要进行判断，是否符合要求
+		int count = title.length;//得到字段数
+		int hasXY = 0;//是否拥有经纬度  hasXY=2才算拥有经纬度
+		boolean valueCondition = false;//判断是否拥有“value”字段
+		boolean placeCondition = false;//判断是否拥有“name”字段
+		//获取图层类型
+		Integer type =null;
+		System.out.println(title[0].toString().equals("name"));
+		type = (Integer)session.getAttribute("LayerType");
+		if(null==type) return "未选择类型";
+		switch(type) {
+			case 0:
+				/**
+				 * 分层设色图
+				 * 数据要求：必须要有“name”和“value”字段，其他字段不检查，但要导入数据库
+				 * */
+				for(int i=0;i<count;i++) {
+					if(title[i].toString().equals("value")) {
+						valueCondition = true;
 					}
-					//如果满足条件则开始对后续文件进行解析
-					if(seniorCondition) {
-						if(hasXY == 2)
-							content = Analyse.AnalyseCSV(bufferedReader, 0 , true,title);
-						else
-							content = Analyse.AnalyseCSV(bufferedReader, 0 , false,title);
-						break;
+					if(title[i].toString().equals("name")) {
+						placeCondition = true;
 					}
-					else {
-						bufferedReader.close();
-						//TODO 删除服务器上的CSV文件
-						File file3 = new File(storeLocation);
-						file3.delete();				
-						return "您上传的数据不符合规范";
+					if("x".equalsIgnoreCase(title[i])) {
+						hasXY++;
+					}
+					if("y".equalsIgnoreCase(title[i])) {
+						hasXY++;
 					}
 				}
-			case 1://�ȼ�����ͼ
-				//�����ֶ�Ҫ��ӵ�е����ֶβ����ֶ�������Ϊ2
-				if(!title[0].equals("地名") && count<2) {
-					bufferedReader.close();
-					//ɾ���洢��csv����
-					File file3 = new File(storeLocation);
-					file3.delete();				
-					return "您上传的数据不符合规范";
-				}
-				else {
-					title[0]="name";
-					for(int i = 1; i< count; i++) {
-						if(title[i].equals("数值")) {
-							title[1]="value";
-							seniorCondition = true;
-						}
-						if("x".equalsIgnoreCase(title[i])) {
-							hasXY++;
-						}
-						if("y".equalsIgnoreCase(title[i])) {
-							hasXY++;
-						}
-					}
-					//�߼��ֶ�Ҫ��ӵ�С���ֵ���ֶΣ������ж��Ƿ�ӵ�о�γ��
-					if(seniorCondition) {
-						if(hasXY == 2)
-							content = Analyse.AnalyseCSV(bufferedReader, 1 , true, title);
-						else
-							content = Analyse.AnalyseCSV(bufferedReader, 1 , false,title);
-						break;
-					}
-					else {
-						bufferedReader.close();
-						//ɾ���洢��csv����
-						File file3 = new File(storeLocation);
-						file3.delete();				
-						return "您上传的数据不符合规范";
-					}
-				}
-			case 2://��ͼ
-				//�����ֶ�Ҫ��ӵ�е����ֶβ����ֶ�������Ϊ1
-				if(!title[0].equals("地名") && count<1) {
-					bufferedReader.close();
-					//ɾ���洢��csv����
-					File file3 = new File(storeLocation);
-					file3.delete();				
-					return "您上传的数据不符合规范";
-				}
-				else {
-					title[0]="name";
-					for(int i = 1; i< count; i++) {
-						title[1]="value";
-						if("x".equalsIgnoreCase(title[i])) {
-							hasXY++;
-						}
-						if("y".equalsIgnoreCase(title[i])) {
-							hasXY++;
-						}
-					}	
+				//拥有value和name字段
+				if(valueCondition && placeCondition) {
 					if(hasXY == 2)
-						content = Analyse.AnalyseCSV(bufferedReader, 2 , true, title);
+						
+						content = Analyse.AnalyseCSV(bufferedReader, 0 , true,title);
 					else
-						content = Analyse.AnalyseCSV(bufferedReader, 2 , false, title);
-					break;					
+						content = Analyse.AnalyseCSV(bufferedReader, 0 , false,title);
+					break;
 				}
-			case 3://线图层
-				//这里牵扯到上传的数据的线的表现形式的问题 现在暂时还是标准的OGC的geometry的字符串表出
-				if(!title[0].equalsIgnoreCase("id") && !title[1].equals("the_geom") && count<2) {
-					bufferedReader.close();
-					//ɾ���洢��csv����
-					File file3 = new File(storeLocation);
-					file3.delete();				
-					return "您上传的数据不符合规范";
+				//没有name字段
+				else if(!placeCondition) {					
+					//删除存储在服务器端的csv文件
+					DeleteFile.delete(bufferedReader, storeLocation);
+					return "您上传的数据缺少\"name\"字段";
 				}
-				else {
-					//有必要再做调整 或许会改成新版本的代码吧 = = 
+				//没有value字段
+				else if(!valueCondition) {
+					//删除存储在服务器端的csv文件
+					DeleteFile.delete(bufferedReader, storeLocation);
+					return "您上传的数据缺少\"value\"字段";
+				}
+			case 1:
+				/**
+				 * 等级符号图
+				 * 数据要求：必须要有“name”和“value”字段，需要检查XY字段(可有可无)，
+				 * 其他字段不检查，但要导入数据库
+				 * */
+				for(int i=0;i<count;i++) {
+					if(title[i].equals("value")) {
+						valueCondition = true;
+					}
+					if(title[i].equals("name")) {
+						placeCondition = true;
+					}
+					if("x".equalsIgnoreCase(title[i])) {
+						hasXY++;
+					}
+					if("y".equalsIgnoreCase(title[i])) {
+						hasXY++;
+					}
+				}
+				//拥有value和name字段
+				if(valueCondition && placeCondition) {
+					if(hasXY == 2)
+						content = Analyse.AnalyseCSV(bufferedReader, 1 , true,title);
+					else
+						content = Analyse.AnalyseCSV(bufferedReader, 1 , false,title);
+					break;
+				}
+				//没有name字段
+				else if(!placeCondition) {					
+					//删除存储在服务器端的csv文件
+					DeleteFile.delete(bufferedReader, storeLocation);
+					return "您上传的数据缺少\"name\"字段";
+				}
+				//没有value字段
+				else if(!valueCondition) {
+					//删除存储在服务器端的csv文件
+					DeleteFile.delete(bufferedReader, storeLocation);
+					return "您上传的数据缺少\"value\"字段";
+				}								
+			case 2:
+				/**
+				 * 点图
+				 * 数据要求：必须要有“地名”字段，需要检查XY字段(可有可无)，
+				 * 其他字段不检查，但要导入数据库
+				 * */
+				for(int i=0;i<count;i++) {					
+					if(title[i].equals("name")) {
+						placeCondition = true;
+					}
+					if("x".equalsIgnoreCase(title[i])) {
+						hasXY++;
+					}
+					if("y".equalsIgnoreCase(title[i])) {
+						hasXY++;
+					}
+				}
+				//拥有name字段
+				if(placeCondition) {
+					if(hasXY == 2)
+						content = Analyse.AnalyseCSV(bufferedReader, 1 , true,title);
+					else
+						content = Analyse.AnalyseCSV(bufferedReader, 1 , false,title);
+					break;
+				}
+				//没有name字段
+				else if(!placeCondition) {					
+					//删除存储在服务器端的csv文件
+					DeleteFile.delete(bufferedReader, storeLocation);
+					return "您上传的数据缺少\"name\"字段";
+				}				
+			case 3:
+				/**
+				 * 轨迹图
+				 * 数据要求：必须要有“ID”和“the_geom”字段，其他字段不检查，但要导入数据库
+				 * */
+				for(int i=0;i<count;i++) {					
+					if(title[i].equalsIgnoreCase("id")) {
+						valueCondition = true;
+					}
+					if(title[i].equals("the_geom")||title[i].equals("地名")) {
+						placeCondition = true;
+					}
+				}
+				//拥有“id”和“the_geom”字段
+				if(placeCondition && valueCondition) {
 					content = Analyse.AnalyseCSV3(bufferedReader, title);
 					break;					
+				}
+				//没有the_geom字段
+				else if(!placeCondition) {
+					//删除存储在服务器端的csv文件
+					DeleteFile.delete(bufferedReader, storeLocation);
+					return "您上传的数据缺少\"the_geom\"字段";
+				}
+				//没有"id"字段
+				else if(!placeCondition) {
+					//删除存储在服务器端的csv文件
+					DeleteFile.delete(bufferedReader, storeLocation);
+					return "您上传的数据缺少\"id\"字段";
 				}
 			default:
 				break;
 		}
-				
 		Layers layer = new Layers();
 		
 		layer.setAccessibility(true);
@@ -232,7 +263,8 @@ public class LayersController {
 		layer.setStorelocation(storeLocation);
 		layer.setUserid((Integer)session.getAttribute("userid"));
 		layer.setDatacontent(content);
-		layer.setAppendDataSrc(appendDataSrc);
+		layer.setAppenddatasrc(appendDataSrc);
+		layer.setCourse(course);
 		boolean bool = layersService.addLayers(layer);
 		if(bool)
 			return "success";

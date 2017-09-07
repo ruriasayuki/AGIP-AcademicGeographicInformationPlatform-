@@ -36,6 +36,13 @@
 	select * from maps;
 </select>
 
+<select id="getShortList" parameterType="cn.edu.zju.gis.po.MapsVo" resultType="cn.edu.zju.gis.po.Maps">
+	select id,mapname from maps 
+	where accessibility = 1 
+	order by id
+	limit #{limit};
+</select>
+
 <select id="findMaps2" parameterType="cn.edu.zju.gis.po.MapsVo" resultType="cn.edu.zju.gis.po.Maps">
 	select * from maps
 	<where>

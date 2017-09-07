@@ -40,6 +40,7 @@ footer{
 	margin-top:1%;
 	margin-bottom:0.5%;
 	float:left;
+	position:relative;
 }
 .thematicMapList
 {
@@ -54,6 +55,7 @@ footer{
 	width:20%;
 	display:inline-block;
 	padding:1%;
+	position:relative;
 }
 .subMapList
 {
@@ -74,4 +76,15 @@ footer{
 {
 	width:100%;
 	border-radius: 5px;
+}
+.imgTitle{
+	position:absolute;
+	text-align:center;
+	width:100%;
+	z-index:1;
+	top:90px;
+	color:#dddddd;
+	opacity:0.8;
+	font-size:180%;
+	//border:solid 1px red;
 }
