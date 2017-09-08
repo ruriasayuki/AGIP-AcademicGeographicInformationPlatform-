@@ -29,7 +29,13 @@ public class AdminController {
 	private UsersService usersService;
 	@Autowired
 	private MapsService mapsService;
-	
+	/*
+	 * 这里的action都要经过checkAdmin的权限验证
+	 * 以下的请求是配合bootstrap的table插件写的
+	 * getUserList 获取用户列表 并且配合ban和passUser来实现用户的封停和解封
+	 * getMapList2(其实应该改名叫getMapListForAdmin的) 配合ban和passMap来由管理员设定地图的可见性(也就是地图审核)
+	 * 管理员并没有删除数据的权限 如果要删除权限 需要联络数据库管理员
+	*/
 	@RequestMapping(value = "/getUserList",method = RequestMethod.GET,   
 	        produces = "text/html;charset=UTF-8")
 	@ResponseBody

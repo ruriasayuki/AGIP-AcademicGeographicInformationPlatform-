@@ -59,6 +59,23 @@ public class MapsController
 		return gson.toJson(result);
 	}
 	
+	@RequestMapping(value = "/getMapListForSearch", method = RequestMethod.GET,   
+	        produces = "text/html;charset=UTF-8")
+	@ResponseBody
+	public String getMapListForSearch(MapsVo querymap,HttpSession session) throws Exception
+	{
+		Integer userid = (Integer)session.getAttribute("userid");
+		if(null==userid) userid=0;//游客权限注入
+		querymap.setUserid(userid);
+		querymap.setAccessibility(1);
+		querymap.setAddable(1);
+		List<Maps> maps = mapsService.getMapList2(querymap);
+		Gson gson = new Gson();
+		String rows = gson.toJson(maps);
+		int count = mapsService.countMaps(querymap);
+		return "{\"total\":"+count+",\"rows\":"+rows+"}";	
+	}
+	
 	@RequestMapping(value = "/getMapListForIndex", method = RequestMethod.POST,   
 	        produces = "text/html;charset=UTF-8")
 	@ResponseBody

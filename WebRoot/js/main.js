@@ -151,7 +151,7 @@ function screenShot(){
 	html2canvas($('#map'), {
 		  onrendered: function(canvas) {
 		    document.body.appendChild(canvas);
-		  };//TODO GG
+		  }//TODO GG
 	});
 }
 
@@ -449,5 +449,5 @@ $(document).ready(function () {
 	getLayerData();//获取图层数据（这里要重写（这里的具体代码见layerpanel.js
 	yukiInit();//初始化（这里的代码见yukimap）
 	createAutoComplete();//建立查询数据组（这里的代码见AttrSearch
-	
+	checkAuthority();
 });

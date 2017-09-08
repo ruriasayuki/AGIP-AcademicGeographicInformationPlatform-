@@ -13,10 +13,10 @@
 <script src="./plugin/bootstrap-3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="./plugin/jquery-easyui-1.5.2/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="./plugin/jquery-easyui-1.5.2/locale/easyui-lang-zh_CN.js"></script>
-<script type="text/javascript" src="js/searchMapPage.js"></script>
+<script type="text/javascript" src="js/searchMapPage2.js"></script>
 <script type="text/javascript" src="js/md5.js"></script>
 <script type="text/javascript" src="js/userTreat.js"></script>
-<link rel="stylesheet" href="css/searchMapPage.css">
+<link rel="stylesheet" href="css/searchMapPage2.css">
 </head>
 
 <body>

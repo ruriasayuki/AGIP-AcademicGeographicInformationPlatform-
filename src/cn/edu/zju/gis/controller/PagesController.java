@@ -58,7 +58,7 @@ public class PagesController {
 	@RequestMapping("/openSearchMapPage")
 	public ModelAndView openSearchMapPage() throws Exception{
 		ModelAndView modelAndView =  new ModelAndView();
-		modelAndView.setViewName("searchMaps");
+		modelAndView.setViewName("searchMapPage");
 		return modelAndView;
 	}
 	@RequestMapping("/index")
@@ -122,6 +122,18 @@ public class PagesController {
 		ModelAndView modelAndView =  new ModelAndView();//构造model
 		modelAndView.addObject("map", mapjson);		
 		modelAndView.setViewName("main");
+		return modelAndView;
+	}
+	@RequestMapping("/about")
+	public ModelAndView about() throws Exception{
+		int loginflag = 0;
+		
+		ModelAndView modelAndView =  new ModelAndView();
+		
+		modelAndView.addObject("loginflag", loginflag);
+		
+		modelAndView.setViewName("about");
+		
 		return modelAndView;
 	}
 }

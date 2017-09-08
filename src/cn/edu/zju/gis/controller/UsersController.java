@@ -38,22 +38,15 @@ public class UsersController {
 	@Autowired
 	private LayersService layersService;
 	
-	
-	
-	
-	@RequestMapping("/about")
-	public ModelAndView about() throws Exception{
-		int loginflag = 0;
-		
-		ModelAndView modelAndView =  new ModelAndView();
-		
-		modelAndView.addObject("loginflag", loginflag);
-		
-		modelAndView.setViewName("about");
-		
-		return modelAndView;
-	}
-	
+	/*
+	 * 这里的action是用户相关操作的
+	 * 以下的请求是配合bootstrap的table插件写的
+	 * getLayerList 获取图层列表 (理论上应该实装图层的删除功能,但是暂时可能会因此产生一系列问题,所以还未实装但是留下了接口 deleteLayer
+	 * getMapList3(其实应该改名叫getMapListForAdmin的) 配合open和closeMap来由用户来设定地图的可见性(是否公开)
+	 *  
+	*/
+
+	//注册页面(应该移到PagesController中)
 	@RequestMapping("/registerPanel")
 	public ModelAndView register() throws Exception{
 		ModelAndView modelAndView =  new ModelAndView();
@@ -201,32 +194,36 @@ public class UsersController {
 	@ResponseBody
 	public String passMap(String mapList,HttpSession session) throws Exception
 	{
-		if(usersService.checkAdmin(session)){
+		Integer userid = (Integer)session.getAttribute("userid");
 			Gson gson = new Gson();
 			ArrayList<Integer> idList= gson.fromJson(mapList,new TypeToken<ArrayList<Integer>>(){}.getType());
 			for(Integer id : idList)
 			{
-				mapsService.openMap(id);
+				MapsVo querymap = new MapsVo();
+				querymap.setId(id);
+				querymap.setUserid(userid);
+				mapsService.openMap(querymap);
 			}
 			return "success";
-		}
-		else return "fail";
+
 	}
 	@RequestMapping(value = "/closeMap", method = RequestMethod.POST,   
 	        produces = "text/html;charset=UTF-8")
 	@ResponseBody
 	public String banMap(String mapList,HttpSession session) throws Exception
 	{
-		if(usersService.checkAdmin(session)){
+		Integer userid = (Integer)session.getAttribute("userid");
 			Gson gson = new Gson();
 			ArrayList<Integer> idList= gson.fromJson(mapList,new TypeToken<ArrayList<Integer>>(){}.getType());
 			for(Integer id : idList)
 			{
-				mapsService.closeMap(id);
+				MapsVo querymap = new MapsVo();
+				querymap.setId(id);
+				querymap.setUserid(userid);
+				mapsService.closeMap(querymap);
 			}
 			return "success";
-		}
-		else return "fail";
+
 	}
 	@RequestMapping(value = "/getMapList3", method = RequestMethod.GET,   
 	        produces = "text/html;charset=UTF-8")
@@ -253,5 +250,47 @@ public class UsersController {
 		String rows = gson.toJson(layers);
 		int count = layersService.countLayers(queryLayer);
 		return "{\"total\":"+count+",\"rows\":"+rows+"}";	
+	}
+	
+	@RequestMapping(value = "/deleteLayer", method = RequestMethod.POST,   
+	        produces = "text/html;charset=UTF-8")
+	@ResponseBody
+	public String deleteLayer(String layerList,HttpSession session) throws Exception
+	{
+		Integer userid = (Integer)session.getAttribute("userid");
+		Gson gson = new Gson();
+		ArrayList<Integer> idList= gson.fromJson(layerList,new TypeToken<ArrayList<Integer>>(){}.getType());
+		for(Integer id : idList)
+		{
+			LayersVo querylayer = new LayersVo();
+			querylayer.setId(id);
+			querylayer.setUserid(userid);
+			//layersService.deleteLayer(querymap);
+		}
+		return "success";
+
+	}
+	@RequestMapping(value = "/deleteMap", method = RequestMethod.POST,   
+	        produces = "text/html;charset=UTF-8")
+	@ResponseBody
+	public String deleteMap(String mapList,HttpSession session) throws Exception
+	{
+		Integer userid = (Integer)session.getAttribute("userid");
+		Gson gson = new Gson();
+		ArrayList<Integer> idList= gson.fromJson(mapList,new TypeToken<ArrayList<Integer>>(){}.getType());
+		for(Integer id : idList)
+		{
+			Maps map = mapsService.findMapById(id);
+			if(map.getUserid()==userid){
+				List<MapLayer> maplayers = mapsService.findMapLayerByMapId(map.getId());
+				for(MapLayer maplayer:maplayers)
+				{
+					mapsService.deleteMapLayer(maplayer);
+				}
+				mapsService.deleteMapById(id);
+			}
+		}
+		return "success";
+
 	}
 }

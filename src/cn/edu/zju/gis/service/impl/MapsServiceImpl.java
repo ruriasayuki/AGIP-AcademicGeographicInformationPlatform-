@@ -59,7 +59,7 @@ public class MapsServiceImpl implements MapsService{
 
 	@Override
 	public int deleteMapLayer(MapLayer layer) throws Exception {
-		int i = mapsMapper.deleteMaps(layer);
+		int i = mapsMapper.deleteMapLayer(layer);
 		return i;
 	}
 
@@ -96,9 +96,7 @@ public class MapsServiceImpl implements MapsService{
 	}
 	
 	@Override
-	public int openMap(int id) throws Exception {
-		MapsVo querymap = new MapsVo();
-		querymap.setId(id);
+	public int openMap(MapsVo querymap) throws Exception {
 		querymap.setAccessibility(1);
 		mapsMapper.changeAccessibility(querymap);
 		return 0;
@@ -106,9 +104,7 @@ public class MapsServiceImpl implements MapsService{
 
 
 	@Override
-	public int closeMap(int id) throws Exception {
-		MapsVo querymap = new MapsVo();
-		querymap.setId(id);
+	public int closeMap(MapsVo querymap) throws Exception {	
 		querymap.setAccessibility(0);
 		mapsMapper.changeAccessibility(querymap);
 		return 0;
@@ -119,5 +115,11 @@ public class MapsServiceImpl implements MapsService{
 	public List<Maps> getMapListForIndex(MapsVo querymap) throws Exception {
 		return mapsMapper.getShortList(querymap);
 		
+	}
+
+
+	@Override
+	public int deleteMapById(int id) throws Exception {
+		return mapsMapper.deleteMapById(id);
 	}
 }

@@ -11,4 +11,6 @@ public interface LayersService {
 	public List<Layers> searchLayers(String keyword, int type) throws Exception;
 	public List<Layers> getLayerList(LayersVo queryLayer) throws Exception;
 	public int countLayers(LayersVo queryLayer) throws Exception;
+	
+	public int deleteLayer(LayersVo quertLayer) throws Exception;
 }

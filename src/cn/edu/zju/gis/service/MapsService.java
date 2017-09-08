@@ -25,15 +25,17 @@ public interface MapsService {
 	
 	public int deleteMapLayer(MapLayer layer) throws Exception;
 	
-	public int countMaps(MapsVo quertmap) throws Exception;
+	public int deleteMapById(int id) throws Exception;
+	
+	public int countMaps(MapsVo querymap) throws Exception;
 	
 	public int banMap(int id) throws Exception;
 	
 	public int passMap(int id) throws Exception;
 	
-	public int openMap(int id) throws Exception;
+	public int openMap(MapsVo querymap) throws Exception;
 	
-	public int closeMap(int id) throws Exception;
+	public int closeMap(MapsVo querymap) throws Exception;
 	
 	public List<Maps> getMapListForIndex(MapsVo querymap) throws Exception;
 }

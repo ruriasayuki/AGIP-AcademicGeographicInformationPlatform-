@@ -1,163 +1,108 @@
+$(document).ready(function () {
 
-	var userid = 0;
-	var username = "";
-	var page = 0;     //似乎这些都是和分页有关的代码
-	var curPage = 0;   //不过后面肯定是要改成每次请求一页的地图的写法的
-	var mes = new Array();     
-	var data = null;
-	$(document).ready(function(){
-		$.ajax({
-			url: "./getActiveUser.action",
-			async: false,
-			type: "POST",
-			dataType: "text",
-			data: {
-			},success: function (result) {
-				username = $.parseJSON(result).username;
-				userid = $.parseJSON(result).userid;
-			}});
-		//获取地图列表json
-		$.ajax({
-		url: "./getMapList.action",
-		async: false,
-		type: "POST",
-		dataType: "text",
-		data: {
-			userid: userid
-		},
-		success: function (result) {
+    //1.初始化Table
+    var oTable = new TableInit();
+    oTable.Init();
 
-			data = $.parseJSON(result);
-		}
-	})
-			var list = $("#resultList");
-			var strHtml = ""; //å­å¨æ°æ®çåé
-			var count = 0;
-			list.empty();
-			page = 0;
-			$.each(data,function(infoIndex,info){
-				//TODO 这个筛选需要改到后台
-				if(info["accessibility"]=="0"&&(info["userid"]!=userid)){}
-				else{
-					count = count + 1;
-					if(count==4){//这里好像是4张图分一页的意思。。。emmm
-						mes.push(strHtml);   
-						strHtml="";
-						page=page+1;
-						count=1;
-					}					
-					strHtml += '<button type="button" class="list-group-item" onclick="openMap('
-							+ info["id"] 
-							+ ')">'
-							+ '<div class="row"><div class="col-md-3"><h4><strong>' 
-							+ info["mapname"]
-							+ '</strong></h4></div>'	
-							+ '<div class="col-md-3  col-md-offset-3 col-xs-12"><h5>'
-							+ info["userid"]
-							+ '</h5></div></div></button>';										
-				}
-			});
-			
-			if(strHtml!=""){
-				mes.push(strHtml);
-			}
-			list.html(mes[curPage]);  
-			var pager = $("#pager");
-    		pager.html("当前"+(curPage+1)+"//"+(page+1)+"页");
-	        });//ready
+    //2.初始化Button的点击事件
+    var oButtonInit = new ButtonInit();
+    oButtonInit.Init();
     
-    
-    function search(){
-    	var key = $("#searchInput").val();
-    	var data;
-    		$.ajax({
-    			url: "./getActiveUser.action",
-    			async: false,
-    			type: "POST",
-    			dataType: "text",
-    			data: {
-    			},success: function (result) {
-    				username = $.parseJSON(result).username;
-    				userid = $.parseJSON(result).userid;
-    			}});
-    		//åä¸ä¸ªåæ­¥è¯·æ±ï¼å¾å°å°å¾json
-    		$.ajax({
-    		url: "./getMapList.action",
-    		async: false,
-    		type: "POST",
-    		dataType: "text",
-    		data: {
-    			userid: userid
-    		},
-    		success: function (result) {
+    checkAuthority();
+});
 
-    			data = $.parseJSON(result);
-    		}
-    	});
-			var list = $("#resultList");
-			var strHtml = ""; //å­å¨æ°æ®çåé
-			var count = 0;
-			page = 0;
-			list.empty();
-			mes.splice(0,mes.length);   //æ¸ç©ºæ°ç»
-			$.each(data,function(infoIndex,info){			
-				var mapname = info["mapname"];
-				if(mapname.indexOf(key)>=0){		//å¤æ­å°å¾åä¸­æ¯å¦åå«å³é®è¯		
-					if(info["accessibility"]=="0"&&(info["userid"]!=userid)){}   //å¤æ­å°å¾å¯¹äºç¨æ·æ¯å¦å¯è§
-					else{
-						count = count + 1;
-						if(count==4){            //æ¯é¡µæ¾ç¤º3æ¡è®°å½
-							mes.push(strHtml);   
-							strHtml="";
-							page=page+1;
-							count=1;
-						}					
-						strHtml += '<button type="button" class="list-group-item" onclick="openMap('
-								+ info["id"] 
-								+ ')">'
-								+ '<div class="row"><div class="col-md-3"><h4><strong>' 
-								+ info["mapname"]
-								+ '</strong></h4></div>'	
-								+ '<div class="col-md-3  col-md-offset-3 col-xs-12"><h5>'
-								+ info["userid"]
-								+ '</h5></div></div></button>';	
-						}
-					}				
-				else{}
-			});
-			if(strHtml!=""){
-				mes.push(strHtml);
-			}
-			list.html(mes[0]);   
-			var pager = $("#pager");
-    		pager.html("当前"+(curPage+1)+"//"+(page+1)+"页");
-    }
+
+
+var TableInit = function () {
+    var oTableInit = new Object();
+    //初始化Table
+    oTableInit.Init = function () {
+        $('#tb_maps').bootstrapTable({
+            url: './getMapListForSearch.action',         //请求后台的URL（*）
+            method: 'get',                      //请求方式（*）
+            //toolbar: '#toolbar',                //工具按钮用哪个容器
+            striped: true,                      //是否显示行间隔色
+            cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+            pagination: true,                   //是否显示分页（*）
+            sortable: false,                     //是否启用排序
+            sortOrder: "asc",                   //排序方式
+            queryParams: oTableInit.mapQueryParams,//传递参数（*）
+            sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
+            pageNumber:1,                       //初始化加载第一页，默认第一页
+            pageSize: 10,                       //每页的记录行数（*）
+            pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
+            search: false,                       //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+            strictSearch: true,
+            showColumns: true,                  //是否显示所有的列
+            showRefresh: true,                  //是否显示刷新按钮
+            minimumCountColumns: 2,             //最少允许的列数
+            clickToSelect: false,                //是否启用点击选中行
+            height: 500,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+            uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
+            showToggle:true,                    //是否显示详细视图和列表视图的切换按钮
+            cardView: false,                    //是否显示详细视图
+            detailView: false,                   //是否显示父子表
+            columns: [{
+                checkbox: true
+            }, {
+                field: 'id',
+                title: 'ID'
+            }, {
+                field: 'mapname',
+                title: '地图名'
+            }, {
+                field: 'userid',
+                title: '建立地图用户id'
+            }, {
+                field: 'accessibility',
+                title: '地图公开性'
+            }, {
+                field: 'addable',
+                title: '审核状态'
+            }],
+            onClickRow: function (item, $element) {
+            	window.open("http://localhost:8080/AncientMap/main.action?mapid="+item.id);
+                return false;
+            }
+        });
+    };
     
-    //ç¹å»å°å¾ä¿¡æ¯æ¡ç®åæ§è¡çå½æ°
-    function openMap(mapid){
-    	//TODO æ¹æajaxçéå®å
-    	location.href = "http://localhost:8080/AncientMap/main.action?mapid=" + mapid;
-    }
+  //得到查询的参数
     
-    //ååç¿»é¡µ
-    function prevPage(){
-    	if(curPage>0){
-    		curPage-=1;
-    		var list = $("#resultList");
-    		list.empty();
-    		list.html(mes[curPage]);
-    		var pager = $("#pager");
-    		pager.html("当前"+(curPage+1)+"//"+(page+1)+"页");
-    	}   	
-    }
-    //ååç¿»é¡µ
-    function nextPage(){
-    	if(curPage<page){
-    		curPage+=1;
-    		var list = $("#resultList");  		
-    		list.empty();
-    		list.html(mes[curPage]);
-    		var pager = $("#pager");
-    		pager.html("当前"+(curPage+1)+"//"+(page+1)+"页");
-    	}   	
-    }
+    oTableInit.mapQueryParams = function (params) {
+        var temp = {   
+            limit: params.limit,   //页面大小
+            offset: params.offset,  //页码
+            mapname: $("#map_txt_mapname").val().trim()
+        };
+        return temp;
+    };
+    
+    return oTableInit;
+};
+
+var ButtonInit = function () {
+    var oInit = new Object();
+    var postdata = {};
+
+    oInit.Init = function () {
+        $('#map_btn_query').click(
+        		function(){
+        			$('#tb_maps').bootstrapTable('refresh');
+        		});
+        
+         };
+
+    return oInit;
+};
+
+function getSelectMapIdList()
+{
+	var selections = $('#tb_maps').bootstrapTable('getSelections');
+	var mapList = new Array();
+	for (var i=0;i<selections.length;i++)
+	{
+		mapList.push(selections[i].id);
+	}
+	return mapList;
+}

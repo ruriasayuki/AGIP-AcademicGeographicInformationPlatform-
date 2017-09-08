@@ -57,4 +57,10 @@ public class LayersServiceImpl implements LayersService {
 		
 		return layersMapper.countLayers(queryLayer);
 	}
+
+	@Override
+	public int deleteLayer(LayersVo queryLayer) throws Exception {
+		
+		return layersMapper.deleteLayer(queryLayer);
+	}
 }

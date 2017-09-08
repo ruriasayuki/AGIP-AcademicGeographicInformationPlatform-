@@ -170,6 +170,7 @@
 <div id="mytooltip" style="position:absolute;display:none;padding:5px;background:rgba(220,220,220,0.7);top:50%;left:50%;border-radius:5px">test tooltip </div>
 
 
+
 <div id="mapPanel" style="position:absolute;display:none;padding:5px;opacity:0.9;background:#EEEEEE;top:90px;left:30px;border-radius:5px">
     <form>
         <select id="selectMapName" name="type" class="easyui-combobox" style="width:200px;margin-left: 50px;">

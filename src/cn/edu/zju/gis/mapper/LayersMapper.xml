@@ -37,7 +37,9 @@
 		</if>
 		</where>
     </select>
-  
+  <delete id="deleteLayer" parameterType="cn.edu.zju.gis.po.LayersVo">
+	delete from layers where id=#{id} and userid = #{userid}
+    </delete>
   <sql id="Example_Where_Clause" >
     <where >
       <foreach collection="oredCriteria" item="criteria" separator="or" >

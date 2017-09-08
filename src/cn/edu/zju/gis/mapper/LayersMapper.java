@@ -10,6 +10,8 @@ import org.apache.ibatis.annotations.Param;
 public interface LayersMapper {
 	List<Layers> findLayers(LayersVo querylayer);
 	
+	int deleteLayer(LayersVo querylayer);
+	
 	int countLayers(LayersVo querylayer);
 	
     int countByExample(LayersExample example);
