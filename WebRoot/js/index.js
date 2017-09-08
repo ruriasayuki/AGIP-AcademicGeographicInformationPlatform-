@@ -10,24 +10,7 @@ $(document).ready(function (e) {
 	showMaps("tri","total");
 });
 
-function checkAuthority()
-{
-	$.ajax({
-			url: "./getActiveAuthority.action",
-			async: false,
-			type: "POST",
-			dataType: "text",
-			data: {},
-			success: function (flag) {
-				if(flag==="true"){
-				//TODO 弹窗提示管理员权限开启
-				var oldhtml = $('#usermenu').html();
-				var newhtml = '<li><a href="./admin.action">审核管理</a></li>';
-				$('#usermenu').html(oldhtml+newhtml);
-				}
-			}
-		});
-}
+
 function showMaps(divIdPrefix,type){
 	var data=null;
 	$.ajax({

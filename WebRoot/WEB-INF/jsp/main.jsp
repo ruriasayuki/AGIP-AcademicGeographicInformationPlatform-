@@ -10,14 +10,14 @@
                 <title>学术地图发布平台@GIS.ZJU</title>
                 <script type="text/javascript" src="js/load.js"></script>
 
-                <link rel="stylesheet" href="${pageContext.request.contextPath}/bootstrap-3.3.7/css/bootstrap.min.css">
-                <link rel="stylesheet" id="easyuiTheme" type="text/css" href="${pageContext.request.contextPath}/jquery-easyui-1.5.2/
+                <link rel="stylesheet" href="plugin/bootstrap-3.3.7/css/bootstrap.min.css">
+                <link rel="stylesheet" id="easyuiTheme" type="text/css" href="plugin/jquery-easyui-1.5.2/
 	themes/gray/easyui.css">
 				<link rel="stylesheet" type="text/css" href="plugin/ol4/ol.css">
-                <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/jquery-easyui-1.5.2/themes/icon.css">
-                <script type="text/javascript" src="jquery-easyui-1.5.2/jquery.min.js"></script>
+                <link rel="stylesheet" type="text/css" href="jquery-easyui-1.5.2/themes/icon.css">
+                <script type="text/javascript" src="plugin/jquery-3.2.1.min.js"></script>
                 <script type="text/javascript" src="bootstrap-3.3.7/js/bootstrap.min.js"></script>
-                <script type="text/javascript" src="jquery-easyui-1.5.2/jquery.easyui.min.js"></script>
+                <script type="text/javascript" src="plugin/jquery-easyui-1.5.2/jquery.easyui.min.js"></script>
                 <script type="text/javascript" src="js/echarts.js"></script>
                 
                 <script type="text/javascript" src="js/md5.js"></script>
@@ -30,21 +30,23 @@
                 <script type="text/javascript" src="plugin/html2canvas.js"></script>
                 
                 <!--可视化模块-->
-                <script type="text/javascript" src="${pageContext.request.contextPath}/js/yukimap2.js"></script>
+                <script type="text/javascript" src="js/yukimap2.js"></script>
 
        
                 <!--主要由孟林昊提供代码 属于图层树模块 为地图展示子模块-->
-                <script type="text/javascript" src="${pageContext.request.contextPath}/js/layertree.js"></script>
+                <script type="text/javascript" src="js/layertree.js"></script>
                 
                 <!-- 梁旭坚组的带有自动补完功能的查询模块 -->
-                <script type="text/javascript" src="${pageContext.request.contextPath}/js/AttrSearch.js"></script>
+                <script type="text/javascript" src="js/AttrSearch.js"></script>
 
-                <script type="text/javascript" src="${pageContext.request.contextPath}/js/main.js"></script>
+                <script type="text/javascript" src="js/main.js"></script>
                 <link href="css/public.css" rel="stylesheet">
                 <link href="css/whitestyle.css" rel="stylesheet">
                 <link href="css/searchLayer.css" rel="stylesheet">
 				<link href="css/autocomplete.css" rel="stylesheet">
 				<link href="css/legend.css" rel="stylesheet">
+                <link href="css/measure.css" rel="stylesheet">
+                <script type="text/javascript" src="js/measure.js"></script>
                 <script>
             var mapdata = ${map};//获取后台返回的map数据 这里也要修改……顺便可以一起改掉后台的逻辑
         </script>

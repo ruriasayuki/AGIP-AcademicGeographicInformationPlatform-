@@ -102,7 +102,7 @@ public class PagesController {
 			//1.管理员
 			if(usersService.checkAdmin(session)&&mapa.getAccessibility()==1) flag=true;
 			//2.地图作者
-			else if((Integer)session.getAttribute("userid")==mapa.getUserid()) flag=true;
+			else if(nowuser.getId()==mapa.getUserid()) flag=true;
 			//3.普通用户
 			else if(mapa.getAddable()==1&&mapa.getAccessibility()==1&&usersService.checkUserAuthority(mapa.getUserid())) flag=true;
 			//4.游客

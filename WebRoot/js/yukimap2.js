@@ -136,7 +136,7 @@ function has(item) {
 //我觉得有必要把非主要控件的全局变量整合到一个全局变量里面
 var maxz = 0;//预置的zindex控制
 var mydis;//百度地图测距插件
-var mybmap;//百度地图调用变量
+var mymap;//百度地图调用变量
 var myMapMana;//地图管理变量
 var myecharts;//echarts调用变量
 var echartsoption;//echarts的option json
@@ -189,10 +189,10 @@ function redraw() {
 	refresh();
 }
 function refresh() {
-	var centerPoint = mybmap.getView().getCenter();
+	var centerPoint = mymap.getView().getCenter();
 	myMapMana.centerx = centerPoint[0];
 	myMapMana.centery = centerPoint[1];
-	myMapMana.zoomlevel = mybmap.getView().getZoom();
+	myMapMana.zoomlevel = mymap.getView().getZoom();
 	echartsoption.series = myseries;
 	myecharts.setOption(echartsoption);
 	for (var i = 0; i < myMapMana.maplayerlist.length; i++) {
@@ -305,7 +305,7 @@ function drawL1(layer, layerindex) {//分层设色图 使用mapv绘制
 		}
 		//完成设定 进行绘图
 		myMapMana.maplayerlist[layerindex].style = { "options": options, "dataSet": dataSet };
-		myMapMana.maplayerlist[layerindex].mapv = new OlvLayer(mybmap, layer.appendsrc,dataSet, options,layerindex);
+		myMapMana.maplayerlist[layerindex].mapv = new OlvLayer(mymap, layer.appendsrc,dataSet, options,layerindex);
 		//myMapMana.maplayerlist[layerindex].mapv.destroy();
 	}
 	return true;
@@ -634,7 +634,7 @@ function display() {
 		series: []
 	};
 	
-	mybmap =  new ol.Map({
+	mymap =  new ol.Map({
         view: new ol.View({
             center: [13376666, 3535165],
             zoom:4
@@ -654,13 +654,13 @@ function display() {
         })
     });
     //map.addLayers([osm,layer]);
-    mybmap.addLayer(tian_di_tu_road_layer);
-    mybmap.addLayer(tian_di_tu_annotation);
+    mymap.addLayer(tian_di_tu_road_layer);
+    mymap.addLayer(tian_di_tu_annotation);
     
-    mybmap.once('postrender', function (e) {
+    mymap.once('postrender', function (e) {
         if (myecharts !== undefined)
             return;
-        myecharts = new OpenLayer3Ext(mybmap, echarts);
+        myecharts = new OpenLayer3Ext(mymap, echarts);
         var container = myecharts.getEchartsContainer();
         var mec = myecharts.initECharts(container);
         window.onresize = myecharts.resize;
@@ -702,7 +702,7 @@ function display() {
 		});
 		var featureOverlay = new ol.layer.Vector({
 	        source: new ol.source.Vector(),
-	        map: mybmap,
+	        map: mymap,
 	        style: new ol.style.Style({
 	          stroke: new ol.style.Stroke({
 	            color: '#f00',
@@ -717,7 +717,7 @@ function display() {
 	      var highlight;
 	      var displayFeatureInfo = function(pixel) {
 
-	        var feature = mybmap.forEachFeatureAtPixel(pixel, function(feature) {
+	        var feature = mymap.forEachFeatureAtPixel(pixel, function(feature) {
 	          return feature;
 	        });
 
@@ -735,15 +735,15 @@ function display() {
 
 	      };
 
-	      mybmap.on('pointermove', function(evt) {
+	      mymap.on('pointermove', function(evt) {
 	        if (evt.dragging) {
 	          return;
 	        }
-	        var pixel = mybmap.getEventPixel(evt.originalEvent);
+	        var pixel = mymap.getEventPixel(evt.originalEvent);
 	        displayFeatureInfo(pixel);
 	      });
 
-	      mybmap.on('click', function(evt) {
+	      mymap.on('click', function(evt) {
 	        displayFeatureInfo(evt.pixel);
 	      });
 		redraw();
@@ -798,11 +798,11 @@ function savemap() {
 			myMapMana.maplayerlist[i].mlid=0;
 			}
 		}
-	var centerPoint = mybmap.getView().getCenter();
+	var centerPoint = mymap.getView().getCenter();
 	myMapMana.centerx = centerPoint[0];
 	myMapMana.centery = centerPoint[1];
-	//var mapmodeString = mybmap.getMapType().getName();
-	myMapMana.zoomlevel = mybmap.getView().getZoom();
+	//var mapmodeString = mymap.getMapType().getName();
+	myMapMana.zoomlevel = mymap.getView().getZoom();
 	//if (mapmodeString == "地图")
 		myMapMana.mapmode = 0;
 	//else

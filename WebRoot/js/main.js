@@ -10,12 +10,18 @@ function changetheme(rec) {
 		$('#easyuiTheme').attr('href', './jquery-easyui-1.5.2/themes/default/easyui.css');
 	}
 }
-
+var disopen = false;
 //打开测距
 function mydisFunc() {
-	mydis.open();
+	if(disopen){
+		measureOver();
+		disopen=false;
+	}
+	else{
+	measureStart();
+	disopen=true;
+	}
 }
-
 //打开分享
 function myshareFunc() {
 	$('#mapPanel').css('display', 'none');
@@ -450,4 +456,5 @@ $(document).ready(function () {
 	yukiInit();//初始化（这里的代码见yukimap）
 	createAutoComplete();//建立查询数据组（这里的代码见AttrSearch
 	checkAuthority();
+	measureInit();
 });
