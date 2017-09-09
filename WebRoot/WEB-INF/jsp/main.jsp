@@ -125,7 +125,7 @@
 </div>
 </div>
 
-<!-- 怪不得我没有动这个结构 有点意思的 上面是west面板的容器 下面作为风琴控件的标题被我换成了地图名……emmm 好好想想怎么改呗 要不干脆支持双地图支援算了-->
+<!-- 怪不得我没有动这个结构 有点意思的 上面是west面板的容器 下面作为风琴控件的标题被我换成了地图名…… 好好想想怎么改呗 要不干脆支持双地图支援算了-->
 <div id="maplayerTree" data-options="region:'west',split:true" title="图层" style="width:200px;">
 <div class="easyui-accordion" data-options="fit:true,border:false">
     <div title="图层" style="padding:10px;">
@@ -251,11 +251,18 @@
 </div>
 </div>
 </div>
-<div id="mm" class="easyui-menu" style="width:120px;">
-<div onclick="changstyle()" data-options="iconCls:'icon-edit'">更改样式</div>
+<div id="layerMenu" class="easyui-menu" style="width:120px;">
+<div onclick="changstyle()" data-options="iconCls:'icon-edit'">图层样式</div>
 <div onclick="removeLayer()" data-options="iconCls:'icon-no'">移除</div>
 </div>
-
+<div id="submapMenu" class="easyui-menu" style="width:120px;">
+<div onclick="changstyle()" data-options="iconCls:'icon-edit'">图层组设定</div>
+<div onclick="removeLayer()" data-options="iconCls:'icon-no'">移除</div>
+</div>
+<div id="mapMenu" class="easyui-menu" style="width:120px;">
+<div onclick="changstyle()" data-options="iconCls:'icon-edit'">地图设定</div>
+<div onclick="clearMap()" data-options="iconCls:'icon-no'">清除图层</div>
+</div>
 <!--保存框-->
 <div id="savePanel" class="easyui-window" title="提示框" style="width:200px;height:150px" data-options="modal:true,resizable:false,closed:true">
 

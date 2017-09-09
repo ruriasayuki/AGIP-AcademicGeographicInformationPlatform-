@@ -20,6 +20,7 @@ function openChangeName(name,acces) {
         ]
     }
     );
+     $('#changeName').find('#maptype').val(myMapMana.maptype);
     $('#changeName').window('open');
 }
 function changeName() {
@@ -127,13 +128,28 @@ function initLayertree(mapid,mapname) {
             setLayerOverlay(nodeOrders);
         },
         //右键节点弹出菜单，用于各种操作
+        //TODO 完善右键菜单分类
         onContextMenu: function (e, node) {
             e.preventDefault();
             // select the node
             //这里要根据右键点击的是图层节点还是地图根节点还是说子地图(submap)也就是layergroup 这样三类
             $('#layerTree').tree('select', node.target);
+            var menuType = node.type;
             // display context menu
-            $('#mm').menu('show', {
+            if(menuType=="map"){
+            	$('#mapMenu').menu('show', {
+                    left: e.pageX,
+                    top: e.pageY
+                });
+            }
+            else if(menuType=="submap"){
+            	$('#submapMenu').menu('show', {
+                    left: e.pageX,
+                    top: e.pageY
+                });
+            }
+            else
+            $('#layerMenu').menu('show', {
                 left: e.pageX,
                 top: e.pageY
             });
