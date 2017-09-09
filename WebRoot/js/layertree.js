@@ -330,7 +330,7 @@ var setLayerOverlay = function () {
 };
 
 //
-//以下是一堆自用函数
+//以下是一堆自用函数 有待封装 （按理说应该单独起一个color.js的
 //
 //别人家的代码begin 修改自http://www.zhangxinxu.com/study/js/zxx.color_exchange.js
 /*RGBto16进制*/

@@ -263,16 +263,15 @@ var source = new ol.source.Vector();
       var measureStart = function(){
 
     	  addInteraction();
+    	  
       
       }
       var measureInit = function(){
-          
-          
-    	  
+          measureStart();
     	  mymap.on('pointermove', pointerMoveHandler);
           mymap.getViewport().addEventListener('mouseout', function() {
             helpTooltipElement.classList.add('hidden');
           });
-          
+          measureOver();
       }
      
