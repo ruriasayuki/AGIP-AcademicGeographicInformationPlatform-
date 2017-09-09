@@ -135,11 +135,13 @@ function addMapToMap(varmapid)
 			var submap = $.parseJSON(result);
 			submaptree = $.parseJSON(submap.layertree);
 		}});
-	for(var i=0;i<newlayerlist.length;i++)
-		{
-			myMapMana.maplayerlist.push(newlayerlist[i]);
-		}
+	function insertLayer(treejson){
+		myMapMana.maplayerlist.push(newlayerlist[treejson.index]);
+		treejson.index=myMapMana.maplayerlist.length-1;
+	}
+	travelTree(submaptree,insertLayer);
 	submaptree[0].type="submap";
+	submaptree[0].id=varmapid;
 	addsubtree(submaptree);
 	redraw();
 }
@@ -418,6 +420,7 @@ function zoomMapTo(obj)
         })
 	}
 
+//这里可以重新发送请求来获得图层数据，用以优化
 function addLayerToMap()
 {
 	var selectedset = new Array();
@@ -442,7 +445,7 @@ function addLayerToMap()
 			{
 				temp[i].mlid=0;
 				myMapMana.maplayerlist.push(temp[i]);
-				addTreeNode(temp[i]);
+				addTreeNode(temp[i],myMapMana.maplayerlist.length-1);
 			}
 		}
     $("#layerPanel").window('close');

@@ -145,6 +145,7 @@ function addsubtree(subtree){
     if (layerTreeJson[0]["children"] == null) {
         layerTreeJson[0]["children"] = new Array();
     };
+    //这里需要先处理下subtree里面的id问题
     for(var i=0;i<subtree.length;i++) layerTreeJson[0]["children"].unshift(subtree[i]);
 	//刷新图层树
     $("#layerTree").tree({
@@ -153,12 +154,12 @@ function addsubtree(subtree){
     });
 }
 //DONE 在图层树中添加新节点
-function addTreeNode(layer) {
+function addTreeNode(layer,index) {
     //创建新节点
 	//对于新添加的图层的渲染后id……即mlid 加载的时候来更新
     var newLayer = {
         "id": layer.layerid,
-        "tempid":layer.mlid,
+        "index":index,
         "text": layer.layername,
         "checked": layer.state,
         "type": layer.type,
@@ -174,7 +175,7 @@ function addTreeNode(layer) {
 
         layerTreeJson[0]["children"].unshift(newLayer);
     }
-
+//以下代码暂时没什么用
     else if (newLayer.type < 0) {
         if (layerTreeJson.length < 2) {
             var newFather = {
@@ -201,12 +202,19 @@ function addTreeNode(layer) {
 //DONE 在图层树中删除节点
 function removeTreeNode(node, treeJson) {
     for (var i = treeJson.length - 1; i >= 0; i--) {
-        if (treeJson[i].id == node.id) {
+    	if(node.type=="submap"&&treeJson[i].type=="submap"&&
+    			treeJson[i].id == node.id){
+    		treeJson.splice(i, 1);
+    		$("#layerTree").tree({
+                dataType: "json",
+                data: layerTreeJson
+            });
+    		return;
+    	}else
+        if (treeJson[i].index!=null&&treeJson[i].index == node.index) {
             treeJson.splice(i, 1);
             //有待重构 这里只删除分层设色图层的根节点是不是不太合适？ 不过总之功能实现的挺好
-            if ((layerTreeJson.length > 1) && (layerTreeJson[1]["children"].length == 0)) {
-                layerTreeJson.splice(1, 1);
-            };
+            
             //刷新图层树
             $("#layerTree").tree({
                 dataType: "json",
@@ -231,17 +239,16 @@ function addLayertoSilo(lname, ltype) {
 };
 
 function removeLayer() {
-    var t = $('#layerTree');
-    var node = t.tree('getSelected');
-    for (var i = 0; i <= myMapMana.maplayerlist.length; i++) {
-        if (myMapMana.maplayerlist[i].layerid == node.id) {
-            if (myMapMana.maplayerlist[i].type == 0) {
-                myMapMana.maplayerlist[i].mapv.destroy();
-            }
-            myMapMana.maplayerlist.splice(i, 1);
-            break;
-        }
+    function removeMapLayer(node){
+    	if(has(myMapMana.maplayerlist[node.index].mapv))
+    		myMapMana.maplayerlist[node.index].mapv.hide(); 
+    	myMapMana.maplayerlist[node.index]=null;
     }
+	var t = $('#layerTree');
+    var node = t.tree('getSelected');
+    
+    travelTree(node,removeMapLayer);
+
     removeTreeNode(node, layerTreeJson);
     redraw();
 };
@@ -276,16 +283,13 @@ function onLayerCheck(node, checked) {
 function update(node){
 	function updateTreeJson(treejson)
 	{
-		if(node.id==treejson.id) treejson.checked=node.checked;
+		if(node.index==treejson.index) treejson.checked=node.checked;
 	}
-    for (var i = myMapMana.maplayerlist.length - 1; i >= 0; i--) {
-        if ((node.id!=0&&myMapMana.maplayerlist[i].layerid == node.id)) {
-
-            myMapMana.maplayerlist[i].state = node.checked;
+        if (node.id!=0) {
+            myMapMana.maplayerlist[node.index].state = node.checked;
             travelTree(layerTreeJson,updateTreeJson);
-            break;
         }
-    };
+    
 }
 	travelTree(node,update);
     //去除部分代码为已经整合到yukimap的redraw里面了 (逻辑不太一样 所以用不上)
@@ -300,12 +304,12 @@ function getOrders(roots) {
         if (roots[i].children == null) {
             if (roots[i].checked == true)
                 nodeOrders.push({
-                    "id": roots[i].id,
+                    "id": roots[i].index,
                     "checked": 1
                 });
             else
                 nodeOrders.push({
-                    "id": roots[i].id,
+                    "id": roots[i].index,
                     "checked": 0
                 });
         } else if (roots[i].children != null) {
@@ -316,13 +320,13 @@ function getOrders(roots) {
 
 //DONE 更新图层叠放次序
 var setLayerOverlay = function () {
-    for (var i = myMapMana.maplayerlist.length - 1; i >= 0; i--) {
+
         for (var j = nodeOrders.length - 1; j >= 0; j--) {
-            if (myMapMana.maplayerlist[i].layerid == nodeOrders[j].id) {
-                myMapMana.maplayerlist[i].zIndex = j;
+            
+                myMapMana.maplayerlist[nodeOrders.id].zIndex = j;
             }
-        };
-    };
+
+
 
     redraw();
     //重绘所有被勾选的分层图

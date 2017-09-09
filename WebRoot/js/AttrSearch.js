@@ -69,7 +69,8 @@ function match(info) {//查询所需要的信息匹配 并且返回结果选框
         case "地名":
             {
                 for (var j = 0; j < myMapMana.maplayerlist.length; j++) {
-                    var type = myMapMana.maplayerlist[j].type;
+                    if(null==myMapMana.maplayerlist[j]) continue;
+                	var type = myMapMana.maplayerlist[j].type;
                     var layername = myMapMana.maplayerlist[j].layername;
                     switch (type) {
                         case 0:
@@ -129,6 +130,7 @@ function match(info) {//查询所需要的信息匹配 并且返回结果选框
             {
 
                 for (var j = 0; j < myMapMana.maplayerlist.length; j++) {
+                	if(null==myMapMana.maplayerlist[j]) continue;
                     var type = myMapMana.maplayerlist[j].type;
                     var layername = myMapMana.maplayerlist[j].layername;
                     switch (type) {
@@ -173,10 +175,11 @@ function match(info) {//查询所需要的信息匹配 并且返回结果选框
 }
 
 var autoComplete;
-function getLayerStringDataArr() {
+function getLayerStringDataArr() { //这里有好多可以增加的内容 比如说多字段查询 不过其实我觉得前端实现还是太勉强 而且后面还涉及数据保密的事情
     var resultArr = new Array();
     for (var i = 0; i < myMapMana.maplayerlist.length; i++) {//获取地图的所有文字信息
         var layer = myMapMana.maplayerlist[i];
+        if(null==layer) continue;
         if (!layer.state) continue;
         resultArr.push({ name: layer.layername, type: "图层", index: i });
         switch (layer.type) {

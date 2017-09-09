@@ -133,6 +133,18 @@ function has(item) {
 	if (item) return true;
 	else return false;
 }
+//这是一个针对代码可读性的优化方案 = = 
+//目的是这样子的:
+//在一次使用时，不改变数组中元素的下标，删除元素为改变元素内容为null，使得下标访问为稳定的
+//这样子很多地方关于数组的操作的编写会变得轻松和简单
+function travelList(list,func)
+{
+	for(var i=0;i<list.length;i++)
+	{
+		if(null==list[i]) continue;
+		func(list[i],i);
+	}
+}
 //我觉得有必要把非主要控件的全局变量整合到一个全局变量里面
 var maxz = 0;//预置的zindex控制
 var mydis;//百度地图测距插件
@@ -156,7 +168,8 @@ function yukiInit() {
 function redraw() {
 	myseries = [];
 	for (var i = 0; i < myMapMana.maplayerlist.length; i++) {
-		var layerjson = myMapMana.maplayerlist[i]
+		var layerjson = myMapMana.maplayerlist[i];
+		if(layerjson==null) continue;
 		if (has(layerjson.mapv))//这里也需要重新整合
 		{
 			//layerjson.mapv.unbindEvent();
@@ -189,18 +202,20 @@ function redraw() {
 	refresh();
 }
 function refresh() {
+	function showmapv(item,i){
+		if((item.state) && (has(item.mapv))) {
+			//myMapMana.maplayerlist[i].mapv.bindEvent();
+			item.mapv.show();
+		}
+	}
 	var centerPoint = mymap.getView().getCenter();
 	myMapMana.centerx = centerPoint[0];
 	myMapMana.centery = centerPoint[1];
 	myMapMana.zoomlevel = mymap.getView().getZoom();
 	echartsoption.series = myseries;
 	myecharts.setOption(echartsoption);
-	for (var i = 0; i < myMapMana.maplayerlist.length; i++) {
-		if ((myMapMana.maplayerlist[i].state) && (has(myMapMana.maplayerlist[i].mapv))) {
-			//myMapMana.maplayerlist[i].mapv.bindEvent();
-			myMapMana.maplayerlist[i].mapv.show();
-		}
-	}
+	//写到这里感觉可以单独给myMapMana的maplayerlist写一个遍历函数了 = = 
+	travelList(myMapMana.maplayerlist,showmapv);
 	if(has(autoComplete)){
 	autoComplete.setArr(getLayerStringDataArr());
 	}
@@ -556,6 +571,7 @@ function redrawLegend()
 	var legendContent="<strong>图例<strong></br>";
 	for(var i=0;i<myMapMana.maplayerlist.length;i++)
 	{
+		if(myMapMana.maplayerlist[i]==null) continue;
 		var layer = myMapMana.maplayerlist[i];
 		if(!layer.state) continue;
 		var layerType = layer.type;
@@ -811,6 +827,7 @@ function savemap() {
 	var layerForSave = new Array();
 	layerForSave = [];
 	for (var i = 0; i < myMapMana.maplayerlist.length; i++) {
+		if(null==myMapMana.maplayerlist[i]) continue;
 		var temp = new Icelayer(myMapMana.maplayerlist[i]);
 		layerForSave.push(temp);
 	}
