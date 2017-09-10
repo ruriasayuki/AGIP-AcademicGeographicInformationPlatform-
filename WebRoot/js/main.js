@@ -100,9 +100,7 @@ function showMapPanel() {
 
 //获取地图
 function getMap(varmapid) {
-	//TODO 改成ajax的重定向
-	//location.href = "http://localhost:8080/AncientMap/main.action?mapid=" + varmapid;
-	//不如先直接在这里测试addMapToMap
+	
 	addMapToMap(varmapid);
 }
 
@@ -201,10 +199,11 @@ function showResultPanel(resultSet) {
 //缩放地图至 （按照对象的情况确定缩放层级
 function zoomMapTo(obj)
 {
+	/*
 	if(!has(mySearchMarker))
 	{mySearchMarker = new BMap.Marker(new BMap.Point(120,90));
 	mySearchMarker.setOffset(new BMap.Size(0,-2));
-	mybmap.addOverlay(mySearchMarker);}
+	mymap.addOverlay(mySearchMarker);}*/
 	var layer = myMapMana.maplayerlist[obj.index.layer];
 	var index = obj.index.feature;
 	switch(layer.type)
@@ -212,49 +211,101 @@ function zoomMapTo(obj)
 	case 0:
 		var data = layer.style.dataSet._data;
 		var BB = data[index].bound;
-		var point1 = new BMap.Point(BB.minX,BB.minY);
-		var point2 = new BMap.Point(BB.maxX,BB.maxY);
-		mybmap.setViewport([point1,point2]);
-		mySearchMarker.setPosition(new BMap.Point((BB.minX+BB.maxX)/2,(BB.minY+BB.maxY)/2));
-		mySearchMarker.show();
+		var dx = BB.maxX-BB.minX;
+		var dy = BB.maxY-BB.minY;
+		var tx = (BB.minX+BB.maxX)/2;
+		var ty = (BB.minY+BB.maxY)/2;
+		var avgDis = dx>dy?dx:dy;
+		if(avgDis){
+		var newView= new ol.View({
+            center: ol.proj.fromLonLat([tx, ty]),
+            resolution:avgDis*200//here 100 is a magic number (setsumei:lonlat to Mercator(100k) to pixel(1k*1k))
+            })
+		mymap.setView(newView);
+		}
+		else{
+			var newView= new ol.View({
+	            center: ol.proj.fromLonLat([tx, ty]),
+	            resolution:myMapMana.zoomlevel
+	            })
+			mymap.setView(newView);
+		}
+		//mySearchMarker.setPosition(new BMap.Point((BB.minX+BB.maxX)/2,(BB.minY+BB.maxY)/2));
+		//mySearchMarker.show();
 		break;
 	case 1:
 		var data = layer.style.series.data;
-		var tx=data[index].value[0];
-		var ty=data[index].value[1];
+		var tx=data[index].lonlat[0];
+		var ty=data[index].lonlat[1];
 		var dx=layer.style.append.avgDis.dx;
 		var dy=layer.style.append.avgDis.dy;
-		var point1= new BMap.Point(tx-dx,ty-dy);
-		var point2= new BMap.Point(tx+dx,ty+dy);
-		mybmap.setViewport([point1,point2]);
-		mySearchMarker.setPosition(new BMap.Point(tx,ty));
-		mySearchMarker.show();
+		var avgDis = dx>dy?dx:dy;
+		if(avgDis){
+		var newView= new ol.View({
+            center: ol.proj.fromLonLat([tx, ty]),
+            resolution:avgDis*100//here 100 is a magic number (setsumei:lonlat to Mercator(100k) to pixel(1k*1k))
+            })
+		mymap.setView(newView);
+		}
+		else{
+			var newView= new ol.View({
+	            center: ol.proj.fromLonLat([tx, ty]),
+	            resolution:myMapMana.zoomlevel
+	            })
+			mymap.setView(newView);
+		}
+		//mySearchMarker.setPosition(new BMap.Point(tx,ty));
+		//mySearchMarker.show();
 		break;
 	case 2:
 		var data = layer.style.series.data;
-		var tx=data[index].value[0];
-		var ty=data[index].value[1];
+		var tx=data[index].lonlat[0];
+		var ty=data[index].lonlat[1];
 		var dx=layer.style.append.avgDis.dx;
 		var dy=layer.style.append.avgDis.dy;
-		var point1= new BMap.Point(tx-dx,ty-dy);
-		var point2= new BMap.Point(tx+dx,ty+dy);
-		mybmap.setViewport([point1,point2]);
-		mySearchMarker.setPosition(new BMap.Point(tx,ty));
-		mySearchMarker.show();
+		var avgDis = dx>dy?dx:dy;
+		if(avgDis){
+		var newView= new ol.View({
+            center: ol.proj.fromLonLat([tx, ty]),
+            resolution:avgDis*100//here 100 is a magic number
+            })
+		mymap.setView(newView);
+		}
+		else{
+			var newView= new ol.View({
+	            center: ol.proj.fromLonLat([tx, ty]),
+	            resolution:myMapMana.zoomlevel
+	            })
+			mymap.setView(newView);
+		}
+		//mySearchMarker.setPosition(new BMap.Point(tx,ty));
+		//mySearchMarker.show();
 		break;
 	case 3:
 		var data = layer.style.data;
-		var coords = new Array();
-		for(var i=0;i<2;i++)
-		{
-			var coord = data[index].coords[i];
-			coords.push(new BMap.Point(coord[0],coord[1]));
+		var coorda = data[index].lonlat[0];
+		var coordb = data[index].lonlat[1];
+		var dx=Math.abs(coorda[0]-coordb[0]);
+		var dy=Math.abs(coorda[1]-coordb[1]);
+		var tx = (data[index].lonlat[0][0]+data[index].lonlat[1][0])/2;
+		var ty = (data[index].lonlat[0][1]+data[index].lonlat[1][1])/2;
+		var avgDis = dx>dy?dx:dy;
+		if(avgDis){
+		var newView= new ol.View({
+            center: ol.proj.fromLonLat([tx, ty]),
+            resolution:avgDis*100//here 100 is a magic number
+            })
+		mymap.setView(newView);
 		}
-		mybmap.setViewport(coords);
-		var tx = (data[index].coords[0][0]+data[index].coords[1][0])/2;
-		var ty = (data[index].coords[1][0]+data[index].coords[1][1])/2;
-		mySearchMarker.setPosition(new BMap.Point(tx,ty));
-		mySearchMarker.show();
+		else{
+			var newView= new ol.View({
+	            center: ol.proj.fromLonLat([tx, ty]),
+	            resolution:myMapMana.zoomlevel
+	            })
+			mymap.setView(newView);
+		}
+		//mySearchMarker.setPosition(new BMap.Point(tx,ty));
+		//mySearchMarker.show();
 		break;
 	}
 }

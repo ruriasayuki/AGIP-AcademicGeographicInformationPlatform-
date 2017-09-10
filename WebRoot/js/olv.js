@@ -9,7 +9,7 @@
      */
 function OlvLayer(map,geoJson,data,options,layerid){
         this._map = map;
-        this.dataSet = this.clone(data); 
+        this.dataSet = data.get(); 
         this._geoJson = geoJson;
         this.options = options;
         this.layerid = String(layerid);
@@ -27,7 +27,7 @@ OlvLayer.prototype.style =  function(features){
         var color = null;
         var id = parseInt(this.getAttributions()[0].getHTML());
         var colorSet = myMapMana.maplayerlist[id].style.options;
-        var dataSet = myMapMana.maplayerlist[id].style.dataSet;
+        var dataSet = myMapMana.maplayerlist[id].style.dataSet.get();
         var highlight = colorSet.highlight;
         var splitList = colorSet.splitList;
         for(var i=0;i<dataSet.length;i++)
@@ -35,25 +35,29 @@ OlvLayer.prototype.style =  function(features){
         		var item = dataSet[i];
         		if(name === item.name)
         		{
-        			var count = item.value;
-        			for(var j=0;j<splitList.length-1;j++)
+        			color = splitList[0].value;
+        			var count = item.count;
+        			for(var j=1;j<splitList.length-1;j++)
         			{
         				if (count<splitList[j].end) 
         					{color = splitList[j].value;break;}
         			}        				
-        			if(null==color) color = splitList[splitList.length-1].value;
+        			if(count>=splitList[splitList.length-1].start) color = splitList[splitList.length-1].value;
         			break;
         		}
         	}
         return new ol.style.Style({
                 fill: new ol.style.Fill({
                   color: color
-                }),
+                	}),
                 stroke: new ol.style.Stroke({
                   color: highlight,
                   width: 1
-                })
-    });
+                	})/*, //notwell
+                text: new ol.style.Text({
+                	text:name
+                    }),*/
+        		});
     return stylefuntion;
 };
 /* clone array a To b */

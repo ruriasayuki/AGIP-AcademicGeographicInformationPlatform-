@@ -197,30 +197,15 @@ function addTreeNode(layer,index) {
     };
 
     //如果是echarts图层
-    if (newLayer.type >= 0) {
+
         //假如图层树尚空，创建子节点数组容器
         if (layerTreeJson[0]["children"] == null) {
             layerTreeJson[0]["children"] = new Array();
         };
-
+        
         layerTreeJson[0]["children"].unshift(newLayer);
-    }
-//以下代码暂时没什么用
-    else if (newLayer.type < 0) {
-        if (layerTreeJson.length < 2) {
-            var newFather = {
-                "id": "layerFather",
-                "text": "下层图层"
-            };
-            layerTreeJson.push(newFather);
-        };
-        //假如图层树尚空，创建子节点数组容器
-        if (layerTreeJson[1]["children"] == null) {
-            layerTreeJson[1]["children"] = new Array();
-        };
-        //插入新节点
-        layerTreeJson[1]["children"].unshift(newLayer);
-    };
+    
+
 
     //刷新图层树
     $("#layerTree").tree({

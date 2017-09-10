@@ -35,12 +35,12 @@ function getBoundBox(pointArray)
 function getAverageDistance(pointArray)
 {
 	var maxX,minX,maxY,minY;
-	maxX=minX=pointArray[0].value[0];
-	maxY=minY=pointArray[0].value[1];
+	maxX=minX=pointArray[0].lonlat[0];
+	maxY=minY=pointArray[0].lonlat[1];
 	for(var i=0;i<pointArray.length;i++)
 	{
-		var tx = pointArray[i].value[0];
-		var ty = pointArray[i].value[1];
+		var tx = pointArray[i].lonlat[0];
+		var ty = pointArray[i].lonlat[1];
 		if(tx>maxX) maxX=tx;
 		if(tx<minX) minX=tx;
 		if(ty>maxY) maxY=ty;
@@ -55,7 +55,9 @@ function getAverageDistance(pointArray)
 function nothave(yklayer) {
 	var templist = myMapMana.maplayerlist;
 	for (var i = 0; i < templist.length; i++) {
+		if(templist[i]!=null){
 		if (templist[i].layerid == yklayer.layerid) return false;
+	}
 	}
 	return true;
 }
@@ -208,7 +210,8 @@ function refresh() {
 			item.mapv.show();
 		}
 	}
-	var centerPoint = mymap.getView().getCenter();
+	var center3857 = mymap.getView().getCenter();
+	var centerPoint = ol.proj.toLonLat(center3857);
 	myMapMana.centerx = centerPoint[0];
 	myMapMana.centery = centerPoint[1];
 	myMapMana.zoomlevel = mymap.getView().getZoom();
@@ -246,7 +249,37 @@ function drawL1(layer, layerindex) {//分层设色图 使用mapv绘制
 		splitType = myMapMana.maplayerlist[layerindex].style.options.splitType;
 	}
 	else {
+		$.ajaxSettings.async = false;
+		$.getJSON(layer.appendsrc, function (geojson) {//demo的geojson还是写死的
+			var gdata = layer.data;
+			dataSet = mapv.geojson.getDataSet(geojson);
+			maxC = Number(gdata[0].value);
+			minC = Number(gdata[0].value);
+			var data = dataSet.get({
+				filter: function (item) {//数据字段和geojson的name匹配 这里特殊化了一下 因为清代省份图用了两个字段 分别表示拼音和中文的省份名
+					for (var i = 0; i < gdata.length; i++) {
+						if (gdata[i].name == item.name) {
+							item.count = Number(gdata[i].value);
+							item.bound = getBoundBox(item.geometry.coordinates);
+							if (item.count > maxC) {
+								maxC = item.count;
+							}
+							if (item.count < minC) {
+								minC = item.count;
+							}
+							return true;
+						}
+					}
 
+					return false;
+				}
+			});
+
+			splitList = yukiColorMapper(minC, maxC, '#ffddee', '#aa4466', splitNum, splitType);
+			dataSet = new mapv.DataSet(data);
+		});
+		$.ajaxSettings.async = true;
+		/*
 			dataSet = layer.data;
 			minC = maxC = Number(dataSet[0].value);
 			
@@ -265,7 +298,7 @@ function drawL1(layer, layerindex) {//分层设色图 使用mapv绘制
 			maxC = maxC;
 			minC = minC;
 			splitList = yukiColorMapper(minC, maxC, '#ffddee', '#aa4466', splitNum, splitType);
-
+*/
 	
 		var options = {
 			draw: 'choropleth',
@@ -652,8 +685,8 @@ function display() {
 	
 	mymap =  new ol.Map({
         view: new ol.View({
-            center: [13376666, 3535165],
-            zoom:4
+            center: ol.proj.fromLonLat([myMapMana.centerx, myMapMana.centery]),
+            zoom:myMapMana.zoomlevel
             }),
             target: 'map'
         });

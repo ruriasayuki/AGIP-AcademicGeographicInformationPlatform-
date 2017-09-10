@@ -64,7 +64,8 @@
                 <link href="css/measure.css" rel="stylesheet">
                 <link href="css/main.css" rel="stylesheet">
                 <script type="text/javascript" src="js/measure.js"></script>
-                <script type="text/javascript" src="js/dragging.js"></script>				
+                <script type="text/javascript" src="js/dragging.js"></script>
+                <script type="text/javascript" src="js/mapv.js"></script>				
                 <script>
             var mapdata = ${map};//获取后台返回的map数据 这里也要修改……顺便可以一起改掉后台的逻辑
         </script>

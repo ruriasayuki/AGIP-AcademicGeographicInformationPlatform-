@@ -20,14 +20,14 @@ function match(info) {//查询所需要的信息匹配 并且返回结果选框
                 var type = myMapMana.maplayerlist[index].type;
                 switch (type) {
                     case 0:
-                        var data = myMapMana.maplayerlist[index].style.dataSet;
+                        var data = myMapMana.maplayerlist[index].style.dataSet.get();
                         for (var i = 0; i < data.length; i++) {
                             var temp = {
                                 layername: infoKey,
                                 name: data[i].name,
                                 count: data[i].count,
                                 type: '面',
-                                index: { layer: index, feature: i }//遇事不决存索引 这里还在纠结平移缩放怎么弄
+                                index: { layer: index, feature: i }
                             }
                             resultSet.push(temp);
                         }
@@ -44,7 +44,7 @@ function match(info) {//查询所需要的信息匹配 并且返回结果选框
                                 name: data[i].name,
                                 count: data[i].value[2],
                                 type: '点',
-                                index: { layer: index, feature: i }//遇事不决存索引 这里还在纠结平移缩放怎么弄
+                                index: { layer: index, feature: i }
                             }
                             resultSet.push(temp);
                         }
@@ -57,7 +57,7 @@ function match(info) {//查询所需要的信息匹配 并且返回结果选框
                                 name: data.ID,
                                 count: data.coords,
                                 type: '面',
-                                index: { layer: index, feature: i }//遇事不决存索引 这里还在纠结平移缩放怎么弄
+                                index: { layer: index, feature: i }
                             }
                             resultSet.push(temp);
                         }
@@ -74,7 +74,7 @@ function match(info) {//查询所需要的信息匹配 并且返回结果选框
                     var layername = myMapMana.maplayerlist[j].layername;
                     switch (type) {
                         case 0:
-                            var data = myMapMana.maplayerlist[j].style.dataSet;
+                            var data = myMapMana.maplayerlist[j].style.dataSet.get();
                             for (var i = 0; i < data.length; i++) {
                                 if (reg.test(data[i].name)) {
                                     var temp = {
@@ -82,7 +82,7 @@ function match(info) {//查询所需要的信息匹配 并且返回结果选框
                                         name: data[i].name,
                                         count: data[i].count,
                                         type: '面',
-                                        index: { layer: j, feature: i }//遇事不决存索引 这里还在纠结平移缩放怎么弄
+                                        index: { layer: j, feature: i }
                                     }
                                     resultSet.push(temp);
                                 }
@@ -101,7 +101,7 @@ function match(info) {//查询所需要的信息匹配 并且返回结果选框
                                         name: data[i].name,
                                         count: data[i].value[2],
                                         type: '点',
-                                        index: { layer: j, feature: i }//遇事不决存索引 这里还在纠结平移缩放怎么弄
+                                        index: { layer: j, feature: i }
                                     }
                                     resultSet.push(temp);
                                 }
@@ -116,7 +116,7 @@ function match(info) {//查询所需要的信息匹配 并且返回结果选框
                                         name: data[i].ID,
                                         count: data[i].coords,
                                         type: '线',
-                                        index: { layer: j, feature: i }//遇事不决存索引 这里还在纠结平移缩放怎么弄
+                                        index: { layer: j, feature: i }
                                     }
                                     resultSet.push(temp);
                                 }
@@ -143,7 +143,7 @@ function match(info) {//查询所需要的信息匹配 并且返回结果选框
                                         name: data[i].name,
                                         count: data[i].value[2],
                                         type: '点',
-                                        index: { layer: j, feature: i }//遇事不决存索引 这里还在纠结平移缩放怎么弄
+                                        index: { layer: j, feature: i }
                                     }
                                     resultSet.push(temp);
                                 }
@@ -159,7 +159,7 @@ function match(info) {//查询所需要的信息匹配 并且返回结果选框
                                         name: data[i].ID,
                                         count: data[i].coords,
                                         type: '线',
-                                        index: { layer: j, feature: i }//遇事不决存索引 这里还在纠结平移缩放怎么弄
+                                        index: { layer: j, feature: i }
                                     }
                                     resultSet.push(temp);
                                 }
