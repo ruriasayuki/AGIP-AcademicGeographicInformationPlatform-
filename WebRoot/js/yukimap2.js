@@ -740,17 +740,13 @@ function display() {
 		mec.on('click', function (params) {
 			$('#QueryBoard').window('open');
 			$('#QueryBoard').window('expand');
-			$('#layerL0').text(params.seriesName);
-			if (params.seriesType == "lines") {
-				$('#nameL0').text(params.data.ID);
-				$('#countL0').text('source:' + params.data.coords[0] + ',end:' + params.data.coords[1]);
-				$('#typeL0').text('线');
-			}
-			else {
-				$('#nameL0').text(params.name);
-				$('#countL0').text(params.value[2]);
-				$('#typeL0').text('点');
-			}
+			var data = params.data.value[2];
+			var html="";
+			for(index in data)
+				{
+					html=html+'<strong>'+index+':</strong>'+data[index]+'<br>';
+				}
+			$('#QueryBoard').find('#res').html(html);
 		});
 		var featureOverlay = new ol.layer.Vector({
 	        source: new ol.source.Vector(),

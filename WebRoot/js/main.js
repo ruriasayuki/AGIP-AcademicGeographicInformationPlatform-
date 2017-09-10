@@ -502,6 +502,25 @@ function addLayerToMap()
     redraw();
 }
 
+var printData=function(data,except){
+	function notin(a,except){
+		if(except){
+			for(var ex=0;ex<except.length;ex++)
+			{
+				if(a==except[ex]) return false;
+			}
+			return true;
+		}
+		else return true;
+	}
+	var res=new Array();
+	for(index in data){
+		if(notin(index,except)){
+			res.push(index+':'+data[index]);
+		}
+	}
+	return res;
+}
 
 
 //页面初始化

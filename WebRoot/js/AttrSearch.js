@@ -34,15 +34,26 @@ function match(info) {//查询所需要的信息匹配 并且返回结果选框
                         break;
                     case 1:
                         var data = myMapMana.maplayerlist[index].style.series.data;
-                    case 2:
-                        if (type == 2) {
-                            var data = myMapMana.maplayerlist[index].style.series.data;
-                        }
                         for (var i = 0; i < data.length; i++) {
                             var temp = {
                                 layername: infoKey,
                                 name: data[i].name,
                                 count: data[i].value[2],
+                                type: '点',
+                                index: { layer: index, feature: i }
+                            }
+                            resultSet.push(temp);
+                        }
+                        break;
+                    case 2:
+
+                            var data = myMapMana.maplayerlist[index].style.series.data;
+                   
+                        for (var i = 0; i < data.length; i++) {
+                            var temp = {
+                                layername: infoKey,
+                                name: data[i].name,
+                                count: printData(data[i].value[2],["name","X","Y"]),
                                 type: '点',
                                 index: { layer: index, feature: i }
                             }
@@ -56,7 +67,7 @@ function match(info) {//查询所需要的信息匹配 并且返回结果选框
                                 layername: infoKey,
                                 name: data.ID,
                                 count: data.coords,
-                                type: '面',
+                                type: '线',
                                 index: { layer: index, feature: i }
                             }
                             resultSet.push(temp);
@@ -89,17 +100,28 @@ function match(info) {//查询所需要的信息匹配 并且返回结果选框
                             }
                             break;
                         case 1:
-                            var data = myMapMana.maplayerlist[j].style.series.data;
-                        case 2:
-                            if (type == 2) {
-                                var data = myMapMana.maplayerlist[j].style.series.data;
+                        	var data = myMapMana.maplayerlist[index].style.series.data;
+                            for (var i = 0; i < data.length; i++) {
+                                var temp = {
+                                    layername: infoKey,
+                                    name: data[i].name,
+                                    count: data[i].value[2],
+                                    type: '点',
+                                    index: { layer: index, feature: i }
+                                }
+                                resultSet.push(temp);
                             }
+                            break;
+                        case 2:
+
+                                var data = myMapMana.maplayerlist[j].style.series.data;
+                    
                             for (var i = 0; i < data.length; i++) {
                                 if (reg.test(data[i].name)) {
                                     var temp = {
                                         layername: layername,
                                         name: data[i].name,
-                                        count: data[i].value[2],
+                                        count:printData(data[i].value[2],["name","X","Y"]),
                                         type: '点',
                                         index: { layer: j, feature: i }
                                     }
@@ -141,7 +163,7 @@ function match(info) {//查询所需要的信息匹配 并且返回结果选框
                                     var temp = {
                                         layername: layername,
                                         name: data[i].name,
-                                        count: data[i].value[2],
+                                        count: printData(data[i].value[2],["name","X","Y"]),
                                         type: '点',
                                         index: { layer: j, feature: i }
                                     }

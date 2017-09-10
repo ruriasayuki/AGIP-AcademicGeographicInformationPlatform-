@@ -284,24 +284,12 @@ shadow:false">
 </div>
 
 <!-- ============== 点选查询结果返回框  ============== -->
-<table id="QueryBoard" class="easyui-window" title="查询结果" style="width:500px;height:100px" data-options="closed:true">
-<thead>
-    <tr style="height:32px">
-<th>图层名</th>
-<th>名称</th>
-<th>数据内容</th>
-<th>几何类型</th>
-</tr>
-</thead>
-<tbody>
-    <tr>
-        <td id="layerL0">NA</td>
-        <td id="nameL0">NA</td>
-        <td id="countL0">NA</td>
-        <td id="typeL0">NA</td>
-    </tr>
-</tbody>
-</table>
+<div id="QueryBoard" class="easyui-window" title="查询结果" style="width:200px;" data-options="closed:true">
+
+<div id="res">
+</div>
+
+</div>
 <!-- ============== 登录框  ============== -->
 <%@include file="loginModal.jsp" %>
 </body>
