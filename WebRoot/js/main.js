@@ -133,8 +133,10 @@ function addMapToMap(varmapid)
 			submaptree = $.parseJSON(submap.layertree);
 		}});
 	function insertLayer(treejson){
+		if(treejson.type=="layer"){
 		myMapMana.maplayerlist.push(newlayerlist[treejson.index]);
 		treejson.index=myMapMana.maplayerlist.length-1;
+		}
 	}
 	travelTree(submaptree,insertLayer);
 	submaptree[0].type="submap";

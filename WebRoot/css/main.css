@@ -65,3 +65,12 @@ user-select: none;
 -khtml-user-select: none;
 user-select: none;
 }
+#mytooltip{
+	 position:absolute;
+	 display:none;
+	 padding:5px;
+	 background:rgba(220,220,220,0.7);
+	 top:50%;
+	 left:50%;
+	 border-radius:5px;
+}

@@ -3,10 +3,10 @@ var layerTreeJson = [{
     "text": "new map",
     "type":"map"
 }];
-function openChangeName(name,acces) {
-    $('#changeName').find('#nameForChange').val(name);
+function openChangeName() {
+    $('#changeName').find('#nameForChange').val(myMapMana.mapname);
     $('#changeName').find('input[name="accessType"]').removeAttr("checked");
-    $('#changeName').find('input[name="accessType"][value="'+acces+'"]').prop("checked", true);
+    $('#changeName').find('input[name="accessType"][value="'+myMapMana.mapaccess+'"]').prop("checked", true);
     $('#changeName').find('#maptype').combobox(
     {
         valueField:'id',
@@ -153,6 +153,22 @@ function initLayertree(mapid,mapname) {
                 left: e.pageX,
                 top: e.pageY
             });
+        },
+        onBeforeEdit: function (node){
+        	$(node.target).css("color","#000000");
+        },
+        onAfterEdit: function (node){
+        	function updateTreeJson(treejson)
+        	{
+        		if(treejson.type=="submap"&&node.id==treejson.id) treejson.text=node.text;
+        	}
+                
+        	$(node.target).css("color","");
+        	travelTree(layerTreeJson,updateTreeJson);
+        },
+        onCancelEdit:function(node)
+        {
+        	$(node.target).css("color","");
         }
     });
 }
@@ -172,14 +188,12 @@ function addsubtree(subtree){
 //DONE 在图层树中添加新节点
 function addTreeNode(layer,index) {
     //创建新节点
-	//对于新添加的图层的渲染后id……即mlid 加载的时候来更新
     var newLayer = {
         "id": layer.layerid,
         "index":index,
         "text": layer.layername,
         "checked": layer.state,
-        "type": layer.type,
-        "nodetype":"layer"
+        "type": "layer"
     };
 
     //如果是echarts图层
@@ -256,7 +270,7 @@ function addLayertoSilo(lname, ltype) {
 
 function removeLayer() {
     function removeMapLayer(node){
-    	if(has(myMapMana.maplayerlist[node.index].mapv))
+    	if(node.type=="layer" && has(myMapMana.maplayerlist[node.index].mapv))
     		myMapMana.maplayerlist[node.index].mapv.hide(); 
     	myMapMana.maplayerlist[node.index]=null;
     }
@@ -273,21 +287,24 @@ function removeLayer() {
 //这里直接也兼容了easyui里面内建的树的遍历
 function travelTree(treejson,nodeupdate)
 {
-	if(has(treejson.length))
+	if(has(treejson.length)){
 	for(var i=0;i<treejson.length;i++)
 		{
 			if(has(treejson[i].children))
 				{
 					travelTree(treejson[i],nodeupdate);
+					nodeupdate(treejson[i]);
 				}
 			else
 				nodeupdate(treejson[i]);
-		}
+		}	
+	}
 	else
 	{
 		if(has(treejson.children))
 		{
 			travelTree(treejson.children,nodeupdate);
+			nodeupdate(treejson);
 		}
 		else
 		nodeupdate(treejson);
@@ -299,7 +316,7 @@ function onLayerCheck(node, checked) {
 function update(node){
 	function updateTreeJson(treejson)
 	{
-		if(node.index==treejson.index) treejson.checked=node.checked;
+		if(treejson.type=="layer"&&node.index==treejson.index) treejson.checked=node.checked;
 	}
         if (node.id!=0) {
             myMapMana.maplayerlist[node.index].state = node.checked;
@@ -308,7 +325,7 @@ function update(node){
     
 }
 	travelTree(node,update);
-    //去除部分代码为已经整合到yukimap的redraw里面了 (逻辑不太一样 所以用不上)
+
     redraw();
 
 };
@@ -642,16 +659,29 @@ function yukiColorMapper(min, max, minColor, maxColor, num, style) {
     return ColorMaps;
 }
 
-////**yukiToolBegin
+////**yukiToolEnd
 
 
 //修改样式弹出框
 function changstyle() {
     var t = $('#layerTree');
     var node = t.tree('getSelected');
-    $('#win').window('open'); // open a window
-    for (var i = 0; i < myMapMana.maplayerlist.length; i++) {
-        if (myMapMana.maplayerlist[i].layerid == node.id) {
+    var menuType = node.type;
+
+    if(menuType=="map"){
+    	var div = '地图选项框 施工ing';
+        $('#stylediv').html(div);
+        
+    }
+    else if(menuType=="submap"){
+    	if (node){
+        	t.tree('beginEdit',node.target
+        	);
+        }
+    }
+    else
+{var i =node.index;
+$('#styleWin').window('open'); 
             if (myMapMana.maplayerlist[i].type == 1) {//如果是等级符号图
                 var div = '<div style="margin:5px;">点基本颜色映射： </br>'+
                 '最大值：&emsp;&emsp;&emsp;<input type="color" id="color1max" /></br>'+
@@ -710,17 +740,25 @@ function changstyle() {
                 $('#highcolor')[0].value = myMapMana.maplayerlist[i].style.options.highlight;
                 $("#splitType").val(myMapMana.maplayerlist[i].mapv.options.splitType);
             }
-            break;
         }
-    }
+    
 }
 //更改样式并保存
 function savestyle() {
-    var t = $('#layerTree');
+	var t = $('#layerTree');
     var node = t.tree('getSelected');
-    for (var i = 0; i < myMapMana.maplayerlist.length; i++) {
-        if (myMapMana.maplayerlist[i].layerid == node.id) {
-            if (myMapMana.maplayerlist[i].type == '1') {
+    $('#styleWin').window('open'); // open a window
+    var menuType = node.type;
+    // display context menu
+    if(menuType=="map"){
+    	//尚未整合进来
+    }
+    else if(menuType=="submap"){
+
+    }
+    else
+{var i =node.index;
+	if (myMapMana.maplayerlist[i].type == '1') {
                 myMapMana.maplayerlist[i].style.append.maxColor = $("#color1max")[0].value;
                 myMapMana.maplayerlist[i].style.append.minColor = $("#color1min")[0].value;
                 myMapMana.maplayerlist[i].style.series.itemStyle.emphasis.color = $("#color2")[0].value;
@@ -774,11 +812,11 @@ function savestyle() {
                 myMapMana.maplayerlist[i].mapv.refresh();
             }
             redraw();
-            break;
+
         }
-    }
+    
 }
 
-function closewin() {
-    $('#win').window('close');
+function closeStyleWin() {
+    $('#styleWin').window('close');
 }

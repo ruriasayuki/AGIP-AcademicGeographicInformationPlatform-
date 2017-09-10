@@ -144,7 +144,7 @@ shadow:false">
 </div>
 
 <!-- 自定义tooltip -->
-<div id="mytooltip" style="position:absolute;display:none;padding:5px;background:rgba(220,220,220,0.7);top:50%;left:50%;border-radius:5px">test tooltip </div>
+<div id="mytooltip">test tooltip </div>
 
 
 
@@ -226,11 +226,11 @@ shadow:false">
 <div onclick="removeLayer()" data-options="iconCls:'icon-no'">移除</div>
 </div>
 <div id="submapMenu" class="easyui-menu" style="width:120px;">
-<div onclick="changstyle()" data-options="iconCls:'icon-edit'">图层组设定</div>
+<div onclick="changstyle()" data-options="iconCls:'icon-edit'">重命名</div>
 <div onclick="removeLayer()" data-options="iconCls:'icon-no'">移除</div>
 </div>
 <div id="mapMenu" class="easyui-menu" style="width:120px;">
-<div onclick="changstyle()" data-options="iconCls:'icon-edit'">地图设定</div>
+<div onclick="openChangeName()" data-options="iconCls:'icon-edit'">地图设定</div>
 <div onclick="clearMap()" data-options="iconCls:'icon-no'">清除图层</div>
 </div>
 
@@ -242,13 +242,13 @@ shadow:false">
 </div>
 
 <!-- 样式选择弹窗 -->
-<div id="win" class="easyui-window" title="编辑样式" style="width:300px;height:280px;text-align:center" closed="true" data-options="iconCls:'icon-edit',modal:true" minimizable="false" maximizable="false">
+<div id="styleWin" class="easyui-window" title="编辑样式" style="width:300px;height:280px;text-align:center" closed="true" data-options="iconCls:'icon-edit',modal:true" minimizable="false" maximizable="false">
 <div style="width:275px;height:200px;border:2px solid #ccc;margin:0 auto;margin-top:3px;">
 <div id="stylediv" style="text-align:left;margin-left:30px;"></div>
 </div>
 <div style="position:absolute;top:240px;left:150px">
 <a id="ok" class="easyui-linkbutton" data-options="iconCls:'icon-save'" style="width:60px" onclick="savestyle()">保存</a>
-<a id="cancel" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" style="width:60px" onclick="closewin()">关闭</a>
+<a id="cancel" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" style="width:60px" onclick="closeStyleWin()">关闭</a>
 </div>
 </div>
 
