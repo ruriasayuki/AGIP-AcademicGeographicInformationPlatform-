@@ -42,6 +42,10 @@
     <input id="email" name="email" class="easyui-textbox" data-options="required:true"  style="width:200px;height:30px" /><span id="einfo" class="info"></span><br/><br/> 
     <input id="sendcode2email" readonly="readonly" class="easyui-linkbutton" value="邮箱验证码" style="height:30px;width:90px" />
     <input id="email_code" name="email_code_name" class="easyui-textbox" data-options="required:true" style="width:200px;height:30px" /><span id="ecinfo" class="info"></span><br/><br/>
+   <input id="agree" name="agree" type="checkbox"/><label>我已阅读并同意相关<a href="./agreement.html" target="_blank">服务条款</a>和<a href="./privacy.html" target="_blank">隐私政策</a></label><br/>
+    <div id="mustagree">
+    	<img src="img/warning.png"><label>请接受服务条款和隐私协议</label>
+    </div><br/>
     <input id="registerbtn" readonly="readonly"  class="easyui-linkbutton" value="注册" data-options="height:30,width:295"/><br><br>
     <input id="cancelbtn" readonly="readonly"  class="easyui-linkbutton" value="取消" data-options="height:30,width:295"/>
     </form>
