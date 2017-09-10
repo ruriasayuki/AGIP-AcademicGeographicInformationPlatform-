@@ -1,0 +1,67 @@
+.maplayerTree{
+	background:rgba(220,220,220,0.8);
+	max-height:40%;
+	overflow:auto;
+}
+.headerCls{
+
+}
+.bodyCls{
+	background:rgba(255,255,255,0.9);
+	
+}
+#toolPanel{
+	position:absolute;
+	left:50px;
+	top:60px;
+	background:rgba(255,255,255,0.5);
+		-moz-user-select: none;
+-khtml-user-select: none;
+user-select: none;
+}
+#sharePanel{
+	position:absolute;
+	display:none;
+	padding:5px;
+	opacity:0.9;
+	background:#EEEEEE;
+	top:90px;
+	left:140px;
+	border-radius:5px
+}
+#mapPanel{
+	 position:absolute;
+	 display:none;
+	 padding:5px;
+	 opacity:0.9;
+	 background:
+	 #EEEEEE;
+	 top:90px;
+	 left:80px;
+	 border-radius:5px
+}
+#searchBox{
+	position:absolute;
+	display:none;
+	padding:5px;
+	opacity:0.9;
+	background:#EEEEEE;
+	top:90px;
+	left:230px;
+	border-radius:5px
+}
+#mylegend{
+	position:absolute;
+	display:none;
+	padding:5px;
+	background:rgba(220,220,220,0.7);
+	bottom:60px;
+	right:10px;
+	border-radius:5px;
+	cursor:move;
+	max-height:80%;
+	overflow:auto;
+	-moz-user-select: none;
+-khtml-user-select: none;
+user-select: none;
+}

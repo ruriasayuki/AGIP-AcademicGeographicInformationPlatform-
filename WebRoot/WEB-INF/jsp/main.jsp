@@ -11,18 +11,34 @@
                 <script type="text/javascript" src="js/load.js"></script>
 
                 <link rel="stylesheet" href="plugin/bootstrap-3.3.7/css/bootstrap.min.css">
-                <link rel="stylesheet" id="easyuiTheme" type="text/css" href="plugin/jquery-easyui-1.5.2/
-	themes/gray/easyui.css">
+                <link rel="stylesheet" type="text/css" href="plugin/jquery-easyui-1.5.2/
+	themes/bootstrap/tree.css">
+	<link rel="stylesheet" type="text/css" href="plugin/jquery-easyui-1.5.2/
+	themes/bootstrap/menu.css">
+	<link rel="stylesheet" type="text/css" href="plugin/jquery-easyui-1.5.2/
+	themes/bootstrap/textbox.css">
+	<link rel="stylesheet" type="text/css" href="plugin/jquery-easyui-1.5.2/
+	themes/bootstrap/combo.css">
+	<link rel="stylesheet" type="text/css" href="plugin/jquery-easyui-1.5.2/
+	themes/bootstrap/combobox.css">
+	<link rel="stylesheet" type="text/css" href="plugin/jquery-easyui-1.5.2/
+	themes/bootstrap/panel.css">
+	<link rel="stylesheet" type="text/css" href="plugin/jquery-easyui-1.5.2/
+	themes/bootstrap/window.css">
+	<link rel="stylesheet" type="text/css" href="plugin/jquery-easyui-1.5.2/
+	themes/bootstrap/linkbutton.css">
 				<link rel="stylesheet" type="text/css" href="plugin/ol4/ol.css">
                 <link rel="stylesheet" type="text/css" href="jquery-easyui-1.5.2/themes/icon.css">
                 <script type="text/javascript" src="plugin/jquery-3.2.1.min.js"></script>
                 <script type="text/javascript" src="bootstrap-3.3.7/js/bootstrap.min.js"></script>
                 <script type="text/javascript" src="plugin/jquery-easyui-1.5.2/jquery.easyui.min.js"></script>
+              
+                
                 <script type="text/javascript" src="js/echarts.js"></script>
                 
                 <script type="text/javascript" src="js/md5.js"></script>
                 <script type="text/javascript" src="js/userTreat.js"></script>
-                <script type="text/javascript" src="js/styleChange.js"></script>
+                
                 <script type="text/javascript" src="plugin/ol4/ol-debug.js"></script>
                 <script type="text/javascript" src="plugin/ol4/OpenLayer3Ext.js"></script>
                 
@@ -46,73 +62,32 @@
 				<link href="css/autocomplete.css" rel="stylesheet">
 				<link href="css/legend.css" rel="stylesheet">
                 <link href="css/measure.css" rel="stylesheet">
+                <link href="css/main.css" rel="stylesheet">
                 <script type="text/javascript" src="js/measure.js"></script>
+                <script type="text/javascript" src="js/dragging.js"></script>				
                 <script>
             var mapdata = ${map};//获取后台返回的map数据 这里也要修改……顺便可以一起改掉后台的逻辑
         </script>
 </head>
 <body>
-	<c:set var="pagename" value="main"/>
-    <nav class="navbar navbar-default navbar-fixed-top">
-        <div id="nav" class="container opacity50">
-        <div class="navbar-header">
-              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar0" aria-expanded="false">
-                  <span class="sr-only">Toggle navigation</span>
-                  <span class="icon-bar"></span>
-                  <span class="icon-bar"></span>
-                  <span class="icon-bar"></span>
-              </button>
-          </div>
-            <div class="collapse navbar-collapse topnavi" role="navigation" id="navbar0" style="font-size: 16px;">
-                <ul class="nav navbar-nav" id="nav">
-                    <li><a href="index.action">学术地图发布平台Beta</a> </li>
-                </ul>
-                <c:choose>
-   <c:when test="${username eq null}">  
-         <ul class="nav navbar-nav navbar-right">
-                    <li class="dropdown">
-		            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-			              		  游客
-			            <b class="caret"></b>
-		            </a>
-		                <ul class="dropdown-menu" id="usermenu">
-			                <li><a href="openSearchMapPage.action">查看地图</a></li>
-			                <li><a href="registerPanel.action">注册</a></li>
-		                </ul>
-	                </li>
-                    <li><a id="loginwinbtn" href="#">登录</a></li>
-                    <li><a href="about.action">关于</a></li>
-                </ul>     
-   </c:when>
-   <c:otherwise> 
-     <ul class="nav navbar-nav navbar-right">
-                    <li class="dropdown">
-		            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-			                ${username}
-			            <b class="caret"></b>
-		            </a>
-		                <ul class="dropdown-menu" id="usermenu">
-			                <li><a href="${pageContext.request.contextPath}/main.action">新建地图</a></li>
-			                <li><a href="openSearchMapPage.action">查看地图</a></li>
-			                <li><a href="${pageContext.request.contextPath}/openUpLayerPage.action">上传图层</a></li>
-			                
-			                <li><a href="ModifyPwd.action">修改密码</a></li>
-		                </ul>
-	                </li>
-                    <li><a id="logoutbtn" href="#">注销</a></li>
-                    <li><a href="about.action">关于</a></li>
-                </ul>
-   </c:otherwise>
-</c:choose>
-                
-            </div>
-        </div>
-    </nav>
-<div id="headInterval"></div>
+<c:set var="pagename" value="main" />
 
-<div class="easyui-layout" style="width:100%;height:90%">
-<div data-options="region:'north',split:false" style="width:100%;height:40px;">
-<div style="padding:5px;background:#fafafa;width:100%">
+<%@include file="header.jsp"%>
+
+
+<div>
+    <div id="map" style="width:100%;height:90%"></div>
+</div>
+
+<footer>
+    <br> @ZJUGIS 2014级
+    <br> 2017.7.11
+    <br>
+    <br>
+</footer>
+<!-- 工具栏 -->
+<div id="toolPanel">
+
 <a href="#" onclick="showLayerPanel()" class="easyui-linkbutton" plain="true" iconCls="icon-add"></a>
 <a href="#" onclick="showMapPanel()"class="easyui-linkbutton" plain="true" iconCls="icon-map"></a>
 <a href="#" onclick="screenShot()" class="easyui-linkbutton" plain="true" iconCls="icon-screenshot"></a>
@@ -122,12 +97,22 @@
 -->
 <a href="#" onclick="showSavePanel()" class="easyui-linkbutton" plain="true" iconCls="icon-save"></a>
 <a href="#" onclick="showSearchPanel()" class="easyui-linkbutton" plain="true" iconCls="icon-search"></a>
-</div>
-</div>
 
-<!-- 怪不得我没有动这个结构 有点意思的 上面是west面板的容器 下面作为风琴控件的标题被我换成了地图名…… 好好想想怎么改呗 要不干脆支持双地图支援算了-->
-<div id="maplayerTree" data-options="region:'west',split:true" title="图层" style="width:200px;">
-<div class="easyui-accordion" data-options="fit:true,border:false">
+</div>
+<!-- 图层树 -->
+<div id="maplayerTree" class="easyui-window"  title="图层" style="width:200px;"
+data-options="minimizable:false,
+maximizable:false,
+closable:false,
+modal:false,
+border:false,
+top:150,
+left:5,
+cls:'maplayerTree',
+headerCls:'headerCls',
+bodyCls:'bodyCls',
+shadow:false">
+<div>
     <div title="图层" style="padding:10px;">
 <ul id="layerTree" class="easyui-tree" onlyLeafCheck="true" dnd="true">
 <li id="layerFather">
@@ -139,18 +124,8 @@
 </div>
 </div>
 </div>
-<div data-options="region:'center'">
-    <div id="map" style="width:100%;height:100%"></div>
-</div>
-</div>
-<footer>
-    <br> @ZJUGIS 2014级
-    <br> 2017.7.11
-    <br>
-    <br>
-</footer>
 <!-- 分享工具栏 BEGIN-->
-<div id="SharePanel" style="position:absolute;display:none;padding:5px;opacity:0.9;background:#EEEEEE;top:90px;left:90px;border-radius:5px">
+<div id="sharePanel" >
 <!-- JiaThis Button BEGIN -->
 <div class="jiathis_style_32x32">
 	<a class="jiathis_button_qzone"></a>
@@ -164,7 +139,7 @@
 </div>
 <!-- 分享工具栏 END -->
 <!-- 自定义图例 -->
-<div id="mylegend" style="position:absolute;display:none;padding:5px;background:rgba(220,220,220,0.7);bottom:60px;right:1%;border-radius:5px">
+<div id="mylegend" class="dragable dragablerb" >
 
 </div>
 
@@ -173,14 +148,12 @@
 
 
 
-<div id="mapPanel" style="position:absolute;display:none;padding:5px;opacity:0.9;background:#EEEEEE;top:90px;left:30px;border-radius:5px">
-    <form>
+<div id="mapPanel">
+
         <select id="selectMapName" name="type" class="easyui-combobox" style="width:200px;margin-left: 50px;">
 <option>请选择地图 </option>
 </select>
-<!--  <input id="SelectBtn" class="btn btn-primary btn-mini " type="submit" value="确定" onclick="getMap()">
-    -->
-</form>
+
 </div>
 
 <!--TODO 都说了准备一下bootstrap化页面啊喂-->
@@ -202,7 +175,7 @@
 <div id="layerPanel" class="easyui-window" title="添加图层" style="width:800px;height:500px" data-options="modal:true,resizable:false,closed:true">
 <div class="easyui-layout" style="width: 100%;height: 100%;">
 <!--左半栏-->
-<div data-options="region:'west',border:false" style="width: 60%;">
+<div style="width: 100%;">
 <!--搜索栏-->
 <div id="searchPanel" style="width: 98%;height: 30%;margin: 1%">
 <form id="searchFrom" action="#" onsubmit="return false">
@@ -218,16 +191,12 @@
 <input id="searchBtn" class=btn type="submit" value="搜索" onclick="getData()">
 </form>
 </div>
-<!--地图展示栏 先展示数据-->
-<div id="databorder" style="width: 98%;height: 60%;margin: 1%;overflow-y: scroll;border:1px solid gray">
-
-</div>
 
 </div>
 
 
 <!--右半栏-->
-<div data-options="region:'east',border:false" style="width: 40%;">
+<div style="width: 100%;">
 <table id="tt">
     <thead>
         <tr>
@@ -251,6 +220,7 @@
 </div>
 </div>
 </div>
+
 <div id="layerMenu" class="easyui-menu" style="width:120px;">
 <div onclick="changstyle()" data-options="iconCls:'icon-edit'">图层样式</div>
 <div onclick="removeLayer()" data-options="iconCls:'icon-no'">移除</div>
@@ -263,6 +233,7 @@
 <div onclick="changstyle()" data-options="iconCls:'icon-edit'">地图设定</div>
 <div onclick="clearMap()" data-options="iconCls:'icon-no'">清除图层</div>
 </div>
+
 <!--保存框-->
 <div id="savePanel" class="easyui-window" title="提示框" style="width:200px;height:150px" data-options="modal:true,resizable:false,closed:true">
 
@@ -282,7 +253,7 @@
 </div>
 
 <!-- 小查询框 -->
-<div id="searchBox" style="position:absolute;display:none;padding:5px;opacity:0.9;background:#EEEEEE;top:90px;left:180px;border-radius:5px">
+<div id="searchBox" >
 <input id="p_apiName" name="apiName" type="text" autocomplete="off" style="width:200px;height:20px;" onkeyup="autoComplete.start(event)">  
 <a id="search" href="#" class="easyui-linkbutton"  onclick="bgsearch()">搜索</a>
 <div class="auto_hidden" style="height: auto;position:absolute; background-color: #F0F0F0;font-size: 10pt;" id="auto"></div>
@@ -331,41 +302,7 @@
 </tbody>
 </table>
 <!-- ============== 登录框  ============== -->
-<div class="modal fade" id="userwin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">  
-    <div class="modal-dialog modal-sm" role="document">  
-        <div class="modal-content">  
-            <div class="modal-header">  
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">  
-                    <span aria-hidden="true">×</span>  
-                </button>  
-                <h4 class="modal-title" id="myModalLabel">用户登录</h4>  
-            </div>  
-            <div class="modal-body" align="center">   
-                <div>
-               
-                	<input type="text" class="form-control" placeholder="用户名" id="account">
-         		
-            	<br/>
-            	
-            		<input type="password" class="form-control" placeholder="密&emsp;码" id="pwd">
-            	
-            	<br/>
-            	
-            	<input id="checkpwd" name="checkpwd" type="checkbox"/>记住密码&emsp;&emsp;&emsp;&emsp;&emsp;
-            	<input id="checklogin" name="checklogin" type="checkbox"/>自动登录
-            	<br/><br/>
-            	<a href="./ForgetPassword.jsp">忘记密码？</a>&emsp;&emsp;&emsp;&emsp;&emsp;
-        		<a href="./registerPanel.action">立即注册</a>
-				<br>        
-        		</div>
-        	</div>
-            <div class="modal-footer">  
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>  
-                <button id="loginbtn" type="button" class="btn btn-primary">登录</button>  
-            </div>  
-        </div>  
-    </div>  
-</div> 
+<%@include file="loginModal.jsp" %>
 </body>
 
 </html>

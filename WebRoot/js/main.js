@@ -1,15 +1,5 @@
 //main.jsp的页面的初始化
-
-//实验性功能，主题变更（emm 砍了吧）
-function changetheme(rec) {
-	if (rec == 'gray') {
-		$('#easyuiTheme').attr('href', './jquery-easyui-1.5.2/themes/gray/easyui.css');
-	} else if (rec == 'metro') {
-		$('#easyuiTheme').attr('href', './jquery-easyui-1.5.2/themes/metro/easyui.css');
-	} else if (rec == 'blue') {
-		$('#easyuiTheme').attr('href', './jquery-easyui-1.5.2/themes/default/easyui.css');
-	}
-}
+//TODO 整理全局变量 
 var disopen = false;
 //打开测距
 function mydisFunc() {
@@ -22,22 +12,30 @@ function mydisFunc() {
 	disopen=true;
 	}
 }
+function closeAllPanel(){
+	$('#sharePanel').css('display', 'none');
+	$('#mapPanel').css('display', 'none');
+	$('#searchBox').css('display', 'none');
+	if(has(mySearchMarker))
+		mySearchMarker.hide();
+}
 //打开分享
 function myshareFunc() {
-	$('#mapPanel').css('display', 'none');
-	closeSearchPanel();
-	if ($('#SharePanel').css('display') == 'none')
-		$('#SharePanel').css('display', 'inline');
+	if ($('#sharePanel').css('display') == 'none')
+		{
+			closeAllPanel();
+			$('#sharePanel').css('display', 'inline');
+		}
 	else
-		$('#SharePanel').css('display', 'none');
+		$('#sharePanel').css('display', 'none');
 }
 
 //打开搜索窗
 function showSearchPanel() {
-	$('#SharePanel').css('display', 'none');
-	$('#mapPanel').css('display', 'none');
-	if ($('#searchBox').css('display') == 'none')
+	if ($('#searchBox').css('display') == 'none'){
+		closeAllPanel();
 		$('#searchBox').css('display', 'inline');
+	}
 	else
 		closeSearchPanel();
 }
@@ -51,8 +49,6 @@ function closeSearchPanel()
 
 //打开地图框
 function showMapPanel() {
-	closeSearchPanel();
-	$('#SharePanel').css('display', 'none');
 	if ($('#mapPanel').css('display') == 'none') {
 		var mapsName = new Array();
 		var username;
@@ -95,6 +91,7 @@ function showMapPanel() {
 				getMap(param.id);
 			}
 		});
+		closeAllPanel();
 		$('#mapPanel').css('display', 'inline');
 	}
 	else
@@ -451,7 +448,9 @@ function addLayerToMap()
     $("#layerPanel").window('close');
     redraw();
 }
-	
+
+
+
 //页面初始化
 $(document).ready(function () {
 	initMouseFunc();//绑定tooltip的鼠标跟随事件
@@ -460,4 +459,5 @@ $(document).ready(function () {
 	createAutoComplete();//建立查询数据组（这里的代码见AttrSearch
 	checkAuthority();
 	measureInit();
+	Dragging(getDraggingDialog).enable();
 });

@@ -568,7 +568,7 @@ function drawL4(layer, layerindex) {//轨迹图 （打算后面全用mapv重构
 }
 function redrawLegend()
 {
-	var legendContent="<strong>图例<strong></br>";
+	var legendContent="<strong>图例</strong></br>";
 	for(var i=0;i<myMapMana.maplayerlist.length;i++)
 	{
 		if(myMapMana.maplayerlist[i]==null) continue;
@@ -669,7 +669,10 @@ function display() {
         url: 'http://t3.tianditu.com/DataServer?T=cva_w&x={x}&y={y}&l={z}'
         })
     });
-    //map.addLayers([osm,layer]);
+    var osm = new ol.layer.Tile({
+        source: new ol.source.OSM()
+    })
+    //mymap.addLayer(osm);
     mymap.addLayer(tian_di_tu_road_layer);
     mymap.addLayer(tian_di_tu_annotation);
     
@@ -764,6 +767,7 @@ function display() {
 	      });
 		redraw();
     });
+    
 }
 //保存数据的结构 
 function Icelayer(YKlayer) {
