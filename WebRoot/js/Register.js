@@ -142,6 +142,31 @@ $(document).ready(function () {
 		}
 	});
 	
+	var state8 = false;
+	$("#registerbtn").addClass("disabled");
+	$("#agree").click(function(){
+		if($("#agree").is(':checked')){
+			$("#mustagree").css("display","none");
+			$("#registerbtn").removeClass("disabled");
+			$("#registerbtn").css("background","#2573f0");
+			$("#registerbtn").hover(
+				function(){
+				$("#registerbtn").css("background","#0000ff");
+				$("#registerbtn").css("cursor","pointer");
+				},function(){
+				$("#registerbtn").css("background","#2573f0");
+			})
+			state8 = true;
+		}else{
+			$("#mustagree").css("display","block");
+			$("#registerbtn").addClass("disabled");
+			$("#registerbtn").css("background","#aaaaaa");
+			$("#registerbtn").hover(function(){
+				$("#registerbtn").css("background","#aaaaaa");
+			})
+
+		}	
+	});
 
 	$("#credifitype").combobox(
 		{
@@ -191,6 +216,7 @@ $(document).ready(function () {
 
 	//注册
 	$("#registerbtn").click(function () {
+		if(!state8){}
 		if (state1 && state2 && state3 && state4
 				   && state5 && state6 && state7) {
 			$.ajax({
