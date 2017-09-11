@@ -1406,18 +1406,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    params = {};
 	                }
 	                else if (el && el.dataIndex != null) {
-	                    var dataModel = el.dataModel || ecModel.getSeriesByIndex(el.seriesIndex);
+	                    
 	                    //**yukichange begin here made a params array as a result
 	                    if(el.selected&&eveName=="click"){
 	                    	params = new Array();
 	                    	for(var selectIndex=0;selectIndex<el.selected.length;selectIndex++)
 	                    	{
+	                    		var dataModel = el.dataModel || ecModel.getSeriesByIndex(el.selected[selectIndex].seriesIndex );
 	                   			params.push(dataModel && dataModel.getDataParams(el.selected[selectIndex].dataIndex, el.selected[selectIndex].dataType) || {});
 	                    	}
 	                    //**yukichange end
 	                    }
 	                    else
-	                    params = dataModel && dataModel.getDataParams(el.dataIndex, el.dataType) || {};
+	                    {
+	                    	var dataModel = el.dataModel || ecModel.getSeriesByIndex(el.seriesIndex);
+	                    	params = dataModel && dataModel.getDataParams(el.dataIndex, el.dataType) || {};
+	                   	}
 	                }
 	                // If element has custom eventData of components
 	                else if (el && el.eventData) {
@@ -18799,7 +18803,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var list = this.storage.getDisplayList();
 	            var out = {};
 	            var selected = new Array();//here the change is for to return a selected set
-	            for (var i = list.length - 1; i >= 0 ; i--) {
+	            for (var i = 0; i < list.length  ; i++) {
 	                var hoverCheckResult;
 	                if (list[i] !== exclude
 	                    // getDisplayList may include ignored item in VML mode

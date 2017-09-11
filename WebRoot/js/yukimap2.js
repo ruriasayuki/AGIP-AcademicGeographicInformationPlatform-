@@ -569,7 +569,8 @@ function drawL4(layer, layerindex) {//轨迹图 （打算后面全用mapv重构
 		res.push({
 			ID: data[i].name,
 			lonlat:data[i].coords,
-			coords: [[0,0],[0,0]]
+			coords: [[0,0],[0,0]],
+			value:[data[i]]
 		});
 	}
 	var item =
@@ -727,7 +728,7 @@ function display() {
 			var dataList = data[data.length-1];
 			switch(params.seriesType){
 				case "lines":
-					tooltipHtml = params.seriesName+':'+params.data.ID;
+					tooltipHtml = params.seriesName+':'+dataList.ID;
 					break;
 				case "scatter":
 					tooltipHtml = params.seriesName+':'+params.name+','+dataList.value;

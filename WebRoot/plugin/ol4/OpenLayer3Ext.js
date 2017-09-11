@@ -174,15 +174,7 @@
             var heatData=[];
             for (var k = 0, len = data.length; k < len; k++){
                 var d=data[k];
-            if(d.value){
-			var scrPt = self._map.getPixelFromCoordinate(ol.proj.fromLonLat([d.lonlat[0], d.lonlat[1]])); 
-                var x = scrPt[0],  
-                    y = scrPt[1];
-					d.value[0] = x;
-					d.value[1] = y;
-                heatData.push(d);  
-            }
-            else if(d.coords)
+            if(d.coords)
             	{
             	var scrPt0 = self._map.getPixelFromCoordinate(ol.proj.fromLonLat([d.lonlat[0][0], d.lonlat[0][1]])); 
             	var scrPt1 = self._map.getPixelFromCoordinate(ol.proj.fromLonLat([d.lonlat[1][0], d.lonlat[1][1]])); 
@@ -192,6 +184,14 @@
                     x1 = scrPt1[0],  
                     y1 = scrPt1[1];
 					d.coords = [[x0,y0],[x1,y1]];
+                heatData.push(d);  
+            }
+            else if(d.value){
+			var scrPt = self._map.getPixelFromCoordinate(ol.proj.fromLonLat([d.lonlat[0], d.lonlat[1]])); 
+                var x = scrPt[0],  
+                    y = scrPt[1];
+					d.value[0] = x;
+					d.value[1] = y;
                 heatData.push(d);  
             }
             	

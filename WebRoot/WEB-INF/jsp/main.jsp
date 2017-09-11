@@ -62,7 +62,8 @@
 				<link href="css/legend.css" rel="stylesheet">
                 <link href="css/measure.css" rel="stylesheet">
                 <link href="css/main.css" rel="stylesheet">
-
+				<link href="css/olpopup.css" rel="stylesheet">
+				
                 <script type="text/javascript" src="js/measure.js"></script>
                 <script type="text/javascript" src="js/dragging.js"></script>
                 <script type="text/javascript" src="js/mapv.js"></script>				
@@ -288,7 +289,13 @@ shadow:false">
 <div id="res">
 </div>
 </div>
-
+<!-- ============== 查询后跳转信息框  ============== -->
+<div id="MarkBoard" class="ol-popup">
+<a href="#" onclick="closeMarkBoard()" id="popup-closer" class="ol-popup-closer"></a>
+<div id="res">
+<strong>查询结果</strong>
+</div>
+</div>
 
 
 <!-- ============== 登录框  ============== -->

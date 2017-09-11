@@ -107,7 +107,7 @@ function match(info) {//查询所需要的信息匹配 并且返回结果选框
                                     name: data[i].name,
                                     count: data[i].value[2],
                                     type: '点',
-                                    index: { layer: index, feature: i }
+                                    index: { layer: j, feature: i }
                                 }
                                 resultSet.push(temp);
                             }

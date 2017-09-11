@@ -203,16 +203,29 @@ function showResultPanel(resultSet) {
         });
 	$('#resultPanel').window('open');
 }
-function openQueryBoard(obj){
-$('#QueryBoard').window('open');
-$('#QueryBoard').window('expand');
-var data = obj.value[2];
-var html="";
-for(index in data)
+
+function openMarkBoard(data){
+	$('#MarkBoard').css('display','inline');
+	var html="<strong>查询结果</strong><br>";
+	for(index in data)
 	{
 		html=html+'<strong>'+index+':</strong>'+data[index]+'<br>';
 	}
-$('#QueryBoard').find('#res').html(html);
+	$('#MarkBoard').find('#res').html(html);
+}
+function closeMarkBoard()
+{
+	$('#MarkBoard').css('display','none');
+	$('#MarkBoard').find('#res').html("");
+}
+function setMarkBoardPos(tx,ty)
+{
+	var topOffSet = $('#headInterval').height();
+	var mapW = $('#map').width();
+	var mapH = $('#map').height();
+	var boardH = parseInt($('#MarkBoard').css('height'));
+	$('#MarkBoard').css('left',mapW/2-48+'px'); //here the 48 is set in olpopup.css
+	$('#MarkBoard').css('top',topOffSet+mapH/2-boardH-10+'px'); //here the 7 is set in olpopup.css sqrt(10)
 }
 //缩放地图至 （按照对象的情况确定缩放层级
 function zoomMapTo(obj)
@@ -246,13 +259,13 @@ function zoomMapTo(obj)
 	            })
 			mymap.setView(newView);
 		}
-
+		openMarkBoard(feature);
 		break;
 	case 1:
 		var data = layer.style.series.data;
 		var feature=data[index];
 		var tx=feature.lonlat[0];
-		var ty=featrue.lonlat[1];
+		var ty=feature.lonlat[1];
 		var dx=layer.style.append.avgDis.dx;
 		var dy=layer.style.append.avgDis.dy;
 		var avgDis = dx>dy?dx:dy;
@@ -270,8 +283,8 @@ function zoomMapTo(obj)
 	            })
 			mymap.setView(newView);
 		}
-		openQueryBoard(feature);
-		//mySearchMarker.show();
+		openMarkBoard(feature.value[3]);
+		setMarkBoardPos();
 		break;
 	case 2:
 		var data = layer.style.series.data;
@@ -295,8 +308,8 @@ function zoomMapTo(obj)
 	            })
 			mymap.setView(newView);
 		}
-		openQueryBoard(feature);
-		//mySearchMarker.show();
+		openMarkBoard(feature.value[2]);
+		setMarkBoardPos();
 		break;
 	case 3:
 		var data = layer.style.data;
@@ -322,8 +335,8 @@ function zoomMapTo(obj)
 	            })
 			mymap.setView(newView);
 		}
-		openQueryBoard(feature);
-		//mySearchMarker.show();
+		openMarkBoard(feature.value[0]);
+		setMarkBoardPos();
 		break;
 	}
 }
