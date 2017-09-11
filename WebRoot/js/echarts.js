@@ -1407,6 +1407,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	                }
 	                else if (el && el.dataIndex != null) {
 	                    var dataModel = el.dataModel || ecModel.getSeriesByIndex(el.seriesIndex);
+	                    //**yukichange begin here made a params array as a result
+	                    if(el.selected&&eveName=="click"){
+	                    	params = new Array();
+	                    	for(var selectIndex=0;selectIndex<el.selected.length;selectIndex++)
+	                    	{
+	                   			params.push(dataModel && dataModel.getDataParams(el.selected[selectIndex].dataIndex, el.selected[selectIndex].dataType) || {});
+	                    	}
+	                    //**yukichange end
+	                    }
+	                    else
 	                    params = dataModel && dataModel.getDataParams(el.dataIndex, el.dataType) || {};
 	                }
 	                // If element has custom eventData of components
@@ -8977,7 +8987,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	                            _h[i]['h'].call(_h[i]['ctx']);
 	                            break;
 	                        case 2:
-	                            _h[i]['h'].call(_h[i]['ctx'], args[1]);
+
+	                        	_h[i]['h'].call(_h[i]['ctx'], args[1]);
 	                            break;
 	                        case 3:
 	                            _h[i]['h'].call(_h[i]['ctx'], args[1], args[2]);
@@ -18787,7 +18798,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        findHover: function(x, y, exclude) {
 	            var list = this.storage.getDisplayList();
 	            var out = {};
-
+	            var selected = new Array();//here the change is for to return a selected set
 	            for (var i = list.length - 1; i >= 0 ; i--) {
 	                var hoverCheckResult;
 	                if (list[i] !== exclude
@@ -18798,11 +18809,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    !out.topTarget && (out.topTarget = list[i]);
 	                    if (hoverCheckResult !== SILENT) {
 	                        out.target = list[i];
-	                        break;
+	                        //**yukichange begin
+	                        selected.push(list[i]) ;
+	                        //**yukichange end
 	                    }
 	                }
 	            }
-
+	            //**yukichange begin
+	            if(out.target){
+	            	out.target.selected = selected;
+	            }
+	            //**yukichange end
 	            return out;
 	        }
 	    };
@@ -18811,7 +18828,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    util.each(['click', 'mousedown', 'mouseup', 'mousewheel', 'dblclick', 'contextmenu'], function (name) {
 	        Handler.prototype[name] = function (event) {
 	            // Find hover again to avoid click event is dispatched manually. Or click is triggered without mouseover
-	            var hovered = this.findHover(event.zrX, event.zrY);
+
+	        	var hovered = this.findHover(event.zrX, event.zrY);
 	            var hoveredTarget = hovered.target;
 
 	            if (name === 'mousedown') {

@@ -100,7 +100,7 @@ function match(info) {//查询所需要的信息匹配 并且返回结果选框
                             }
                             break;
                         case 1:
-                        	var data = myMapMana.maplayerlist[index].style.series.data;
+                        	var data = myMapMana.maplayerlist[j].style.series.data;
                             for (var i = 0; i < data.length; i++) {
                                 var temp = {
                                     layername: infoKey,

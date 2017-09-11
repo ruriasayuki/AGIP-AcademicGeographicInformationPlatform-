@@ -564,6 +564,7 @@ function drawL4(layer, layerindex) {//轨迹图 （打算后面全用mapv重构
 	}
 	var data = layer.data;
 	var res = [];
+	//TODO 完善线图层的多字段处理
 	for (var i = 0; i < data.length; i++) {
 		res.push({
 			ID: data[i].name,
@@ -709,6 +710,7 @@ function display() {
     mymap.addLayer(tian_di_tu_road_layer);
     mymap.addLayer(tian_di_tu_annotation);
     
+    
     mymap.once('postrender', function (e) {
         if (myecharts !== undefined)
             return;
@@ -721,12 +723,14 @@ function display() {
 		mec.on('mouseover', function (params) {
 			tooltipPub.flag = 1;
 			var tooltipHtml="";
+			var data = params.data.value;
+			var dataList = data[data.length-1];
 			switch(params.seriesType){
 				case "lines":
 					tooltipHtml = params.seriesName+':'+params.data.ID;
 					break;
 				case "scatter":
-					tooltipHtml = params.seriesName+':'+params.name+','+params.data.value[2];
+					tooltipHtml = params.seriesName+':'+params.name+','+dataList.value;
 			}
 			$("#mytooltip").html(tooltipHtml);
 			$("#mytooltip").css("top", (mousePos.y - 40) + "px");
@@ -740,12 +744,20 @@ function display() {
 		mec.on('click', function (params) {
 			$('#QueryBoard').window('open');
 			$('#QueryBoard').window('expand');
-			var data = params.data.value[2];
 			var html="";
-			for(index in data)
+			//TODO 组织html为表格
+			for(var i = 0 ; i< params.length;i++)
+			{
+			if(params[i].data==null) continue;
+			var data = params[i].data.value;
+			var dataList = data[data.length-1];
+			html=html+'<strong>'+"图层"+':</strong>'+params[i].seriesName+';';
+			for(index in dataList)
 				{
-					html=html+'<strong>'+index+':</strong>'+data[index]+'<br>';
+					html=html+'<strong>'+index+':</strong>'+dataList[index]+';';
 				}
+			html=html+'<br>';
+			}
 			$('#QueryBoard').find('#res').html(html);
 		});
 		var featureOverlay = new ol.layer.Vector({

@@ -203,22 +203,30 @@ function showResultPanel(resultSet) {
         });
 	$('#resultPanel').window('open');
 }
-
+function openQueryBoard(obj){
+$('#QueryBoard').window('open');
+$('#QueryBoard').window('expand');
+var data = obj.value[2];
+var html="";
+for(index in data)
+	{
+		html=html+'<strong>'+index+':</strong>'+data[index]+'<br>';
+	}
+$('#QueryBoard').find('#res').html(html);
+}
 //缩放地图至 （按照对象的情况确定缩放层级
 function zoomMapTo(obj)
 {
-	/*
-	if(!has(mySearchMarker))
-	{mySearchMarker = new BMap.Marker(new BMap.Point(120,90));
-	mySearchMarker.setOffset(new BMap.Size(0,-2));
-	mymap.addOverlay(mySearchMarker);}*/
+	
 	var layer = myMapMana.maplayerlist[obj.index.layer];
 	var index = obj.index.feature;
 	switch(layer.type)
 	{
 	case 0:
 		var data = layer.style.dataSet._data;
-		var BB = data[index].bound;
+		var feature = data[index];
+		var BB = feature.bound;
+		
 		var dx = BB.maxX-BB.minX;
 		var dy = BB.maxY-BB.minY;
 		var tx = (BB.minX+BB.maxX)/2;
@@ -238,13 +246,13 @@ function zoomMapTo(obj)
 	            })
 			mymap.setView(newView);
 		}
-		//mySearchMarker.setPosition(new BMap.Point((BB.minX+BB.maxX)/2,(BB.minY+BB.maxY)/2));
-		//mySearchMarker.show();
+
 		break;
 	case 1:
 		var data = layer.style.series.data;
-		var tx=data[index].lonlat[0];
-		var ty=data[index].lonlat[1];
+		var feature=data[index];
+		var tx=feature.lonlat[0];
+		var ty=featrue.lonlat[1];
 		var dx=layer.style.append.avgDis.dx;
 		var dy=layer.style.append.avgDis.dy;
 		var avgDis = dx>dy?dx:dy;
@@ -258,15 +266,16 @@ function zoomMapTo(obj)
 		else{
 			var newView= new ol.View({
 	            center: ol.proj.fromLonLat([tx, ty]),
-	            resolution:myMapMana.zoomlevel
+	            zoom:myMapMana.zoomlevel
 	            })
 			mymap.setView(newView);
 		}
-		//mySearchMarker.setPosition(new BMap.Point(tx,ty));
+		openQueryBoard(feature);
 		//mySearchMarker.show();
 		break;
 	case 2:
 		var data = layer.style.series.data;
+		var feature = data[index];
 		var tx=data[index].lonlat[0];
 		var ty=data[index].lonlat[1];
 		var dx=layer.style.append.avgDis.dx;
@@ -282,15 +291,16 @@ function zoomMapTo(obj)
 		else{
 			var newView= new ol.View({
 	            center: ol.proj.fromLonLat([tx, ty]),
-	            resolution:myMapMana.zoomlevel
+	            zoom:myMapMana.zoomlevel
 	            })
 			mymap.setView(newView);
 		}
-		//mySearchMarker.setPosition(new BMap.Point(tx,ty));
+		openQueryBoard(feature);
 		//mySearchMarker.show();
 		break;
 	case 3:
 		var data = layer.style.data;
+		var feature = data[index];
 		var coorda = data[index].lonlat[0];
 		var coordb = data[index].lonlat[1];
 		var dx=Math.abs(coorda[0]-coordb[0]);
@@ -308,11 +318,11 @@ function zoomMapTo(obj)
 		else{
 			var newView= new ol.View({
 	            center: ol.proj.fromLonLat([tx, ty]),
-	            resolution:myMapMana.zoomlevel
+	            zoom:myMapMana.zoomlevel
 	            })
 			mymap.setView(newView);
 		}
-		//mySearchMarker.setPosition(new BMap.Point(tx,ty));
+		openQueryBoard(feature);
 		//mySearchMarker.show();
 		break;
 	}

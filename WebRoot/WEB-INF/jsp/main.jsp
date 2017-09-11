@@ -9,24 +9,23 @@
                 <meta charset="UTF-8">
                 <title>学术地图发布平台@GIS.ZJU</title>
                 <script type="text/javascript" src="js/load.js"></script>
-
                 <link rel="stylesheet" href="plugin/bootstrap-3.3.7/css/bootstrap.min.css">
-                <link rel="stylesheet" type="text/css" href="plugin/jquery-easyui-1.5.2/
-	themes/bootstrap/tree.css">
-	<link rel="stylesheet" type="text/css" href="plugin/jquery-easyui-1.5.2/
-	themes/bootstrap/menu.css">
-	<link rel="stylesheet" type="text/css" href="plugin/jquery-easyui-1.5.2/
-	themes/bootstrap/textbox.css">
-	<link rel="stylesheet" type="text/css" href="plugin/jquery-easyui-1.5.2/
-	themes/bootstrap/combo.css">
-	<link rel="stylesheet" type="text/css" href="plugin/jquery-easyui-1.5.2/
-	themes/bootstrap/combobox.css">
-	<link rel="stylesheet" type="text/css" href="plugin/jquery-easyui-1.5.2/
-	themes/bootstrap/panel.css">
-	<link rel="stylesheet" type="text/css" href="plugin/jquery-easyui-1.5.2/
-	themes/bootstrap/window.css">
-	<link rel="stylesheet" type="text/css" href="plugin/jquery-easyui-1.5.2/
-	themes/bootstrap/linkbutton.css">
+                
+				<!-- easyui的样式 逐步移除中 后续开发者注意 1.一点点将easyui往bootstrap迁移 2.开始设计自己的前端框架，并从bootstrap向其迁移 -->
+				<link rel="stylesheet" type="text/css" href="plugin/jquery-easyui-1.5.2/themes/bootstrap/tree.css">
+				<link rel="stylesheet" type="text/css" href="plugin/jquery-easyui-1.5.2/themes/bootstrap/menu.css">
+				<link rel="stylesheet" type="text/css" href="plugin/jquery-easyui-1.5.2/themes/bootstrap/textbox.css">
+				<link rel="stylesheet" type="text/css" href="plugin/jquery-easyui-1.5.2/themes/bootstrap/combo.css">
+				<link rel="stylesheet" type="text/css" href="plugin/jquery-easyui-1.5.2/themes/bootstrap/combobox.css">
+				<link rel="stylesheet" type="text/css" href="plugin/jquery-easyui-1.5.2/themes/bootstrap/panel.css">
+				<link rel="stylesheet" type="text/css" href="plugin/jquery-easyui-1.5.2/themes/bootstrap/window.css">
+				<link rel="stylesheet" type="text/css" href="plugin/jquery-easyui-1.5.2/themes/bootstrap/linkbutton.css">
+                <link rel="stylesheet" type="text/css" href="plugin/jquery-easyui-1.5.2/themes/bootstrap/tooltip.css">
+                
+                
+                
+                
+
 				<link rel="stylesheet" type="text/css" href="plugin/ol4/ol.css">
                 <link rel="stylesheet" type="text/css" href="jquery-easyui-1.5.2/themes/icon.css">
                 <script type="text/javascript" src="plugin/jquery-3.2.1.min.js"></script>
@@ -63,6 +62,7 @@
 				<link href="css/legend.css" rel="stylesheet">
                 <link href="css/measure.css" rel="stylesheet">
                 <link href="css/main.css" rel="stylesheet">
+
                 <script type="text/javascript" src="js/measure.js"></script>
                 <script type="text/javascript" src="js/dragging.js"></script>
                 <script type="text/javascript" src="js/mapv.js"></script>				
@@ -86,18 +86,18 @@
     <br>
     <br>
 </footer>
-<!-- 工具栏 -->
+<!-- 工具栏 如果要做的更好看 需要移除easyui的linkbutton -->
 <div id="toolPanel">
 
-<a href="#" onclick="showLayerPanel()" class="easyui-linkbutton" plain="true" iconCls="icon-add"></a>
-<a href="#" onclick="showMapPanel()"class="easyui-linkbutton" plain="true" iconCls="icon-map"></a>
-<a href="#" onclick="screenShot()" class="easyui-linkbutton" plain="true" iconCls="icon-screenshot"></a>
-<a href="#" onclick="myshareFunc()" class="easyui-linkbutton" plain="true" iconCls="icon-share"></a>
-<a href="#" onclick="mydisFunc()" class="easyui-linkbutton" plain="true" iconCls="icon-ruler"></a>
+<a href="#" onclick="showLayerPanel()" title="添加图层" class="easyui-linkbutton easyui-tooltip" data-options="position:'top'" plain="true" iconCls="icon-add"></a>
+<a href="#" onclick="showMapPanel()" title="添加图层组" class="easyui-linkbutton easyui-tooltip" data-options="position:'top'" plain="true" iconCls="icon-map"></a>
+<a href="#" onclick="screenShot()" title="截图(请使用其他截图手段截图如：QQ、截图键等)" class="easyui-linkbutton easyui-tooltip" data-options="position:'top'" plain="true" iconCls="icon-screenshot"></a>
+<a href="#" onclick="myshareFunc()" title="分享链接(请确保他人的浏览权限)" class="easyui-linkbutton easyui-tooltip" data-options="position:'top'" plain="true" iconCls="icon-share"></a>
+<a href="#" onclick="mydisFunc()" title="测距" class="easyui-linkbutton easyui-tooltip" data-options="position:'top'" plain="true" iconCls="icon-ruler"></a>
 <!--TODO 打开帮助说明窗口  <a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-help"></a>
 -->
-<a href="#" onclick="showSavePanel()" class="easyui-linkbutton" plain="true" iconCls="icon-save"></a>
-<a href="#" onclick="showSearchPanel()" class="easyui-linkbutton" plain="true" iconCls="icon-search"></a>
+<a href="#" onclick="showSavePanel()" title="保存地图" class="easyui-linkbutton easyui-tooltip" data-options="position:'top'" plain="true" iconCls="icon-save"></a>
+<a href="#" onclick="showSearchPanel()" title="地图内搜索" class="easyui-linkbutton easyui-tooltip" data-options="position:'top'" plain="true" iconCls="icon-search"></a>
 
 </div>
 <!-- 图层树 -->
@@ -284,12 +284,13 @@ shadow:false">
 </div>
 
 <!-- ============== 点选查询结果返回框  ============== -->
-<div id="QueryBoard" class="easyui-window" title="查询结果" style="width:200px;" data-options="closed:true">
-
+<div id="QueryBoard" class="easyui-window" style="width:450px" title="查询结果" data-options="closed:true">
 <div id="res">
 </div>
-
 </div>
+
+
+
 <!-- ============== 登录框  ============== -->
 <%@include file="loginModal.jsp" %>
 </body>

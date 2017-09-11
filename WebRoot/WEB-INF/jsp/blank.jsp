@@ -9,13 +9,13 @@
 </head>
 
 <body>
-	你是怎么到这个页面的呢。。。
+<div>
+	<h1>出错啦</h1>
 	<br>
-	1、服务器代码出了点错->向管理员联系并且上报具体导致错误的原因。
+	网页出了些错误，所以出现了这个页面
 	<br>
-	2、你动了点手脚->和管理员联系并且相互切磋学习
-	<br>
-	发送邮件至ruriasayuki@outlook.com 即可
+	发送邮件至ruriasayuki@outlook.com联系开发人员
+</div>
 </body>
 
 </html>
