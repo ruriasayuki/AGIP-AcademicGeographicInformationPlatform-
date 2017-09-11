@@ -75,29 +75,29 @@
 		<div id="topRight">
 			<div>
 				<div id="tri1" class="topRightDiv">
-					<a href="#"><img class="picItem" src="img/13.jpg"></img></a>
+					<img class="picItem" src="img/map/noData.jpg"></img>
 					<p class="imgTitle"></p>
 				</div>
 				<div id="tri2" class="topRightDiv">
-					<a href="#"><img class="picItem" src="img/13.jpg"></img></a>
+					<img class="picItem" src="img/map/noData.jpg"></img>
 					<p class="imgTitle"></p>
 				</div>
 				<div id="tri3" class="topRightDiv">
-					<a href="#"><img class="picItem" src="img/13.jpg"></img></a>
+					<img class="picItem" src="img/map/noData.jpg"></img>
 					<p class="imgTitle"></p>
 				</div>
 			</div>
 			<div>
 				<div id="tri4" class="topRightDiv">
-					<a href="#"><img class="picItem" src="img/13.jpg"></img></a>
+					<img class="picItem" src="img/map/noData.jpg"></img>
 					<p class="imgTitle"></p>
 				</div>
 				<div id="tri5" class="topRightDiv">
-					<a href="#"><img class="picItem" src="img/13.jpg"></img></a>
+					<img class="picItem" src="img/map/noData.jpg"></img>
 					<p class="imgTitle"></p>
 				</div>
 				<div id="tri6" class="topRightDiv">
-					<a href="#"><img class="picItem" src="img/13.jpg"></img></a>
+					<img class="picItem" src="img/map/noData.jpg"></img>
 					<p class="imgTitle"></p>
 				</div>
 			</div>
@@ -110,27 +110,27 @@
 		<div id="thematic1" class="subMapList custom-scrollbar">
 			<div>
 				<div id="tmi11" class="thematicDiv">
-					<a href="#"><img class="picItem" src="img/12.jpg"></img></a>
+					<img class="picItem" src="img/map/noData.jpg"></img>
 					<p class="imgTitle"></p>
 				</div>
 				<div id="tmi12" class="thematicDiv">
-					<a href="#"><img class="picItem" src="img/13.jpg"></img></a>
+					<img class="picItem" src="img/map/noData.jpg"></img>
 					<p class="imgTitle"></p>
 				</div>
 				<div id="tmi13" class="thematicDiv">
-					<a href="#"><img class="picItem" src="img/05.jpg"></img></a>
+					<img class="picItem" src="img/map/noData.jpg"></img>
 					<p class="imgTitle"></p>
 				</div>
 				<div id="tmi14" class="thematicDiv">
-					<a href="#"><img class="picItem" src="img/01.jpg"></img></a>
+					<img class="picItem" src="img/map/noData.jpg"></img>
 					<p class="imgTitle"></p>
 				</div>
 				<div id="tmi15" class="thematicDiv">
-					<a href="#"><img class="picItem" src="img/14.jpg"></img></a>
+					<img class="picItem" src="img/map/noData.jpg"></img>
 					<p class="imgTitle"></p>
 				</div>
 				<div id="tmi16" class="thematicDiv">
-					<a href="#"><img class="picItem" src="img/13.jpg"></img></a>
+					<img class="picItem" src="img/map/noData.jpg"></img>
 					<p class="imgTitle"></p>
 				</div>
 			</div>
@@ -141,27 +141,27 @@
 		<div id="thematic2" class="subMapList custom-scrollbar">
 			<div>
 				<div id="tmi21" class="thematicDiv">
-					<a href="#"><img class="picItem" src="img/13.jpg"></img></a>
+					<img class="picItem" src="img/map/noData.jpg"></img>
 					<p class="imgTitle"></p>
 				</div>
 				<div id="tmi22" class="thematicDiv">
-					<a href="#"><img class="picItem" src="img/01.jpg"></img></a>
+					<img class="picItem" src="img/map/noData.jpg"></img>
 					<p class="imgTitle"></p>
 				</div>
 				<div id="tmi23" class="thematicDiv">
-					<a href="#"><img class="picItem" src="img/13.jpg"></img></a>
+					<img class="picItem" src="img/map/noData.jpg"></img>
 					<p class="imgTitle"></p>
 				</div>
 				<div id="tmi24" class="thematicDiv">
-					<a href="#"><img class="picItem" src="img/12.jpg"></img></a>
+					<img class="picItem" src="img/map/noData.jpg"></img>
 					<p class="imgTitle"></p>
 				</div>
 				<div id="tmi25" class="thematicDiv">
-					<a href="#"><img class="picItem" src="img/13.jpg"></img></a>
+					<img class="picItem" src="img/map/noData.jpg"></img>
 					<p class="imgTitle"></p>
 				</div>
 				<div id="tmi26" class="thematicDiv">
-					<a href="#"><img class="picItem" src="img/14.jpg"></img></a>
+					<img class="picItem" src="img/map/noData.jpg"></img>
 					<p class="imgTitle"></p>
 				</div>
 			</div>
@@ -172,27 +172,27 @@
 		<div id="thematic3" class="subMapList custom-scrollbar">
 			<div>
 				<div id="tmi31" class="thematicDiv">
-					<a href="#"><img class="picItem" src="img/01.jpg"></img></a>
+					<img class="picItem" src="img/map/noData.jpg"></img>
 					<p class="imgTitle"></p>
 				</div>
 				<div id="tmi32" class="thematicDiv">
-					<a href="#"><img class="picItem" src="img/12.jpg"></img></a>
+					<img class="picItem" src="img/map/noData.jpg"></img>
 					<p class="imgTitle"></p>
 				</div>
 				<div id="tmi33" class="thematicDiv">
-					<a href="#"><img class="picItem" src="img/13.jpg"></img></a>
+					<img class="picItem" src="img/map/noData.jpg"></img>
 					<p class="imgTitle"></p>
 				</div>
 				<div id="tmi34" class="thematicDiv">
-					<a href="#"><img class="picItem" src="img/14.jpg"></img></a>
+					<img class="picItem" src="img/map/noData.jpg"></img>
 					<p class="imgTitle"></p>
 				</div>
 				<div id="tmi35" class="thematicDiv">
-					<a href="#"><img class="picItem" src="img/05.jpg"></img></a>
+					<img class="picItem" src="img/map/noData.jpg"></img>
 					<p class="imgTitle"></p>
 				</div>
 				<div id="tmi36" class="thematicDiv">
-					<a href="#"><img class="picItem" src="img/01.jpg"></img></a>
+					<img class="picItem" src="img/map/noData.jpg"></img>
 					<p class="imgTitle"></p>
 				</div>
 			</div>

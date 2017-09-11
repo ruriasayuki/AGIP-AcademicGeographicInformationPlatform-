@@ -847,9 +847,11 @@ function savemap() {
 			myMapMana.maplayerlist[i].mlid=0;
 			}
 		}
-	var centerPoint = mymap.getView().getCenter();
+	var center3857 = mymap.getView().getCenter();
+	var centerPoint = ol.proj.toLonLat(center3857);
 	myMapMana.centerx = centerPoint[0];
 	myMapMana.centery = centerPoint[1];
+	myMapMana.zoomlevel = mymap.getView().getZoom();
 	//var mapmodeString = mymap.getMapType().getName();
 	myMapMana.zoomlevel = mymap.getView().getZoom();
 	//if (mapmodeString == "地图")

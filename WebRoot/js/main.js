@@ -155,8 +155,16 @@ function showSavePanel() {
 function screenShot(){
 	html2canvas($('#map'), {
 		  onrendered: function(canvas) {
-		    document.body.appendChild(canvas);
-		  }//TODO GG
+			  canvas.id = "mycanvas";
+		        //document.body.appendChild(canvas);
+		        //生成base64图片数据
+		        var dataUrl = canvas.toDataURL();
+		        var newImg = document.createElement("img");
+		        newImg.src =  dataUrl;
+		        newImg.width = 320;
+		        newImg.height = 180;
+		        //document.body.appendChild(newImg);
+		  }
 	});
 }
 

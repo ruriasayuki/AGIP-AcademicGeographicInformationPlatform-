@@ -28,7 +28,7 @@ function showMaps(divIdPrefix,type){
 		var mapname = data[maps].mapname;
 		var curdiv = divIdPrefix + (parseInt(maps)+1);
 		$("#"+curdiv).find("img").attr("src","./img/map/"+mapid+".jpg");
-		$("#"+curdiv).children("a").attr("href","./main.action?mapid="+mapid);
+		$("#"+curdiv).attr("onclick","location='./main.action?mapid="+mapid+"'");
 		$("#"+curdiv).children("p").text(mapname);
 	}		
 }
