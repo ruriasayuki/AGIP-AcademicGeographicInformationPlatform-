@@ -69,7 +69,6 @@ function initLayertree(mapid,mapname) {
         data: layerTreeJson,
         //是否显示复选框
         checkbox: function (node) {
-            //这里要修改成允许显示 然后是搞一个级联的check
             if (node.type == "map") {
                 return false;
             } else {
@@ -86,7 +85,7 @@ function initLayertree(mapid,mapname) {
             if (point === 'append') {
                 //有些node不能添加子node，即不能拖图层到其他图层下级           
                 var targetNode = $(this).tree('getNode', target);
-                if (has(targetNode.nodetype)&&targetNode.nodetype === 'layer') {
+                if (targetNode.type === 'layer') {
                     return false;
                 };
                 /*
@@ -99,20 +98,15 @@ function initLayertree(mapid,mapname) {
             }
             //point == 'top' OR 'bottom'：移动到目标节点的上/下方
             else {
-                /*
-                //Father中的节点不能被拖出去
+      
+            	/*
                 var targetNode = $(this).tree('getNode', target);
-                if (targetNode.id === 'layerFather' || targetNode.id === 'intensityFather') {
-                    return false;
-                };
-                
-                //图层不能移动到别的父节点下
-                var parentNodeS = $(this).tree('getParent', source.target);
-                var parentNodeT = $(this).tree('getParent', target);
-                if (parentNodeS.id != parentNodeT.id) {
+                if (targetNode.type === 'layerFather' || targetNode.type === 'intensityFather') {
                     return false;
                 };
                 */
+
+                
             }
         },
         //选中复选框后触发
@@ -341,7 +335,7 @@ var setLayerOverlay = function () {
 
         for (var j = nodeOrders.length - 1; j >= 0; j--) {
             
-                myMapMana.maplayerlist[nodeOrders.id].zIndex = j;
+                myMapMana.maplayerlist[nodeOrders[j].id].zIndex = j;
             }
 
 
