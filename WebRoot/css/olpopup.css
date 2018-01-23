@@ -40,3 +40,6 @@
       .ol-popup-closer:after {
         content: "✖";
       }
+      .ol-popup-closer:hover {
+        color:#e31232
+      }

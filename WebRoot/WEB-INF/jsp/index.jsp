@@ -202,8 +202,6 @@
 	<!-- 加载页面弹窗组件 -->
 	<%@include file="loginModal.jsp"%>
 
-	<footer>
-		<br> @ZJUGIS 2014级 <br> 2017.8.24 <br> <br>
-	</footer>
+	<%@include file="footer.jsp" %>
 </body>
 </html>

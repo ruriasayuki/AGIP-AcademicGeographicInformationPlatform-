@@ -83,7 +83,10 @@ public class MapsController
 	{
 		MapsVo querymap = new MapsVo();
 		querymap.setLimit(6);
-		
+		//here the type can be other String ,you just set the right map like this
+		if(type.equals("1")){querymap.setMaptype(1);}
+		else if(type.equals("2")){querymap.setMaptype(2);}
+		else if(type.equals("3")){querymap.setMaptype(3);}
 		List<Maps> maps = mapsService.getMapListForIndex(querymap);
 		
 		Gson gson = new Gson();
@@ -130,7 +133,7 @@ public class MapsController
         {
         	maplayerArr.add(gson.fromJson(jsonObject, MapLayer.class));
         }
-        //TODO 底图模块仍然待定 个人觉得仍然是个伪需求
+        //TODO 底图模块仍然待定 感觉可以做成底图层切换
         Maps mapForSave = new Maps(mapObj.getId(),
         		mapObj.getMapname(),
         		mapObj.getUserid(),
@@ -151,7 +154,8 @@ public class MapsController
             {
             	layer.setMapid(mapid);
                 int insertmaplayer = mapsService.insertMapLayer(layer);
-                //TODO 利用此时layer里面的信息 去更新传入的layertree信息
+                //DONE 利用此时layer里面的信息 去更新传入的layertree信息
+                //DONE 利用前端完成了layertree的更新
             }
             return "success";
         }

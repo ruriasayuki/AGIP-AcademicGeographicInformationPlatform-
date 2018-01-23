@@ -55,6 +55,10 @@
     			<input id="okbtn" class="easyui-linkbutton" value="确认" style="height:30px;width:90px" />
             </div>
 		</div>
-    </div>
+<div id="bganimate" >
+<canvas id="canvas" style="width:100%;height:100%">
+</canvas>
+</div>
+<script type="text/javascript" src="./js/glbg.js"></script>
 </body>
 </html>

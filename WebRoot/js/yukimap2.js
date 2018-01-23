@@ -84,6 +84,7 @@ function Yklayer(layerjson) {
 			return null;
 		}
 		else {
+			console.log(datajson);
 			return $.parseJSON(datajson);
 		}
 	}

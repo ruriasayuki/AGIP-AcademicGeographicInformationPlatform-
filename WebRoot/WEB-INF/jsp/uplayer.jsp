@@ -55,9 +55,9 @@
             </div>
         </div>
                 <div class="dataEach" style="margin-top: 5px;display:block">
-            <div style="margin-top: 7px;">
+      
 				<div class="row">
-				  <div class="col-lg-10">
+				  <div class="col-lg-12">
 				    <div class="input-group">
 				      <span class="input-group-btn">
 				        <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#myModal">Choose</button>
@@ -66,7 +66,7 @@
 				    </div><!-- /input-group -->
 				  </div><!-- /.col-lg-3 -->
 				</div><!-- /.row -->
-            </div>
+        
         </div>
         <div class="dataEach" style="margin-top: 5px;">
             <div style="margin-top: 7px;">
@@ -75,7 +75,7 @@
             </div>
         </div>
         <div style="text-align: center;margin-top: 10px;">
-            <button id="submitBtn" onclick="submitData()">上传</button>
+            <button id="submitBtn" onclick="submitData0()">上传</button>
             <button id="closeBtn" onclick="closeData0()">取消</button>
         </div>
 	</form>
@@ -90,21 +90,19 @@
                 <input type="text" name="layername" id="layername1">
             </div>
         </div>
-        
-        
-        
-        <div class="dataEach" style="margin-top: 5px;display:block" id="dynastyChoose1">
-            <div style="margin-top: 7px;">
-                <span class="dataEach_name">选择坐标表:</span>
-				<select>
-					<option  class="appendDataSrc1" name="null">
-						无
-					</option>
-					<option  class="appendDataSrc1" name="csv/place.csv">
-						清朝
-					</option>
-				</select>
-            </div>
+                <div class="dataEach" style="margin-top: 5px;display:block">
+     
+				<div class="row">
+				  <div class="col-lg-12">
+				    <div class="input-group">
+				      <span class="input-group-btn">
+				        <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#myModal">Choose</button>
+				      </span>
+				      <input type="text" id="discipline" class="form-control" placeholder="Choose your discipline..." readonly/>
+				    </div><!-- /input-group -->
+				  </div><!-- /.col-lg-3 -->
+				</div><!-- /.row -->
+ 
         </div>
         <div class="dataEach" style="margin-top: 5px;">
             <div style="margin-top: 7px;">
@@ -113,7 +111,7 @@
             </div>
         </div>
         <div style="text-align: center;margin-top: 10px;">
-            <button id="submitBtn" onclick="submitData1()">上传</button>
+            <button id="submitBtn" onclick="submitData()">上传</button>
             <button id="closeBtn" onclick="closeData()">取消</button>
         </div>
 	</form>

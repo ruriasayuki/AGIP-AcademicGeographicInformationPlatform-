@@ -39,6 +39,9 @@
 <select id="getShortList" parameterType="cn.edu.zju.gis.po.MapsVo" resultType="cn.edu.zju.gis.po.Maps">
 	select id,mapname from maps 
 	where accessibility = 1 
+	<if test="maptype !=null">
+			and maptype = #{maptype}
+		</if>
 	order by id
 	limit #{limit};
 </select>

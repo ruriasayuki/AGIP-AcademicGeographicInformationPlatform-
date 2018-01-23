@@ -182,9 +182,9 @@ function showResultPanel(resultSet) {
 	$('#resultSet').html(gridDataSet);
 	$(".tr").click(function(){
 			$('#resultPanel').window('close');
-			zoomMapTo(resultSet[$(this).attr('id')]);//TODO 地图缩放
+			zoomMapTo(resultSet[$(this).attr('id')]);
         });
-        //为table锟斤拷每一锟斤拷tr锟斤拷一锟斤拷mouseover/mouseout锟铰硷拷
+        //为table提供mouseover/mouseout监听
          $(".tr").mouseover(function() {
         	 $(this).addClass("over");
         	 var contentDateBorder = "";             

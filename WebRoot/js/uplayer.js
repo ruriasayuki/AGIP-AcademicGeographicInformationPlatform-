@@ -44,15 +44,13 @@
             $("#dataDiv").css("display","block");
         }
         
-        function submitData1(){
+        function submitData(){
         	closeData();
             var formData = new FormData();
             formData.append('file',$("#file1")[0].files[0]);
             formData.append('layername',$("#layername1").val());
-            formData.append('userid',$("#userid").val());
-            formData.append('type',$("input[name='type1']:checked").val());
-            formData.append('appendDataSrc',$(".appendDataSrc1:selected").attr('name'));
-            formData.append('accessibility',$("input[name='accessibility1']:checked").val());
+            formData.append('appendDataSrc','null');
+            formData.append('course',$("#discipline").val());
             $.ajax({
                 url:"./addLayers.action",
                 async:true,
@@ -83,8 +81,8 @@
             })
         }
 
-        function submitData(){
-        	closeData();
+        function submitData0(){
+        	closeData0();
             var formData = new FormData();
             formData.append('file',$("#file")[0].files[0]);
             formData.append('layername',$("#layername").val());

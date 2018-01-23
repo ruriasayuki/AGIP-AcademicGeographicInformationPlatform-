@@ -99,13 +99,12 @@ function initLayertree(mapid,mapname) {
             //point == 'top' OR 'bottom'：移动到目标节点的上/下方
             else {
       
-            	/*
+            	
                 var targetNode = $(this).tree('getNode', target);
-                if (targetNode.type === 'layerFather' || targetNode.type === 'intensityFather') {
+                if (targetNode.type === 'map') {
                     return false;
                 };
-                */
-
+                
                 
             }
         },
@@ -122,7 +121,7 @@ function initLayertree(mapid,mapname) {
             setLayerOverlay(nodeOrders);
         },
         //右键节点弹出菜单，用于各种操作
-        //TODO 完善右键菜单分类
+      
         onContextMenu: function (e, node) {
             e.preventDefault();
             // select the node
@@ -246,6 +245,10 @@ function addLayertoSilo(lname, ltype) {
     };
     layerSilo.push(newLayer);
 };
+
+function clearMap() {
+	//TODO 清除地图内容
+}
 
 function removeLayer() {
     function removeMapLayer(node){

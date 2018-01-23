@@ -81,12 +81,8 @@
     <div id="map" style="width:100%;height:90%"></div>
 </div>
 
-<footer>
-    <br> @ZJUGIS 2014级
-    <br> 2017.7.11
-    <br>
-    <br>
-</footer>
+<%@include file="footer.jsp" %>
+
 <!-- 工具栏 如果要做的更好看 需要移除easyui的linkbutton -->
 <div id="toolPanel">
 
@@ -233,7 +229,7 @@ shadow:false">
 </div>
 <div id="mapMenu" class="easyui-menu" style="width:120px;">
 <div onclick="openChangeName()" data-options="iconCls:'icon-edit'">地图设定</div>
-<div onclick="clearMap()" data-options="iconCls:'icon-no'">清除图层</div>
+<!--  <div onclick="clearMap()" data-options="iconCls:'icon-no'">清除图层</div> --> 
 </div>
 
 <!--保存框-->

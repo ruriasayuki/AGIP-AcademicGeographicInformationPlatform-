@@ -8,6 +8,9 @@ $(document).ready(function (e) {
 	});
 	checkAuthority();
 	showMaps("tri","total");
+	showMaps("tmi1",1);
+	showMaps("tmi2",2);
+	showMaps("tmi3",3);
 });
 
 
